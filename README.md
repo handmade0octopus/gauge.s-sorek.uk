@@ -2,6 +2,7 @@
 Made for Gauge.S made by sorek.uk
 
 Please watch video before using this Repository:
+https://youtu.be/v5P81D6qujs
 
 To update firmware drop update.bin file onto SD card using either adapter or SD card explorer.
 
