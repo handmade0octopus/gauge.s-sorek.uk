@@ -83,6 +83,16 @@
 			"mul": 0.25
 		},
 		{
+			"header": "MAF Voltage",
+			"unit": "V",
+			"address": "0x0200000006",
+			"max": 5,
+			"min": 0,
+			"dec": 2,
+			"mul": 0.01952,
+			"hidden": true
+		},
+		{
 			"header": "Knock Current",
 			"unit": "°CRK",
 			"address": "0x000000E98D",

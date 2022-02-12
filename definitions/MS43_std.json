@@ -8,7 +8,7 @@
 	"displayRows": 2,
 	"noMoreEntries": true,
 	"canSpeed": 500,
-	"address": ["0x12", "0x05", "0x0B", "0xB0", "0xAC"],
+	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
 //	"baudAddress": ["0x12", "0x08", "0x91", "0x01", "0xE8", "0x48", "0x00", "0x2A"], // Can cause issues, if you need ~25Hz data rate set this
 //	"baudSpeed": 125000,
 	"forceKwp": false,
@@ -51,22 +51,23 @@
 		{
 			"header": "Fuel usage",
 			"unit": "l/h",
-			"expr": "(x/60)*(y/1000)*(250/16.6667)*3",  // Change 328i 250cc/min to 180cc/min for green injectors 320i/323i/325i, 280cc for 330i
+			"expr": "(x/60)*(y/1000)*(280/16.6667)*3",  // Change 328i 250cc/min to 180cc/min for green injectors 320i/323i/325i, 280cc for 330i
 			"x": "Engine Speed",
 			"y": "Fuel Inj"
 		},
 		{
 			"header": "Engine Speed",
 			"unit": "RPM",
-			"offset": 6,
+			"offset": 0,
 			"length": 2,
 			"max": 7000,	
-			"dec": 0
+			"dec": 0,
+			"flashPoint": 6500
 		},
 		{
 			"header": "Engine Load",
 			"unit": "mg/str",
-			"offset": 21,
+			"offset": 31,
 			"length": 2,
 			"mul": 0.021194781,
 			"dec": 1
@@ -74,50 +75,18 @@
 		{
 			"header": "Mass Airflow",
 			"unit": "kg/h",
-			"offset": 19,
+			"offset": 7,
 			"length": 2,
 			"mul": 0.25,
 			"dec": 1
 		},
 		{
-			"header": "Knock 1",
-			"unit": "V",
-			"offset": 54,
-			"mul": 0.000077821,
-			"max": 5
-		},
-		{
-			"header": "Knock 2",
-			"unit": "V",
-			"offset": 56,
-			"mul": 0.000077821,
-			"max": 5
-		},
-		{
-			"header": "Vanos Intake",
-			"unit": "°CRK",
-			"offset": 48,
-			"max": 126,
-			"min": 80,
-			"mul": 0.375,
-			"add": 60
-		},
-		{
-			"header": "Vanos Exhaust",
-			"unit": "°CRK",
-			"offset": 15,
-			"mul": 0.75,
-			"add": -48,
-			"max": 143,
-			"min": -48
-		},
-		{
 			"header": "TPS",
 			"unit": "%",
-			"offset": 13,
+			"offset": 5,
 			"length": 2,
-			"mul": 0.001831055,
-			"max": 120,
+			"mul": 0.0018310547,
+			"max": 100,
 			"min": 0,
 			"dec": 0,				// Remember about this comma when editing line below
 			"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
@@ -125,75 +94,73 @@
 		{
 			"header": "Ignition Angle",
 			"unit": "°CRK",
-			"offset": 26,
+			"offset": 13,
 			"mul": -0.375,
-			"add": 72,
-			"max": 72,
-			"min": -23.625
+			"add": 72
 		},
 		{
 			"header": "Fuel Inj",
 			"unit": "ms",
-			"offset": 38,
+			"offset": 14,
 			"length": 2,
-			"mul": 0.0053333333
+			"mul": 0.004
 		},
 		{
 			"header": "Intake Air Temp",
 			"unit": "°C",
-			"offset": 15,
+			"offset": 9,
 			"mul": 0.75,
 			"add": -48
 		},
 		{
 			"header": "Coolant Temp",
 			"unit": "°C",
-			"offset": 16,
+			"offset": 10,
 			"mul": 0.75,
 			"add": -48
 		},
 		{
 			"header": "Radiator Temp",
 			"unit": "°C",
-			"offset": 18,
-			"mul": 0.79607843,
+			"offset": 12,
+			"mul": 0.75,
 			"add": -48
 		},
 		{
 			"header": "Oil Temp",
 			"unit": "°C",
-			"offset": 17,
+			"offset": 11,
 			"mul": 0.79607843,
 			"add": -48
 		},
 		{
 			"header": "Speed",
 			"unit": "km/h",
-			"offset": 8,
+			"offset": 2,
 			"dec": 0
 		},
 		{
 			"header": "IACV",
 			"unit": "%",
-			"offset": 52,
+			"offset": 16,
 			"length": 2,
 			"mul": 0.0015258793
 		},
 		{
 			"header": "Lambda Int 1",
 			"unit": "%",
-			"offset": 40,
+			"offset": 23,
 			"length": 2,
 			"mul": 0.0015258789,
 			"add": -50,
-			"max": 50,
-			"min": -50,
+			"max": 32,
+			"min": -32,
 			"resetTime": 0
 		},
 		{
 			"header": "Lambda Int 2",
 			"unit": "%",
-			"offset": 44,
+			"offset": 25,
 			"length": 2,
 			"mul": 0.0015258789,
 			"add": -50,
@@ -202,37 +169,18 @@
 			"resetTime": 0
 		},
 		{
-			"header": "Rear O2 1",
-			"unit": "V",
-			"offset": 66,
-			"length": 2,
-			"mul": 0.00488,
-			"max": 5.1,
-			"hidden": true
-		},
-		{
-			"header": "Rear O2 2",
-			"unit": "V",
-			"offset": 68,
-			"length": 2,
-			"mul": 0.00488,
-			"max": 5.1,
-			"hidden": true
-		},
-		{
 			"header": "Battery Voltage",
 			"alias": "Battery",
 			"unit": "V",
-			"offset": 59,
-			"mul": 0.10196078
+			"offset": 22,
+			"mul": 0.1
 		},
 		{
 			"header": "WBO",
 			"unit": "AFR",
 			"expr": "1.7637*x + 10.29",
 			"x": "Analog 1",
-		//	"x": "Rear O2 1",	// you can plug your WBO into your rear or front O2 lambda
-			"hidden": true		// set to false or delete if you use it
+			"hidden": true
 		},
 		{
 			"header": "Analog 1",
