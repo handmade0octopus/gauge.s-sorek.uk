@@ -1,10 +1,13 @@
 # gauge.s-sorek.uk
 Made for Gauge.S made by sorek.uk
 
+### [Read wiki for documentation!](https://github.com/handmade0octopus/gauge.s-sorek.uk/wiki)
+
 Please watch video before using this Repository:
 
-
 [![Gauge.S](https://img.youtube.com/vi/v5P81D6qujs/0.jpg)](https://youtu.be/v5P81D6qujs)
+
+https://youtu.be/v5P81D6qujs
 
 
 WARNING:
@@ -13,8 +16,6 @@ Versions of PCB stating v3.4 and newer don't need external resistor soldering, t
 [![Gauge.S PCB](https://i.imgur.com/QaCNiI1.jpg)](https://youtu.be/v5P81D6qujs)
 
 
-
-https://youtu.be/v5P81D6qujs
 
 To update firmware drop update.bin file onto SD card using either adapter or SD card explorer.
 
