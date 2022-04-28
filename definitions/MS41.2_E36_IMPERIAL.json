@@ -3,7 +3,7 @@
 	"wifiSSID": "Logger.S",
 	"wifiPSWD": "logger.s",
 //	"dropboxKey": "",			// To generate go to https://www.dropbox.com/developers/apps and create new app, set "Access token expiration" to "No expiration" and generate, copy token into the ""
-//	"deleteAfterUpload": true,	// Deletes files after successfully  uploading to dropbox
+//	"deleteAfterUpload": true,	// Deletes files after succesfully uploading to dropbox
 	"snake": true,
 	"displayRows": 2,
 	"displayColumns": 1,
@@ -15,7 +15,8 @@
 		{
 			"header": "Economy",
 			"unit": "l/100km",
-			"expr": "clip(100*x/(y+0.1))",
+		//	"expr": "clip(100*x/(y+0.1))",
+			"expr": "clip(282.481*y/100*(x+0.1))", // MPG
 			"x": "Fuel usage",
 			"y": "Speed"
 		},
@@ -65,9 +66,9 @@
 		{
 			"header": "Engine Load",
 			"unit": "mg/str",
-			"address": "0x010000FAFC",  // for MS41.0
+//			"address": "0x010000FAFC",  // for MS41.0
 //			"address": "0x010000FC52",  // for MS41.1
-//			"address": "0x010000E8E4",  // for MS41.2
+			"address": "0x010000E8E4",  // for MS41.2
 			"mul": 0.021,
 			"max": 700,
 			"min": 100,
@@ -113,13 +114,13 @@
 		{
 			"header": "TPS",
 			"unit": "%",
-			"address": "0x000000E8D7", // for MS41.0
-//			"address": "0x000000E8D0", // for MS41.1/2
+//			"address": "0x000000E8D7", // for MS41.0
+			"address": "0x000000E8D0", // for MS41.1/2
 			"max": 100,
 			"min": 0,
 			"dec": 0,
-			"mul": 0.3921569		// Remember about this comma when editing line below
-		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
+			"mul": 0.3921569,		// Remember about this comma when editing line below
+			"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
 		},
 		{
 			"header": "Ignition Angle",
@@ -134,9 +135,9 @@
 		{
 			"header": "Fuel Inj",
 			"unit": "ms",
-			"address": "0x010000ECBC", // for MS41.0
+//			"address": "0x010000ECBC", // for MS41.0
 //			"address": "0x010000EF96", // for MS41.1
-//			"address": "0x010000EF7E", // for MS41.2
+			"address": "0x010000EF7E", // for MS41.2
 			"max": 20,
 			"min": 0,
 			"dec": 2,
@@ -144,29 +145,30 @@
 		},
 		{
 			"header": "Intake Air Temp",
-			"unit": "°C",
+			"unit": "°F",
 			"address": "0x000000DA50",
 			"max": 80,
 			"min": 0,
 			"dec": 1,
-			"mul": 0.747,
-			"add": -48
+			"mul": 1.3446,
+			"add": -54.4
 		},
 		{
 			"header": "Coolant Temp",
-			"unit": "°C",
+			"unit": "°F",
 			"address": "0x000000DA5A",
 			"max": 120,
 			"min": 60,
 			"dec": 1,
-			"mul": 0.747,
-			"add": -48
+			"mul": 1.3446,
+			"add": -54.4
 		},
 		{
 			"header": "Speed",
-			"unit": "km/h",
+			"unit": "mph",
 			"address": "0x000000DA63",
 			"max": 255,
+			"mul": 0.621371,
 			"min": 0,
 			"dec": 0
 		},
@@ -182,9 +184,9 @@
 		{
 			"header": "Lambda Int 1",
 			"unit": "%",
-			"address": "0x010000ED5C", // for MS41.0
+//			"address": "0x010000ED5C", // for MS41.0
 //			"address": "0x010000F036", // for MS41.1
-//			"address": "0x010000F01E", // for MS41.2
+			"address": "0x010000F01E", // for MS41.2
 			"max": 30,
 			"min": -30,
 			"dec": 1,
@@ -195,9 +197,9 @@
 		{
 			"header": "Lambda Int 2",
 			"unit": "%",
-			"address": "0x010000ED96", // for MS41.0
+//			"address": "0x010000ED96", // for MS41.0
 //			"address": "0x010000F0F2", // for MS41.1
-//			"address": "0x010000F0CA", // for MS41.2
+			"address": "0x010000F0CA", // for MS41.2
 			"max": 30,
 			"min": -30,
 			"dec": 1,
