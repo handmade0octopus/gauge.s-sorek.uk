@@ -1,5 +1,7 @@
-# gauge.s-sorek.uk
+# Gauge.S
 Made for Gauge.S made by sorek.uk
+
+## [PURCHASE LINK](https://py.pl/1s88eo) <==
 
 ### [Read wiki for documentation!](https://github.com/handmade0octopus/gauge.s-sorek.uk/wiki)
 
