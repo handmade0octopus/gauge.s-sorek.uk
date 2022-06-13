@@ -88,8 +88,8 @@
 			"mul": 0.0018310547,
 			"max": 100,
 			"min": 0,
-			"dec": 0,				// Remember about this comma when editing line below
-			"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
+			"dec": 0				// Remember about this comma when editing line below
+		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
 		},
 		{
 			"header": "Ignition Angle",

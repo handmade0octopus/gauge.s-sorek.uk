@@ -8,7 +8,7 @@
 	"displayRows": 2,
 	"noMoreEntries": true,
 	"canSpeed": 500,
-	"address": ["0x12", "0x05", "0x0B", "0xB0", "0xAC"],
+	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
 //	"baudAddress": ["0x12", "0x08", "0x91", "0x01", "0xE8", "0x48", "0x00", "0x2A"], // Can cause issues, if you need ~25Hz data rate set this
 //	"baudSpeed": 125000,
 	"forceKwp": false,
@@ -58,66 +58,35 @@
 		{
 			"header": "Engine Speed",
 			"unit": "RPM",
-			"offset": 6,
-			"length": 2,
+			"offset": 18,
+			"length": 1,
+			"mul": 40.0,
 			"max": 7000,	
-			"dec": 0
+			"dec": 0,
+			"flashPoint": 6500
 		},
 		{
 			"header": "Engine Load",
 			"unit": "mg/str",
 			"offset": 21,
-			"length": 2,
-			"mul": 0.021194781,
+			"length": 1,
+			"mul": 0.5,
 			"dec": 1
 		},
 		{
 			"header": "Mass Airflow",
 			"unit": "kg/h",
-			"offset": 19,
+			"offset": 0,
 			"length": 2,
 			"mul": 0.25,
 			"dec": 1
 		},
 		{
-			"header": "Knock 1",
-			"unit": "V",
-			"offset": 54,
-			"mul": 0.000077821,
-			"max": 5
-		},
-		{
-			"header": "Knock 2",
-			"unit": "V",
-			"offset": 56,
-			"mul": 0.000077821,
-			"max": 5
-		},
-		{
-			"header": "Vanos Intake",
-			"unit": "°CRK",
-			"offset": 48,
-			"max": 126,
-			"min": 80,
-			"mul": 0.375,
-			"add": 60
-		},
-		{
-			"header": "Vanos Exhaust",
-			"unit": "°CRK",
-			"offset": 15,
-			"mul": 0.75,
-			"add": -48,
-			"max": 143,
-			"min": -48
-		},
-		{
 			"header": "TPS",
 			"unit": "%",
-			"offset": 13,
-			"length": 2,
-			"mul": 0.001831055,
-			"max": 120,
+			"offset": 19,
+			"mul": 0.5,
+			"max": 100,
 			"min": 0,
 			"dec": 0				// Remember about this comma when editing line below
 		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
@@ -125,106 +94,69 @@
 		{
 			"header": "Ignition Angle",
 			"unit": "°CRK",
-			"offset": 26,
-			"mul": -0.375,
-			"add": 72,
-			"max": 72,
-			"min": -23.625
+			"offset": 20,
+			"mul": -0.75,
+			"add": 54
 		},
 		{
 			"header": "Fuel Inj",
 			"unit": "ms",
-			"offset": 38,
+			"offset": 4,
 			"length": 2,
-			"mul": 0.0053333333
+			"mul": 0.024
 		},
 		{
 			"header": "Intake Air Temp",
 			"unit": "°C",
-			"offset": 15,
+			"offset": 22,
 			"mul": 0.75,
 			"add": -48
 		},
 		{
 			"header": "Coolant Temp",
 			"unit": "°C",
-			"offset": 16,
+			"offset": 23,
 			"mul": 0.75,
-			"add": -48
-		},
-		{
-			"header": "Radiator Temp",
-			"unit": "°C",
-			"offset": 18,
-			"mul": 0.79607843,
-			"add": -48
-		},
-		{
-			"header": "Oil Temp",
-			"unit": "°C",
-			"offset": 17,
-			"mul": 0.79607843,
 			"add": -48
 		},
 		{
 			"header": "Speed",
 			"unit": "km/h",
-			"offset": 8,
-			"dec": 0
+			"offset": 26,
+			"dec": 0,
+			"mul": 1.25
 		},
 		{
 			"header": "IACV",
 			"unit": "%",
-			"offset": 52,
+			"reverseEndianness": true,
+			"offset": 2,
 			"length": 2,
-			"mul": 0.0015258793
+			"mul": 0.0039062,
+			"add": -128
 		},
 		{
 			"header": "Lambda Int 1",
 			"unit": "%",
-			"offset": 40,
+			"offset": 6,
 			"length": 2,
-			"mul": 0.0015258789,
-			"add": -50,
-			"max": 50,
-			"min": -50,
+			"mul": 0.000030518,
 			"resetTime": 0
 		},
 		{
 			"header": "Lambda Int 2",
 			"unit": "%",
-			"offset": 44,
+			"offset": 8,
 			"length": 2,
-			"mul": 0.0015258789,
-			"add": -50,
-			"max": 50,
-			"min": -50,
+			"mul": 0.000030518,
 			"resetTime": 0
-		},
-		{
-			"header": "Rear O2 1",
-			"unit": "V",
-			"offset": 66,
-			"length": 2,
-			"mul": 0.00488,
-			"max": 5.1,
-			"hidden": true
-		},
-		{
-			"header": "Rear O2 2",
-			"unit": "V",
-			"offset": 68,
-			"length": 2,
-			"mul": 0.00488,
-			"max": 5.1,
-			"hidden": true
 		},
 		{
 			"header": "Battery Voltage",
 			"alias": "Battery",
 			"unit": "V",
-			"offset": 59,
-			"mul": 0.10196078
+			"offset": 29,
+			"mul": 0.09431
 		},
 		{
 			"header": "WBO",
