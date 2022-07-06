@@ -1,0 +1,203 @@
+{
+	"wifiSSID": "Logger.S",
+	"wifiPSWD": "logger.s",
+//	"dropboxKey": "",			// To generate go to https://www.dropbox.com/developers/apps and create new app, set "Access token expiration" to "No expiration" and generate, copy token into the ""
+//	"deleteAfterUpload": true,	// Deletes files after succesfully uploading to dropbox
+	"snake": true,
+	"displayRows": 2,
+	"displayColumns": 2,
+	"noMoreEntries": true,
+	"canSpeed": 1000,  // on 1000 seems to be working better, also set hex to 500 in ECU config or add 256 to each CAN ID defined below
+	"forceKwp": false,
+	"ecuparam": [
+		{
+			"header": "Economy",
+			"unit": "l/100km",
+			"expr": "clip(100*x/(y+0.1))",
+			"x": "Fuel usage",
+			"y": "Speed"
+		},
+		{
+			"header": "Econ avg 1",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 1\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Econ avg 2",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 2\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Trip 1",
+			"unit": "km",
+			"expr": "trip(\"Trip 1\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Trip 2",
+			"unit": "km",
+			"expr": "trip(\"Trip 2\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Fuel usage",
+			"unit": "l/h",
+			"expr": "(x/60)*(y/1000)*(250/16.6667)*3",  // Change 328i 250cc/min to 180cc/min for green injectors 320i/323i/325i, 280cc for 330i
+			"x": "Engine Speed",
+			"y": "Fuel Inj"
+		},
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+            "canId": 1280,
+            "offset": 0,
+            "length": 2,
+			"max": 7000,
+			"dec": 0
+		},
+		{
+			"header": "MAP",
+			"unit": "kPa",
+            "canId": 1280,
+            "offset": 4,
+            "length": 2,
+			"mul": 0.01
+		},
+		{
+			"header": "Ignition Angle",
+			"unit": "°CRK",
+			"canId": 1283,
+            "offset": 0,
+            "length": 1,
+            "mul": 0.5,
+			"add": -60
+		},
+		{
+			"header": "Fuel Inj",
+			"unit": "ms",
+			"canId": 1280,
+            "offset": 6,
+            "length": 2,
+            "mul": 0.016129
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"canId": 1280,
+		//	"add": -40,
+            "offset": 3,
+            "length": 1
+		},
+		{
+			"header": "Speed",
+			"unit": "km/h",
+			"canId": 1282,
+            "offset": 0,
+            "length": 2,
+			"reverseEndianness": false
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"canId": 1282,
+            "offset": 6,
+			"length": 2,
+			"mul": 1
+		},
+		{
+			"header": "Oil Temperature",
+			"unit": "°C",
+			"canId": 1282,
+            "offset": 3,
+			"mul": 1
+		},
+		{
+			"header": "Oil pressure",
+			"unit": "Bar",
+			"canId": 1282,
+            "offset": 4,
+			"mul": 0.0625
+		},
+		{
+			"header": "Fuel pressure",
+			"unit": "Bar",
+			"canId": 1282,
+            "offset": 5,
+			"mul": 0.0625
+		},
+		{
+			"header": "Lambda",
+			"unit": "L",
+			"canId": 1283,
+            "offset": 2,
+            "length": 1,
+			"mul": 0.0078125,
+			"hidden": true
+		},
+		{
+			"header": "WBO",
+			"unit": "AFR",
+			"expr": "14.7*x",
+			"x": "Lambda"
+		},
+		{
+			"header": "EGT 1",
+			"unit": "°C",
+			"canId": 1283,
+            "offset": 4,
+            "length": 2,
+			"reverseEndianness": false
+		},
+		{
+			"header": "Battery Voltage",
+			"alias": "Battery",
+			"unit": "V",
+			"canId": 1283,
+			"offset": 2,
+			"length": 2,
+			"mul": 0.027
+		},
+		{
+			"header": "Analog 1",
+			"unit": "V",
+			"pin": 1,
+			"resetTime": 0,
+			"max": 5,
+			"mul": 0.001221,
+			"hidden": true
+		},
+		{
+			"header": "Analog 2",
+			"unit": "V",
+			"pin": 2,
+			"resetTime": 0,
+			"max": 5,
+			"mul": 0.001221,
+			"hidden": true
+		},
+		{
+			"header": "Analog 3",
+			"unit": "V",
+			"pin": 3,
+			"resetTime": 0,
+			"max": 5,
+			"mul": 0.001221,
+			"hidden": true
+		},
+		{
+			"header": "Analog 4",
+			"unit": "V",
+			"pin": 4,
+			"resetTime": 0,
+			"max": 5,
+			"mul": 0.001221,
+			"hidden": true
+		}
+	]
+}
