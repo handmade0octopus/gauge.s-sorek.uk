@@ -3,6 +3,8 @@ Made for Gauge.S made by sorek.uk
 
 ## [PURCHASE LINK](http://buy.gauge.sorek.uk/) <==
 
+## [JOIN OUR DISCORD!](https://discord.com/invite/v4D9BH6nWC) <==
+
 ### [Read wiki for documentation!](https://github.com/handmade0octopus/gauge.s-sorek.uk/wiki)
 
 Please watch video before using this Repository:
