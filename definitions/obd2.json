@@ -36,6 +36,13 @@
 			"obdPID": 11
 		},
 		{
+			"header": "Lambda",
+			"unit": "Lmb",
+			"obdPID": 52,
+			"max": 0.8,
+			"min": 1.1
+		},
+		{
 			"header": "MAF",
 			"unit": "kg/h",
 			"obdPID": 16,
