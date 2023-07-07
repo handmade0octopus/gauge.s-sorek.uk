@@ -7,7 +7,7 @@
 	"displayRows": 2,
 	"displayColumns": 2,
 	"noMoreEntries": true,
-	"canSpeed": 1000,  // on 1000 seems to be working better, also set hex to 500 in ECU config or add 256 to each CAN ID defined below
+	"canSpeed": 1000,  // on 1000 seems to be working better, also set hex to 600 in ECU config
 	"forceKwp": false,
 	"ecuparam": [
 		{
@@ -55,7 +55,7 @@
 		{
 			"header": "Engine Speed",
 			"unit": "RPM",
-            "canId": 1280,
+            "canId": 1536,
             "offset": 0,
             "length": 2,
 			"max": 7000,
@@ -64,7 +64,7 @@
 		{
 			"header": "MAP",
 			"unit": "kPa",
-            "canId": 1280,
+            "canId": 1536,
             "offset": 4,
             "length": 2,
 			"mul": 0.01
@@ -72,7 +72,7 @@
 		{
 			"header": "Ignition Angle",
 			"unit": "°CRK",
-			"canId": 1283,
+			"canId": 1539,
             "offset": 0,
             "length": 1,
             "mul": 0.5,
@@ -81,7 +81,7 @@
 		{
 			"header": "Fuel Inj",
 			"unit": "ms",
-			"canId": 1280,
+			"canId": 1536,
             "offset": 6,
             "length": 2,
             "mul": 0.016129
@@ -89,7 +89,7 @@
 		{
 			"header": "Intake Air Temp",
 			"unit": "°C",
-			"canId": 1280,
+			"canId": 1536,
 		//	"add": -40,
             "offset": 3,
             "length": 1
@@ -97,7 +97,7 @@
 		{
 			"header": "Speed",
 			"unit": "km/h",
-			"canId": 1282,
+			"canId": 1538,
             "offset": 0,
             "length": 2,
 			"reverseEndianness": false
@@ -105,7 +105,7 @@
 		{
 			"header": "Coolant Temp",
 			"unit": "°C",
-			"canId": 1282,
+			"canId": 1538,
             "offset": 6,
 			"length": 2,
 			"mul": 1
@@ -113,28 +113,28 @@
 		{
 			"header": "Oil Temperature",
 			"unit": "°C",
-			"canId": 1282,
+			"canId": 1538,
             "offset": 3,
 			"mul": 1
 		},
 		{
 			"header": "Oil pressure",
 			"unit": "Bar",
-			"canId": 1282,
+			"canId": 1538,
             "offset": 4,
 			"mul": 0.0625
 		},
 		{
 			"header": "Fuel pressure",
 			"unit": "Bar",
-			"canId": 1282,
+			"canId": 1538,
             "offset": 5,
 			"mul": 0.0625
 		},
 		{
 			"header": "Lambda",
 			"unit": "L",
-			"canId": 1283,
+			"canId": 1539,
             "offset": 2,
             "length": 1,
 			"mul": 0.0078125,
@@ -149,7 +149,7 @@
 		{
 			"header": "EGT 1",
 			"unit": "°C",
-			"canId": 1283,
+			"canId": 1539,
             "offset": 4,
             "length": 2,
 			"reverseEndianness": false
@@ -158,7 +158,7 @@
 			"header": "Battery Voltage",
 			"alias": "Battery",
 			"unit": "V",
-			"canId": 1283,
+			"canId": 1539,
 			"offset": 2,
 			"length": 2,
 			"mul": 0.027

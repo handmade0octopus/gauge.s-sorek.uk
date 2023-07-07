@@ -1,0 +1,105 @@
+{
+	"wifiSSID": "Logger.S",
+	"wifiPSWD": "logger.s",
+	"snake": true,
+	"displayRows": 2,
+	"displayColumns": 1,
+	"noMoreEntries": true,
+	"canSpeed": 500, // default 500
+	"ecuparam": [
+		{
+			"header": "Gear",
+			"unit": "G",
+			"expr": "-1*(x>8)+x*(x<9)",
+			"x": "Gear byte"
+		},
+		{
+			"header": "Gear byte",
+			"unit": "B",
+            "canId": 1602,
+            "offset": 0,
+            "length": 1,
+			"max": 8,
+			"dec": 0,
+			"hidden": true
+		},
+		{
+			"header": "Oil Temp",
+			"unit": "°C",
+            "canId": 1602,
+            "offset": 1,
+            "length": 1,
+			"dec": 0,
+			"add": -40
+		},
+		{
+			"header": "Program",
+			"unit": "SW",
+            "canId": 1602,
+            "offset": 2,
+            "length": 1,
+			"dec": 0
+		},
+		{
+			"header": "Gear Byte",
+			"unit": "G",
+            "canId": 1602,
+            "offset": 0,
+            "length": 1,
+			"max": 8,
+			"dec": 0
+		},
+		{
+			"header": "Flags 1",
+			"unit": "SW",
+            "canId": 1602,
+            "offset": 4,
+            "length": 1,
+			"dec": 0
+		},
+		{
+			"header": "Flags 2",
+			"unit": "SW",
+            "canId": 1602,
+            "offset": 5,
+            "length": 1,
+			"dec": 0
+		},
+		{
+			"header": "Analog 1",
+			"unit": "V",
+			"pin": 1,
+			"resetTime": 0,
+			"max": 5,
+			"mul": 0.001221,
+			"hidden": true
+		},
+		{
+			"header": "Analog 2",
+			"unit": "V",
+			"pin": 2,
+			"resetTime": 0,
+			"max": 5,
+			"mul": 0.001221,
+			"hidden": true
+		},
+		{
+			"header": "Analog 3",
+			"unit": "V",
+			"pin": 3,
+			"resetTime": 0,
+			"max": 5,
+			"mul": 0.001221,
+			"hidden": true
+		},
+		{
+			"header": "Analog 4",
+			"unit": "V",
+			"pin": 4,
+			"resetTime": 0,
+			"max": 5,
+			"mul": 0.001221,
+			"hidden": true
+		}
+	]
+}
