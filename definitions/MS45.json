@@ -59,7 +59,7 @@
 		{
 			"header": "Engine Speed",
 			"unit": "RPM",
-			"offset": 21,
+			"offset": 10,
 			"length": 1,
 			"max": 8000, 
 			"mul": 32,
@@ -75,63 +75,91 @@
 		{
             "header": "Relative Load",
             "unit": "%",
-            "offset": 48,
+            "offset": 37,
             "length": 1,
             "mul": 0.75
         },
 		{
             "header": "Calculated Load",
             "unit": "%",
-            "offset": 16,
+            "offset": 5,
             "length": 1,
             "mul": 0.3922
         },
 		{
             "header": "Fuel Pressure",
             "unit": "psi",
-            "offset": 48,
+            "offset": 12,
             "length": 1,
             "mul": 3
         },
 		{
 			"header": "Mass Airflow",
 			"unit": "kg/h",
-			"offset": 43,
+			"offset": 32,
 			"length": 2,
 			"mul": 0.03125,
 			"dec": 1
 		},
 		{
-			"header": "MAP",
+			"header": "MAP - calculated",
 			"unit": "hPa",
-			"offset": 42,
+			"offset": 31,
             "length": 1
 		},
 		{
 			"header": "MAF V",
 			"unit": "V",
-			"offset": 41,
+			"offset": 30,
 			"length": 2,
 			"mul": 0.01953
 		},
 		{
-			"header": "Knock 1",
+			"header": "Knock Cyl 1",
 			"unit": "V",
-			"offset": 54,
+			"offset": 20,
 			"mul": 0.000077821,
 			"max": 5
 		},
 		{
-			"header": "Knock 2",
+			"header": "Knock Cyl 2",
 			"unit": "V",
-			"offset": 56,
+			"offset": 21,
+			"mul": 0.000077821,
+			"max": 5
+		},
+		{
+			"header": "Knock Cyl 3",
+			"unit": "V",
+			"offset": 22,
+			"mul": 0.000077821,
+			"max": 5
+		},
+		{
+			"header": "Knock Cyl 4",
+			"unit": "V",
+			"offset": 23,
+			"mul": 0.000077821,
+			"max": 5
+		},
+		{
+			"header": "Knock Cyl 5",
+			"unit": "V",
+			"offset": 24,
+			"mul": 0.000077821,
+			"max": 5
+		},
+		{
+			"header": "Knock Cyl 6",
+			"unit": "V",
+			"offset": 25,
 			"mul": 0.000077821,
 			"max": 5
 		},
 		{
 			"header": "Vanos Intake",
 			"unit": "°CRK",
-			"offset": 30,
+			"offset": 19,
 			"max": 126,
 			"min": 80,
 			"mul": 0.375,
@@ -140,7 +168,7 @@
 		{
 			"header": "Vanos Exhaust",
 			"unit": "°CRK",
-			"offset": 22,
+			"offset": 11,
 			"max": -80,
 			"min": -105,
 			"mul": 0.375,
@@ -149,7 +177,7 @@
 		{
 			"header": "TPS",
 			"unit": "%",
-			"offset": 52,
+			"offset": 41,
 			"mul": 1.8671875,
 			"dec": 0				// Remember about this comma when editing line below
 		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
@@ -157,7 +185,7 @@
 		{
 			"header": "Ignition Angle - Cyl 1",
 			"unit": "*CRK",
-			"offset": 25,
+			"offset": 14,
 			"length": 2,
 			"mul": 0.001953125,
 			"add": -64
@@ -165,72 +193,56 @@
 		{
 			"header": "Fuel Inj",
 			"unit": "ms",
-			"offset": 27,
+			"offset": 16,
 			"length": 2,
 			"mul": 0.004
 		},
 		{
 			"header": "Intake Air Temp",
 			"unit": "°C",
-			"offset": 29,
+			"offset": 18,
 			"mul": 0.75,
 			"add": -48
 		},
 		{
 			"header": "Coolant Temp",
 			"unit": "°C",
-			"offset": 17,
+			"offset": 6,
 			"mul": 0.75,
 			"add": -48
 		},
 		{
-			"header": "Radiator Temp",
-			"unit": "°C",
-			"offset": 18,
-			"mul": 0.79607843,
-			"add": -48,
-			"min": 60,
-			"max": 100
-		},
-		{
 			"header": "Oil Temp",
 			"unit": "°C",
-			"offset": 47,
+			"offset": 36,
 			"mul": 1,
 			"add": -40
 		},
 		{
 			"header": "Atmospheric Pressure",
 			"unit": "hPa",
-			"offset": 14,
+			"offset": 3,
 			"mul": 21.2265625
 		},
 		{
 			"header": "Speed",
 			"unit": "km/h",
-			"offset": 8,
+			"offset": 42,
 			"dec": 0
 		},
 		{
-			"header": "IACV PWM",
-			"unit": "%",
-			"offset": 52,
-			"length": 2,
-			"mul": 0.0015258793
-		},
-		{
-			"header": "Lambda Int 1",
-			"unit": "%",
-			"offset": 37,
+			"header": "Lambda Bank 1",
+			"unit": "",
+			"offset": 26,
 			"length": 2,
 			"mul": 0.0000305176,
 			"max": 1.5,
 			"resetTime": 0
 		},
 		{
-			"header": "Lambda Int 2",
-			"unit": "%",
-			"offset": 39,
+			"header": "Lambda bank 2",
+			"unit": "",
+			"offset": 28,
 			"length": 2,
 			"mul": 0.0000305176,
 			"max": 1.5,
@@ -239,7 +251,7 @@
 		{
 			"header": "SAF Voltage",
 			"unit": "V",
-			"offset": 49,
+			"offset": 38,
 			"length": 1,
 			"mul": 0.01953,
 			"max": 5.1
@@ -247,7 +259,7 @@
 		{
 			"header": "DMTL Voltage",
 			"unit": "V",
-			"offset": 18,
+			"offset": 7,
 			"length": 1,
 			"mul": 0.01953,
 			"max": 5.1
@@ -255,38 +267,38 @@
 		{
 			"header": "EGT - Bank 1",
 			"unit": "*C",
-			"offset": 19,
+			"offset": 8,
 			"length": 1,
 			"mul": 4,
-			"max": 5.1
+			"max": 1020
 		},
 		{
 			"header": "EGT - Bank 2",
 			"unit": "*C",
-			"offset": 20,
+			"offset": 9,
 			"length": 1,
 			"mul": 4,
-			"max": 5.1
+			"max": 1020
 		},
 		{
 			"header": "Battery Voltage",
 			"unit": "V",
-			"offset": 15,
-			"mul": 0.1015625,
+			"offset": 4,
+			"mul": 0.101961,
 			"max": 16,
 			"min": 0
 		},
 		{
 			"header": "Gear",
 			"unit": "#",
-			"offset": 24,
+			"offset": 13,
 			"max": 6,
 			"min": 0
 		},
 		{
 			"header": "STFT - Bank 1",
 			"unit": "%",
-			"offset": 50,
+			"offset": 39,
 			"length": 1,
 			"mul": 0.78125,
 			"add": -100
@@ -294,22 +306,17 @@
 		{
 			"header": "STFT - Bank 2",
 			"unit": "%",
-			"offset": 51,
+			"offset": 40,
 			"length": 1,
 			"mul": 0.78125,
 			"add": -100
-		},
-		{
-			"header": "Speed",
-			"unit": "km/h",
-			"offset": 53
 		},
 		{
 			"header": "WBO",
 			"unit": "AFR",
 			"expr": "1.7637*x + 10.29",
 			"x": "Analog 1",
-			"hidden": true		// set to false or delete if you use it
+			"hidden": false		// set to false or delete if you use it
 		},
 		{
 			"header": "Analog 1",
@@ -318,7 +325,7 @@
 			"resetTime": 0,
 			"max": 5,
 			"mul": 0.001221,
-			"hidden": true
+			"hidden": false
 		},
 		{
 			"header": "Analog 2",
@@ -327,7 +334,7 @@
 			"resetTime": 0,
 			"max": 5,
 			"mul": 0.001221,
-			"hidden": true
+			"hidden": false
 		},
 		{
 			"header": "Analog 3",
@@ -336,7 +343,7 @@
 			"resetTime": 0,
 			"max": 5,
 			"mul": 0.001221,
-			"hidden": true
+			"hidden": false
 		},
 		{
 			"header": "Analog 4",
@@ -345,7 +352,7 @@
 			"resetTime": 0,
 			"max": 5,
 			"mul": 0.001221,
-			"hidden": true
+			"hidden": false
 		}
 	]
 }
