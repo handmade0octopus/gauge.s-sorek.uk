@@ -1,8 +1,6 @@
 {
 	"wifiSSID": "Logger.S",
 	"wifiPSWD": "logger.s",
-//	"dropboxKey": "",			// To generate go to https://www.dropbox.com/developers/apps and create new app, set "Access token expiration" to "No expiration" and generate, copy token into the ""
-//	"deleteAfterUpload": true,	// Deletes files after succesfully uploading to dropbox
 	"snake": true,
 	"displayRows": 2,
 	"displayColumns": 2,
@@ -20,7 +18,8 @@
 		{
 			"header": "Trip 2",
 			"unit": "km",
-			"expr": "trip(\"Trip 2\",x)",
+			"expr": "trip(\"T
+			rip 2\",x)",
 			"x": "Speed"
 		},
 		{

@@ -5,7 +5,7 @@
 	"displayRows": 2,
 	"displayColumns": 1,
 	"noMoreEntries": true,
-	"canSpeed": 500, // default 500
+	"canSpeed": 500,
 	"ecuparam": [
 		{
 			"header": "Gear",
