@@ -136,7 +136,7 @@
         }
       }
 
-      #uploader { 
+      #uploader { s
         position: absolute;
         top: 0;
         right: 0;
@@ -199,6 +199,9 @@
         var restartDev = document.createElement("button");
         restartDev.innerHTML = 'Restart';
         document.getElementById(element).appendChild(restartDev);
+        var refreshTree = document.createElement("button");
+        refreshTree.innerHTML = 'Refresh';
+        document.getElementById(element).appendChild(refreshTree);
         var uploadLabel = document.createElement("label");
         uploadLabel.innerHTML = '';
         document.getElementById(element).appendChild(uploadLabel);
@@ -236,6 +239,10 @@
           xmlHttp.open("GET", "/restart", true);
           xmlHttp.send(null);
         };
+        
+        refreshTree.onclick = function(e){
+          tree.refreshPath(path.value);
+        };
 		    
         mkdir.onclick = function(e){
           if(path.value.length < 2) return;
@@ -255,10 +262,16 @@
           var formData = new FormData();
           formData.append("data", input.files[0], path.value);
           xmlHttp.open("POST", "/edit");
+          var startTime = performance.now();
           xmlHttp.upload.addEventListener("progress", function(evt){
               if (evt.lengthComputable) {
-                var txt = "add upload event-listener" + evt.loaded + "/" + evt.total
-                var txt = " Upload: " + Math.round(evt.loaded/1024) + " kb / " + Math.round(evt.total/1024) + " kb";
+                var nowTime = performance.now();
+                var speed = (evt.loaded/1024)/((nowTime - startTime)/1000);
+                speed = speed.toFixed(2)
+                var txt = "add upload event-listener" + evt.loaded + "/" + evt.total;
+                var upl = " Upload: ";
+                if(evt.loaded == evt.total) upl = " Done: ";
+                var txt = upl + Math.round(evt.loaded/1024) + " / " + Math.round(evt.total/1024) + " KB Speed: " + speed  + " KB/s";
                 console.log(txt);
                 uploadLabel.innerHTML = txt;
               }
@@ -513,8 +526,11 @@
         this.refreshPath = function(path){
           if(path.lastIndexOf('/') < 1){
             path = '/';
-            treeRoot.removeChild(treeRoot.childNodes[0]);
-            httpGet(treeRoot, "/");
+            if(treeRoot.childNodes[0]) {
+              treeRoot.removeChild(treeRoot.childNodes[0]);
+              httpGet(treeRoot, "/");
+            }
+            else createTree("tree", editor);
           } else {
             path = path.substring(0, path.lastIndexOf('/'));
             var leaf = document.getElementById(path).parentNode;
@@ -686,11 +702,13 @@
         }
         return editor;
       }
+      var tree;
+      var editor;
       function onBodyLoad(){
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) { vars[key] = value; });
-        var editor = createEditor("editor", vars.file, vars.lang, vars.theme);
-        var tree = createTree("tree", editor);
+        editor = createEditor("editor", vars.file, vars.lang, vars.theme);
+        tree = createTree("tree", editor);
         createFileUploader("uploader", tree, editor);
       };
     </script>
