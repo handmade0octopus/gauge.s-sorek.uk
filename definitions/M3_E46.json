@@ -217,10 +217,10 @@
 		{
 			"header": "Button press",
 			"unit": "b",
-			"hidden": true,
 			"expr": "buttonPress((x & 96) && !(y & 4))",
 			"x": "Can button", // if != 0 then button is active
 			"y": "Cruise active",
+			"hidden": true,
 			"noLog": true
 		},
 		{
@@ -229,7 +229,7 @@
 			"canId": "0x153",
 			"offset": 1,
 			"length": 2,
-			"mul": 0.00477,
+			"mul": 0.00477, //Use value .00769 for kph instead of mph. Assumes 24.72" diameter tires (245/40/17)
 			"dec": 0,
 			"hidden": false,
 			"noLog": false
@@ -248,7 +248,7 @@
 			"expr": "lutTable(\"Gear\", (y/x))",
 			"x": "Speedo",
 			"y": "RPM CAN",
-			"lutTable": [
+			"lutTable": [ //Multiply values in table by 100/62 if you change Speedo to kph. Assumes stock 3.62:1 and 24.72" diameter tires (245/40/17)
 				{ "x": 33	,	"y": 	0},
 				{ "x": 40.89	,	"y": 	6},
 				{ "x": 49.26	,	"y": 	5},
@@ -271,7 +271,7 @@
 			"noLog": true
 		},
 		{
-			"header": "Steering Angle Raw", //Angle: angle startbit: 0, length: 15 bit order and type: Intel LSB, unsigned, gain: 0.044 angle sign bit: bit 15
+			"header": "Steering Angle Raw",
 			"canId": "0x1F5",
 			"offset": 0,
 			"length": 2,
