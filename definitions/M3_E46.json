@@ -281,8 +281,7 @@
 		{
 			"header": "Steering Angle",
 			"unit": "deg",
-			"expr": "(x > 32768)*(x-32768) + (x<32768)*(-x)",
-			"mul": 0.044,
+			"expr": "(x > 32768)*((x-32768)*.044) + (x<32768)*(-.044*x)",
 			"x": "Steering Angle Raw",
 			"hidden": false,
 			"noLog": false
