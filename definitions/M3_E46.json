@@ -159,6 +159,7 @@
 			"header": "WBO",
 			"unit": "AFR",
 			"expr": "1.7637*x + 10.29",
+			//"expr": "3.008*x + 7.35", //Innovate LC-2
 			"x": "Analog 1",
 		//	"x": "Rear O2 1",	// you can plug your WBO into your rear or front O2 lambda
 			"hidden": true		// set to false or delete if you use it
