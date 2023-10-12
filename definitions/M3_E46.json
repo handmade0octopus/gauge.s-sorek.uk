@@ -291,13 +291,13 @@
 		{
 			"header": "Lateral G",
 			"alias": "Lat G",
-			"expr": "filter(\"Accel X\", 5)", // Filters for last 5 accelerometer data points to smooth curve
+			"expr": "filter(\"Accel X\", 5)", // Filters for last 5 accelerometer data points to smooth curve. Positive on left turn.
 			"dec": 2
 		},
 		{
 			"header": "Longitudinal G",
 			"alias": "Lon G",
-			"expr": "filter(\"Accel Z\", 5)",  // Filters for last 5 accelerometer data points to smooth curve
+			"expr": "-filter(\"Accel Z\", 5)",  // Filters for last 5 accelerometer data points to smooth curve. Positive under braking.
 			"dec": 2
 		},
 		{
