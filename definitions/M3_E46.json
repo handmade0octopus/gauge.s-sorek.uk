@@ -199,8 +199,8 @@
 			"max": 5,
 			"mul": 0.001221,
 			"hidden": true
-		}//, //Uncomment comma to the left and section below to enable CAN communication after connecting CAN Hi and Lo wires
-		/*{
+		}, //The section below will be active only after connecting CAN Hi and Lo wires
+		{
 			"header": "Can button",
 			"canId": "0x329",
 			"offset": 3,
@@ -225,11 +225,13 @@
 		},
 		{
 			"header": "Speedo",
-			"unit": "mph",
+			"unit": "kph", //change to mph along with changing multiplication factor below
 			"canId": "0x153",
 			"offset": 1,
 			"length": 2,
-			"mul": 0.00477, //Use value .00769 for kph instead of mph. Assumes 24.72" diameter tires (245/40/17)
+			"mul": 0.00799, //kph - kilometers per hour, stock 255/40/18 tires
+			//"mul": 0.00496, //mph - miles per hour, stock 255/40/18 tires
+			//"mul": 0.00477, //mph - 245/40/17 tires
 			"dec": 0,
 			"hidden": false,
 			"noLog": false
@@ -248,15 +250,15 @@
 			"expr": "lutTable(\"Gear\", (y/x))",
 			"x": "Speedo",
 			"y": "RPM CAN",
-			"lutTable": [ //Multiply values in table by 100/62 if you change Speedo to kph. Assumes stock 3.62:1 and 24.72" diameter tires (245/40/17)
-				{ "x": 33	,	"y": 	0},
-				{ "x": 40.89	,	"y": 	6},
-				{ "x": 49.26	,	"y": 	5},
-				{ "x": 60.59	,	"y": 	4},
-				{ "x": 82.27	,	"y": 	3},
-				{ "x": 124.64	,	"y": 	2},
-				{ "x": 208.38	,	"y": 	1},
-				{ "x": 240	,	"y": 	0}
+			"lutTable": [ //Multiply 'x' values in table by .62 if you change Speedo to mph. Assumes stock 3.62:1 differential and stock diameter tires (255/40/18)
+				{ "x": 55	,	"y": 	0},
+				{ "x": 68.56	,	"y": 	6},
+				{ "x": 82.60	,	"y": 	5},
+				{ "x": 101.60	,	"y": 	4},
+				{ "x": 137.95	,	"y": 	3},
+				{ "x": 209.00	,	"y": 	2},
+				{ "x": 349.42	,	"y": 	1},
+				{ "x": 402.45	,	"y": 	0}
 			],
 			"dec": 0,
 			"hidden": false,
@@ -311,12 +313,6 @@
 			"alias": "Tot Gs",
 			"expr": "filter(\"Total G\", 5)",  // Filters for last 5 accelerometer data points to smooth curve
 			"dec": 2
-		}*/
+		}
 	]
-}
-
-static float buttonPressExpr(float x) {
-  uint8_t b = x < 1 && x > -1 ? 0 : 1;
-  b utton = (button & ~BUTTON_EXPR) | ((b) & BUTTON_EXPR);
-  return x;
 }
