@@ -63,7 +63,7 @@
 		{
 			"header": "Ignition Angle",
 			"unit": "°CRK",
-			"offset": 10,
+			"offset": 10, //This offset value is incorrect, it is used for Intake Air Temp below
 			"mul": 0.1
 		},
 		{
@@ -90,7 +90,7 @@
 		{
 			"header": "Radiator Temp",
 			"unit": "°C",
-			"offset": 11,
+			"offset": 13,
 			"mul": 13,
 			"add": -48
 		},
@@ -159,6 +159,7 @@
 			"header": "WBO",
 			"unit": "AFR",
 			"expr": "1.7637*x + 10.29",
+			//"expr": "3.008*x + 7.35", //Innovate LC-2
 			"x": "Analog 1",
 		//	"x": "Rear O2 1",	// you can plug your WBO into your rear or front O2 lambda
 			"hidden": true		// set to false or delete if you use it
@@ -170,7 +171,7 @@
 			"resetTime": 0,
 			"max": 5,
 			"mul": 0.001221,
-			"hidden": true
+			"hidden": false
 		},
 		{
 			"header": "Analog 2",
@@ -179,7 +180,7 @@
 			"resetTime": 0,
 			"max": 5,
 			"mul": 0.001221,
-			"hidden": true
+			"hidden": false
 		},
 		{
 			"header": "Analog 3",
@@ -188,7 +189,7 @@
 			"resetTime": 0,
 			"max": 5,
 			"mul": 0.001221,
-			"hidden": true
+			"hidden": false
 		},
 		{
 			"header": "Analog 4",
@@ -197,7 +198,113 @@
 			"resetTime": 0,
 			"max": 5,
 			"mul": 0.001221,
-			"hidden": true
+			"hidden": false
+		}, //The section below will be active only after connecting CAN Hi and Lo wires
+		{
+			"header": "Can button",
+			"canId": "0x329",
+			"offset": 3,
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Cruise active", //value 10 when icon lit on dash/active, value 2 when inactive/not lit
+			"canId": "0x545",
+			"offset": 0,
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Button press",
+			"unit": "b",
+			"expr": "buttonPress((x & 96) && !(y & 4))",
+			"x": "Can button", // if != 0 then button is active
+			"y": "Cruise active",
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Speedo",
+			"unit": "kph", //change to mph along with changing multiplication factor below
+			"canId": "0x153",
+			"offset": 1,
+			"length": 2,
+			"mul": 0.00799, //kph - kilometers per hour, stock 255/40/18 tires
+			//"mul": 0.00496, //mph - miles per hour, stock 255/40/18 tires
+			//"mul": 0.00477, //mph - 245/40/17 tires
+			"dec": 0,
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "RPM CAN",
+			"canId": "0x316",
+			"offset": 2,
+			"length": 2,
+			"mul": 0.15625,
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Gear",
+			"expr": "lutTable(\"Gear\", (y/x))",
+			"x": "Speedo",
+			"y": "RPM CAN",
+			"lutTable": [ //Multiply 'x' values in table by .62 if you change Speedo to mph. Assumes stock 3.62:1 differential and stock diameter tires (255/40/18)
+				{ "x": 55	,	"y": 	0},
+				{ "x": 68.56	,	"y": 	6},
+				{ "x": 82.60	,	"y": 	5},
+				{ "x": 101.60	,	"y": 	4},
+				{ "x": 137.95	,	"y": 	3},
+				{ "x": 209.00	,	"y": 	2},
+				{ "x": 349.42	,	"y": 	1},
+				{ "x": 402.45	,	"y": 	0}
+			],
+			"dec": 0,
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Steering Angle Raw",
+			"canId": "0x1F5",
+			"offset": 0,
+			"length": 2,
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Steering Angle",
+			"unit": "deg",
+			"expr": "(x > 32768)*((x-32768)*.044) + (x<32768)*(-.044*x)",
+			"x": "Steering Angle Raw",
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Lateral G",
+			"alias": "Lat G",
+			"expr": "filter(\"Accel X\", 5)", // Filters for last 5 accelerometer data points to smooth curve. Positive on left turn.
+			"dec": 2
+		},
+		{
+			"header": "Longitudinal G",
+			"alias": "Lon G",
+			"expr": "-filter(\"Accel Z\", 5)",  // Filters for last 5 accelerometer data points to smooth curve. Positive under braking.
+			"dec": 2
+		},
+		{
+			"header": "Total G",
+			"alias": "Tot G",
+			"expr": "sqrt(x*x + z*z)",
+			"x": "Accel X",
+			"z": "Accel Z",
+			"dec": 2
+		},
+		{
+			"header": "Total G Smooth",
+			"alias": "Tot Gs",
+			"expr": "filter(\"Total G\", 5)",  // Filters for last 5 accelerometer data points to smooth curve
+			"dec": 2
 		}
 	]
 }
