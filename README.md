@@ -1,9 +1,9 @@
 # Gauge.S
 Made for Gauge.S made by sorek.uk
 
-## [PURCHASE LINK FOR E36 VERSION](http://buy.gauge.sorek.uk/) <==
+## [PURCHASE LINK FOR E36 VERSION](http://buygauge.sorek.uk/) <==
 
-## [PURCHASE LINK FOR STANDALONE](http://buy.standalone.sorek.uk/) <==
+## [PURCHASE LINK FOR STANDALONE](http://buystandalone.sorek.uk/) <==
 
 ## [JOIN OUR DISCORD!](https://discord.com/invite/v4D9BH6nWC) <==
 
