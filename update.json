@@ -1,11 +1,11 @@
 [
     {
-        "version": 1,
+        "wifiVersion": 1,
         "device": "gauge_e36",
         "file": "SD/wifi/index.htm"
     },
     {
-        "version": 20880,
+        "version": 20885,
         "pcb": 50,
         "beta": true,
         "device": "gauge_e36",
@@ -46,4 +46,4 @@
         "device": "gauge_e36",
         "file": "Gauge.S-36.bin"
     }
-    ]
+]
