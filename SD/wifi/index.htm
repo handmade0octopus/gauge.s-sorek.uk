@@ -1,9 +1,17 @@
+<!--v0001-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Gauge.S - SD Editor</title>
     <style type="text/css" media="screen">
+      @font-face {
+        font-family: 'visitor';
+        src: url('../wifi/font.ttf');
+        font-weight: normal;
+        font-style: normal;
+      }
       body {
+        font-family: 'visitor', sans-serif;
         background-color: #282a36;
         color: #f8f8f2;
       }
@@ -135,73 +143,154 @@
           }
         }
       }
+      
+      .buttons {
+        font-family: 'visitor', sans-serif;
+        margin-top: 0px;
+        margin-left: 5px;
+        margin-right: 0px;
+        height: 32px;
+        width: 65px;
+        background-color: #3a3c4e;
+        color: #ff7931;
+        border: none;
+        border-radius: 5px;
+      }
+      .buttons:hover,
+      .buttons:active {
+        background-color: #72769a;
+        transition: 0.7s;
+      }
+      
+      .input-box {
+        margin-top: 4px;
+        margin-left: 5px;
+        margin-right: 0px;
+        height: 30px;
+        width: 130px;
+        background-color: #3a3c4e;
+        color: #ff7931;
+        border: none;
+        border-radius: 5px;
+        
+      }
+      
+      .inputfile {
+        font-family: 'visitor', sans-serif;
+        margin-top: 0px;
+        padding-top: 0px;
+        top: 0px;
+	      width: 0.1px;
+	      height: 0.1px;
+	      opacity: 0;
+	      overflow: hidden;
+	      position: absolute;
+	      z-index: -1;
+      }
+      
 
-      #uploader { s
+      .flabel {
+        font-family: 'visitor', sans-serif;
+        line-height: 32px;
+        box-sizing: border-box;
+        position: relative;
+        top: 0px;
+        margin-top: auto;
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-left: 0px;
+        width: 100px;
+        height: 32px;
+        display: inline-block;
+        align-items: center;
+        vertical-align: middle;
+        justify-content: center;
+        text-align: center;
+        font-size: 14px;
+        background-color: #3a3c4e;
+        color: #ff7931;
+        border: none;
+        border-radius: 5px;
+      }
+      
+      .inputfile + label:hover,
+      .inputfile + label:active {
+        background-color: #72769a;
+        transition: 0.7s;
+      }
+      
+
+      #uploader { 
+        min-width: 660px;
         position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        height:28px;
-        line-height: 24px;
-        padding-left: 10px;
+        margin-top: 0px;
+        top: 0px;
+        right: 0px;
+        left: 0px;
+        height: 42px;
+        width: 100%;
+        padding-left: 5px;
+        padding-right: 0px;
+        border-radius: 0px;
         background-color: #121421;
-        color:#EEE;
       }
       #tree { 
         position: absolute;
-        top: 28px;
+        top: 40px;
         bottom: 0;
         left: 0;
-        width:200px;
+        width: 200px;
         padding: 8px;
+        background-color: #282a36;
       }
       #editor {
         background-color: #282a36 !important;
       }
       #editor, #preview {
         position: absolute;
-        top: 28px;
+        top: 40px;
         right: 0;
         bottom: 0;
         left: 200px;
       }
       #preview {
         background-color: #EEE;
-        padding:5px;
+        padding: 5px;
       }
     </style>
     <script>
+      function addButton(but, element) {
+        var newButton = document.createElement("button");
+        newButton.innerHTML = but;
+        newButton.classList.add('buttons');
+        document.getElementById(element).appendChild(newButton);
+        return newButton;
+      }
+      
       function createFileUploader(element, tree, editor){
         var xmlHttp;
-        var input = document.createElement("input");
+        //var input = document.createElement("input");
+        var input = document.getElementById("file");
         input.type = "file";
         input.multiple = false;
         input.name = "data";
-        document.getElementById(element).appendChild(input);
+        //input.classList.add('uploader-extra');
+        //document.getElementById(element).appendChild(input);
         var path = document.createElement("input");
         path.id = "upload-path";
         path.type = "text";
         path.name = "path";
         path.defaultValue = "/";
+        path.classList.add('input-box');
         document.getElementById(element).appendChild(path);
-        var button = document.createElement("button");
-        button.innerHTML = 'Upload';
-        document.getElementById(element).appendChild(button);
-        var mkdir = document.createElement("button");
-        mkdir.innerHTML = 'MkDir';
-        document.getElementById(element).appendChild(mkdir);
-        var mkfile = document.createElement("button");
-        mkfile.innerHTML = 'MkFile';
-        document.getElementById(element).appendChild(mkfile);
-		    var saveFile = document.createElement("button");
-        saveFile.innerHTML = 'Save';
-        document.getElementById(element).appendChild(saveFile);
-        var restartDev = document.createElement("button");
-        restartDev.innerHTML = 'Restart';
-        document.getElementById(element).appendChild(restartDev);
-        var refreshTree = document.createElement("button");
-        refreshTree.innerHTML = 'Refresh';
-        document.getElementById(element).appendChild(refreshTree);
+        
+        var uploadButton = addButton("Upload", element);
+        var mkdir = addButton("MkDir", element);
+        var mkfile = addButton("MkFile", element);
+        var saveFile = addButton("Save", element);
+        var restartDev = addButton("Restart", element);
+ //       var refreshTree = addButton("Refresh", element);
+        var gaugeButton = addButton("Gauge", element);
         var uploadLabel = document.createElement("label");
         uploadLabel.innerHTML = '';
         document.getElementById(element).appendChild(uploadLabel);
@@ -238,10 +327,17 @@
           xmlHttp.onreadystatechange = httpPostProcessRequest;
           xmlHttp.open("GET", "/restart", true);
           xmlHttp.send(null);
+          setTimeout(() => {
+            // 4 second delay here before running next line
+            console.log("delayed");
+            tree.refreshPath(path.value);
+          }, 4000);
         };
         
-        refreshTree.onclick = function(e){
-          tree.refreshPath(path.value);
+        
+        gaugeButton.onclick = function(e){
+          var newUrl = `http://${window.location.hostname}/wifi/gauge.html`;
+          window.open(newUrl, '_blank');
         };
 		    
         mkdir.onclick = function(e){
@@ -253,7 +349,7 @@
           }
           createPath(dir);
         };
-        button.onclick = function(e){
+        uploadButton.onclick = function(e){
           if(input.files.length === 0){
             return;
           }
@@ -284,12 +380,13 @@
           var ext = /(?:\.([^.]+))?$/.exec(filename)[1];
           var name = /(.*)\.[^.]+$/.exec(filename)[1];
           if(typeof name !== undefined){
-            if(name.length > 8) name = name.substring(0, 8);
+            if(filename.length > 18) name = name.substring(0, 18 - ext.length);
             filename = name;
           }
           if(typeof ext !== undefined){
             if(ext === "html") ext = "htm";
             else if(ext === "jpeg") ext = "jpg";
+            else if(ext === "bin") filename = "update";
             filename = filename + "." + ext;
           }
           if(path.value === "/" || path.value.lastIndexOf("/") === 0){
@@ -702,20 +799,26 @@
         }
         return editor;
       }
+      
+      
       var tree;
       var editor;
-      function onBodyLoad(){
+      function onBodyLoad() {
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) { vars[key] = value; });
         editor = createEditor("editor", vars.file, vars.lang, vars.theme);
         tree = createTree("tree", editor);
         createFileUploader("uploader", tree, editor);
       };
+      
+
+
+    
     </script>
   <script src="/wifi/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
   </head>
   <body onload="onBodyLoad();">
-    <div id="uploader"></div>
+    <div id="uploader"><input type="file" name="file" id="file" class="inputfile" /><label class="flabel" for="file">Load file</label></div>
     <div id="tree"></div>
     <div id="editor"></div>
     <div id="preview" style="display:none;"></div>

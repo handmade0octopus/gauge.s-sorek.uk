@@ -1,10 +1,4 @@
 {
-	"wifiSSID": "Logger.S",
-	"wifiPSWD": "logger.s",
-	"snake": true,
-	"displayRows": 2,
-	"displayColumns": 1,
-	"noMoreEntries": true,
 	"canSpeed": 500,
 	"ecuparam": [
 		{
@@ -64,42 +58,6 @@
             "offset": 5,
             "length": 1,
 			"dec": 0
-		},
-		{
-			"header": "Analog 1",
-			"unit": "V",
-			"pin": 1,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": true
-		},
-		{
-			"header": "Analog 2",
-			"unit": "V",
-			"pin": 2,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": true
-		},
-		{
-			"header": "Analog 3",
-			"unit": "V",
-			"pin": 3,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": true
-		},
-		{
-			"header": "Analog 4",
-			"unit": "V",
-			"pin": 4,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": true
 		}
 	]
 }

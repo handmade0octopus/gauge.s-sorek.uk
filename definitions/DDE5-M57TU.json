@@ -1,0 +1,125 @@
+{
+	"canSpeed": 500,
+	"address": ["0xB8", "0x12", "0xF1", "0x16", "0x2C", "0x10",
+		"0x00", "0x0B",
+		"0x00", "0x9E",
+		"0x00", "0xC3",
+		"0x00", "0xC2",
+		"0x00", "0x59",
+		"0x00", "0x55",
+		"0x00", "0x0C",
+		"0x00", "0x5B",
+		"0x00", "0x36",
+		"0x00", "0x8A",
+		"0x02"],
+	"forceKwp": true,
+	//"slowSend": true,
+	"ecuparam": [
+		{
+			"header": "Avg Boost",
+			"unit":"hPa",
+			"offset": 2,
+			"length": 2,
+			"mul": 10.002401,
+			"add": 0
+		},
+		{
+			"header": "Boost press",
+			"unit": "mA",
+			"offset": 4,
+			"length": 2,
+			"mul": 0.228891
+		},
+		{
+			"header": "Rail press set",
+			"unit": "bar",
+			"offset": 6,
+			"length": 2,
+			"mul": 0.030518
+		},
+		{
+			"header": "Max rail press",
+			"unit": "bar",
+			"offset": 8,
+			"length": 2,
+			"mul": 0.030518,
+			"add": 0
+		},
+		{
+			"header": "Injection set",
+			"unit": "mg/cyc",
+			"offset": 10,
+			"length": 2,
+			"mul": 0.003052,
+			"add": -99.998993
+		},
+		{
+			"header": "Injection",
+			"unit": "mg/cyc",
+			"offset": 12,
+			"length": 2,
+			"mul": 0.003052,
+			"add": -99.998993
+		},
+		{
+			"header": "Engine speed",
+			"unit": "RPM",
+			"offset": 14,
+			"length": 2,
+			"mul": 0.25
+		},
+		{
+			"header": "Fuel temp",
+			"unit": "°C",
+			"offset": 16,
+			"length": 2,
+			"mul": 0.016787,
+			"add": -50.138440
+		},
+		{
+			"header": "Charge air temp",
+			"unit": "°C",
+			"offset": 18,
+			"length": 2,
+			"mul": 0.016787,
+			"add": -50.138440
+		},
+		{
+			"header": "Boost set press",
+			"unit": "hPa",
+			"offset": 20,
+			"length": 2,
+			"mul": 0.125002
+		},
+		{
+			"header": "Button byte", //clutch is disengaged when value is odd (last bit)
+			"canId": "0x329",
+			"offset": 3,
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Can button",
+			"expr": "(x >> 5)",
+			"x": "Button byte",
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Cruise active",
+			"canId": "0x545",
+			"expr": "(x & 8)",
+			"offset": 0,
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header":"Button press",
+			"unit": "b",
+			"expr":"buttonPress((x == 4), 0, (x == 1), (x == 2))",
+			"x": "Can button",
+			"hidden": true,
+			"noLog": true
+		}
+	]
+}

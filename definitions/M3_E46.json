@@ -1,12 +1,6 @@
 {
-	"wifiSSID": "Logger.S",
-	"wifiPSWD": "logger.s",
-	"snake": true,
-	"displayRows": 2,
-	"noMoreEntries": true,
 	"canSpeed": 500,
 	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
-	"forceKwp": false,
 	"ecuparam": [
 		{
 			"header": "Trip 1",
@@ -25,7 +19,7 @@
 			"unit": "RPM",
 			"offset": 0,
 			"length": 2,
-			"max": 8400,	
+			"max": 8400,
 			"dec": 0
 		},
 		{
@@ -156,60 +150,23 @@
 			"mul": 0.1
 		},
 		{
-			"header": "WBO",
-			"unit": "AFR",
-			"expr": "1.7637*x + 10.29",
-			//"expr": "3.008*x + 7.35", //Innovate LC-2
-			"x": "Analog 1",
-		//	"x": "Rear O2 1",	// you can plug your WBO into your rear or front O2 lambda
-			"hidden": true		// set to false or delete if you use it
-		},
-		{
-			"header": "Analog 1",
-			"unit": "V",
-			"pin": 1,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": false
-		},
-		{
-			"header": "Analog 2",
-			"unit": "V",
-			"pin": 2,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": false
-		},
-		{
-			"header": "Analog 3",
-			"unit": "V",
-			"pin": 3,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": false
-		},
-		{
-			"header": "Analog 4",
-			"unit": "V",
-			"pin": 4,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": false
-		}, //The section below will be active only after connecting CAN Hi and Lo wires
-		{
-			"header": "Can button",
+			"header": "Button byte", //clutch is disengaged when value is odd (last bit)
 			"canId": "0x329",
 			"offset": 3,
 			"hidden": false,
 			"noLog": true
 		},
 		{
-			"header": "Cruise active", //value 10 when icon lit on dash/active, value 2 when inactive/not lit
+			"header": "Can button",
+			"expr": "(x >> 5)",
+			"x": "Button byte",
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Cruise active",
 			"canId": "0x545",
+			"expr": "(x & 8)",
 			"offset": 0,
 			"hidden": false,
 			"noLog": true
@@ -217,10 +174,10 @@
 		{
 			"header": "Button press",
 			"unit": "b",
-			"expr": "buttonPress((x & 96) && !(y & 4))",
+			"expr": "buttonPress(0, (x == 2) && !y, (x == 1) && !y, (x == 3) && !y)", //use all buttons on steering wheel
 			"x": "Can button", // if != 0 then button is active
 			"y": "Cruise active",
-			"hidden": false,
+			"hidden": true,
 			"noLog": true
 		},
 		{
@@ -251,7 +208,7 @@
 			"x": "Speedo",
 			"y": "RPM CAN",
 			"lutTable": [ //Multiply 'x' values in table by .62 if you change Speedo to mph. Assumes stock 3.62:1 differential and stock diameter tires (255/40/18)
-				{ "x": 55	,	"y": 	0},
+				{ "x": 55		,	"y": 	0},
 				{ "x": 68.56	,	"y": 	6},
 				{ "x": 82.60	,	"y": 	5},
 				{ "x": 101.60	,	"y": 	4},

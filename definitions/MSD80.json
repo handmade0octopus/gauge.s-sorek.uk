@@ -1,0 +1,231 @@
+{
+	"obdRefresh": 400,	// default is 20; uncomment if you are sure your ECU will accept this speed!
+	"canSpeed": 500, // some cars may need 250
+	"ecuparam": [
+		{
+			"header": "Trip 1",
+			"unit": "km",
+			"expr": "trip(\"Trip 1\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Trip 2",
+			"unit": "km",
+			"expr": "trip(\"Trip 2\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Can button",
+			"canId": "0x193",
+			"expr": "(x & 5)",
+			"offset": 3,
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "RT button",
+			"canId": "0x1D6",
+			"expr": "(x & 128)",
+			"offset": 0,
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Cruise active",
+			"canId": "0x193",
+			"expr": "(x & 8)",
+			"offset": 5,
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Button press",
+			"unit": "b",
+			"expr": "buttonPress(z && y, z && !y, (x == 1) && !y, (x == 4) && !y)", //use all buttons on steering wheel
+			"x": "Can button", 
+			"y": "Cruise active",
+			"z": "RT button",
+			"hidden": true,
+			"noLog": true
+		},
+    	{
+			"header": "DME Voltage",
+			"unit": "V",
+			"kwpCan": "0x5A10",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0280601158738136
+		},
+		{
+			"header": "Engine speed",
+			"unit": "RPM",
+			"kwpCan": "0x4807",
+			"length": 2,
+			"mul": 0.021194780245423317,
+			"add": 3
+		},
+		{
+			"header": "Mass airflow",
+			"unit": "kg/h",
+			"kwpCan": "0x4807",
+			"length": 2,
+			"mul": 0.03125
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"kwpCan": "0x4807",
+			"length": 2,
+			"mul": 0.007294146344065666
+		},
+		{
+			"header": "APS",
+			"unit": "%",
+			"kwpCan": "0x5814",
+			"length": 1,
+			"mul": 1
+		},
+		{
+			"header": "Boost",
+			"unit": "hPa",
+			"kwpCan": "0x4205",
+			"length": 2,
+			"mul": 0.08291752636432648
+		},
+		{
+			"header": "Target boost",
+			"unit": "hPa",
+			"kwpCan": "0x5AB0",
+			"length": 2,
+			"mul": 0.00152587890625,
+			"add": 2
+		},
+		{
+			"header": "Rail pressure",
+			"unit": "hPa",
+			"kwpCan": "0x5A2F",
+			"length": 1,
+			"mul": 1.0
+		},
+		{
+			"header": "Ignition cylinder 1",
+			"unit": "°CRK",
+			"kwpCan": "0x5A49",
+			"length": 1,
+			"mul": 0.1
+		},
+		{
+			"header": "Torque",
+			"unit": "Nm",
+			"kwpCan": "0x58D1",
+			"length": 2,
+			"mul": 1.0240000486373901
+		},
+		{
+			"header": "Cylinder knock 1",
+			"unit": "us",
+			"kwpCan": "0x5A30",
+			"length": 2,
+			"mul": 0.0048828125
+		},
+		{
+			"header": "Cylinder knock 2",
+			"unit": "us",
+			"kwpCan": "0x5A31",
+			"length": 2,
+			"hidden": true,
+			"mul": 0.019600000232458115
+		},
+		{
+			"header": "Cylinder knock 3",
+			"unit": "us",
+			"kwpCan": "0x5A32",
+			"length": 2,
+			"hidden": true,
+			"mul": 0.019600000232458115
+		},
+		{
+			"header": "Cylinder knock 4",
+			"unit": "us",
+			"kwpCan": "0x5A33",
+			"length": 2,
+			"hidden": true,
+			"mul": 1.0
+		},
+		{
+			"header": "Cylinder knock 5",
+			"unit": "us",
+			"kwpCan": "0x5A34",
+			"length": 2,
+			"hidden": true,
+			"mul": 0.0048828125
+		},
+		{
+			"header": "Cylinder knock 6",
+			"unit": "us",
+			"kwpCan": "0x5A35",
+			"length": 2,
+			"hidden": true,
+			"mul": 0.02806011587
+		},
+		{
+			"header": "Lambda 1",
+			"unit": "AFR",
+			"kwpCan": "0x5889",
+			"length": 1,
+			"mul": 32.00
+		},
+		{
+			"header": "Lambda 2",
+			"unit": "AFR",
+			"kwpCan": "0x588A",
+			"length": 1,
+			"mul": 0.01953125
+		},
+		{
+			"header": "Ambient press",
+			"unit": "hPa",
+			"kwpCan": "0x4201",
+			"length": 2,
+			"mul": 0.648
+		},
+		{
+			"header": "Intake temp",
+			"unit": "°C",
+			"kwpCan": "0x581E",
+			"length": 1,
+			"mul": 0.390625
+		},
+		{
+			"header": "Coolant temp",
+			"unit": "°C",
+			"kwpCan": "0x4300",
+			"length": 1,
+			"mul": 0.75,
+			"add": -47
+		},
+		{
+			"header": "Radiator temp",
+			"unit": "°C",
+			"kwpCan": "0x4301",
+			"length": 1,
+			"mul": 0.75,
+			"add": -47
+		},
+		{
+			"header": "Oil temp",
+			"unit": "°C",
+			"kwpCan": "0x5822",
+			"length": 1,
+			"mul": 0.78125,
+			"add": -100
+		},
+		{
+			"header": "Oil level",
+			"unit": "°C",
+			"kwpCan": "0x4401",
+			"length": 1,
+			"mul": 1
+		}
+	]
+}

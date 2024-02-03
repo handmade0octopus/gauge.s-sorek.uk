@@ -1,14 +1,5 @@
 {
-	"forceWifi": true,
-	"wifiSSID": "",
-	"wifiPSWD": "",
-	"dropboxKey": "",
-	"deleteAfterUpload": true,
-	"snake": false,
-	"displayRows": 2,
-	"noMoreEntries": true,
 	"canSpeed": 500,
-	"forceKwp": false,
 	"ecuparam": [{
 			"header": "Engine Speed",
 			"unit": "RPM",

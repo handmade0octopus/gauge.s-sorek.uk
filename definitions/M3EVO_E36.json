@@ -1,12 +1,6 @@
 {
-	"wifiSSID": "Logger.S",
-	"wifiPSWD": "logger.s",
-	"snake": true,
-	"displayRows": 2,
-	"noMoreEntries": true,
 	"canSpeed": 500,
 	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
-	"forceKwp": false,
 	"ecuparam": [
 		{
 			"header": "Economy",
@@ -201,50 +195,6 @@
 			"unit": "V",
 			"offset": 19,
 			"mul": 0.1
-		},
-		{
-			"header": "WBO",
-			"unit": "AFR",
-			"expr": "1.7637*x + 10.29",
-			"x": "Analog 1",
-		//	"x": "Rear O2 1",	// you can plug your WBO into your rear or front O2 lambda
-			"hidden": true		// set to false or delete if you use it
-		},
-		{
-			"header": "Analog 1",
-			"unit": "V",
-			"pin": 1,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": true
-		},
-		{
-			"header": "Analog 2",
-			"unit": "V",
-			"pin": 2,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": true
-		},
-		{
-			"header": "Analog 3",
-			"unit": "V",
-			"pin": 3,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": true
-		},
-		{
-			"header": "Analog 4",
-			"unit": "V",
-			"pin": 4,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": true
 		}
 	]
 }

@@ -1,13 +1,6 @@
 {
-	"wifiSSID": "Logger.S",
-	"wifiPSWD": "logger.s",
-	"snake": true,
-	"displayRows": 2,
-	"displayColumns": 2,
-	"noMoreEntries": true,
 	"obdRefresh": 80,	// default is 20; uncomment if you are sure your ECU will accept this speed!
 	"canSpeed": 500, // some cars may need 250
-	"maxLogSpeed": 15, // to stop making too big log files
 	"ecuparam": [
 		{
 			"header": "Trip 1",
@@ -18,8 +11,7 @@
 		{
 			"header": "Trip 2",
 			"unit": "km",
-			"expr": "trip(\"T
-			rip 2\",x)",
+			"expr": "trip(\"Trip 2\",x)",
 			"x": "Speed"
 		},
 		{
@@ -102,42 +94,6 @@
 			"unit": "%",
 			"obdPID": 9,
 			"eventsPerMinute": 1
-		},
-		{
-			"header": "Analog 1",
-			"unit": "V",
-			"pin": 1,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": true
-		},
-		{
-			"header": "Analog 2",
-			"unit": "V",
-			"pin": 2,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": true
-		},
-		{
-			"header": "Analog 3",
-			"unit": "V",
-			"pin": 3,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": true
-		},
-		{
-			"header": "Analog 4",
-			"unit": "V",
-			"pin": 4,
-			"resetTime": 0,
-			"max": 5,
-			"mul": 0.001221,
-			"hidden": true
 		}
 	]
 }
