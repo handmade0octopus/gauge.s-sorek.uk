@@ -246,7 +246,7 @@
             const delta = now - this.stamp;
             if(delta < 2) return;
            
-            console.log(`Touch position: x=${tX}, y=${tY} stamp=${delta}`);
+            //console.log(`Touch position: x=${tX}, y=${tY} stamp=${delta}`);
             if(tX < -100) {
               this.send('e3');
             } else if(tX > 100) {
@@ -260,7 +260,7 @@
               else if(delta > 400) this.send('e2');
               else {
                 if(this.clicks == 0) setTimeout(function() {
-                    console.log(`Clicks: ${buttonControl.clicks} Time: ${performance.now()-now}`);
+                    //console.log(`Clicks: ${buttonControl.clicks} Time: ${performance.now()-now}`);
                     buttonControl.send('e0');
                   }, 500);
                 ++this.clicks;

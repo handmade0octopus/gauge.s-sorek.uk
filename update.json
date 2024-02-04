@@ -5,45 +5,31 @@
         "file": "SD/wifi/index.htm"
     },
     {
-        "version": 20885,
-        "pcb": 50,
-        "beta": true,
-        "device": "gauge_e36",
-        "file": "firmware/Gauge.S-50-beta.bin"
-    },
-    {
-        "version": 20880,
-        "pcb": 40,
-        "beta": true,
-        "device": "gauge_e36",
-        "file": "Gauge.S-40-beta.bin"
-    },
-    {
-        "version": 20800,
+        "version": 20900,
         "pcb": 50,
         "beta": false,
         "device": "gauge_e36",
-        "file": "Gauge.S-50.bin"
+        "file": "https://github.com/handmade0octopus/gauge.s-sorek.uk/releases/download/v2.09/Gauge.S-50.bin"
     },
     {
-        "version": 20800,
+        "version": 20900,
         "pcb": 40,
         "beta": false,
         "device": "gauge_e36",
-        "file": "Gauge.S-40.bin"
+        "file": "https://github.com/handmade0octopus/gauge.s-sorek.uk/releases/download/v2.09/Gauge.S-40.bin"
     },
     {
-        "version": 20800,
+        "version": 20900,
         "pcb": 38,
         "beta": false,
         "device": "gauge_e36",
-        "file": "Gauge.S-38.bin"
+        "file": "https://github.com/handmade0octopus/gauge.s-sorek.uk/releases/download/v2.09/Gauge.S-38.bin"
     },
     {
-        "version": 20800,
+        "version": 20900,
         "pcb": 36,
         "beta": false,
         "device": "gauge_e36",
-        "file": "Gauge.S-36.bin"
+        "file": "https://github.com/handmade0octopus/gauge.s-sorek.uk/releases/download/v2.09/Gauge.S-36.bin"
     }
 ]

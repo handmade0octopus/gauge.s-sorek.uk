@@ -20,23 +20,9 @@
 			"avgLen": 20.0
 		},
 		{
-			"header": "Econ avg 2",
-			"unit": "l/100km",
-			"expr": "avg(\"Econ avg 2\",x, y)",
-			"x": "Economy",
-			"y": "Speed",
-			"avgLen": 20.0
-		},
-		{
 			"header": "Trip 1",
 			"unit": "km",
 			"expr": "trip(\"Trip 1\",x)",
-			"x": "Speed"
-		},
-		{
-			"header": "Trip 2",
-			"unit": "km",
-			"expr": "trip(\"Trip 2\",x)",
 			"x": "Speed"
 		},
 		{
@@ -274,32 +260,32 @@
 			"min": -50,
 			"resetTime": 0
 		},
-		{
-			"header": "Rear O2 1",
-			"unit": "V",
-			"offset": 66,
-			"length": 2,
-			"mul": 0.00488,
-			"max": 5.1,
-			"hidden": true
-		},
-		{
-			"header": "Rear O2 2",
-			"unit": "V",
-			"offset": 68,
-			"length": 2,
-			"mul": 0.00488,
-			"max": 5.1,
-			"hidden": true
-		},
-		{
-			"header": "Ignition Key Voltage",
-			"unit": "V",
-			"offset": 69,
-			"mul": 0.10196078,
-			"max": 16,
-			"min": 0
-		},
+		//{
+		//	"header": "Rear O2 1",
+		//	"unit": "V",
+		//	"offset": 66,
+		//	"length": 2,
+		//	"mul": 0.00488,
+		//	"max": 5.1,
+		//	"hidden": true
+		//},
+		//{
+		//	"header": "Rear O2 2",
+		//	"unit": "V",
+		//	"offset": 68,
+		//	"length": 2,
+		//	"mul": 0.00488,
+		//	"max": 5.1,
+		//	"hidden": true
+		//},
+		//{
+		//	"header": "Ignition Key Voltage",
+		//	"unit": "V",
+		//	"offset": 69,
+		//	"mul": 0.10196078,
+		//	"max": 16,
+		//	"min": 0
+		//},
 		{
 			"header": "Battery Voltage",
 			"alias": "Battery",
