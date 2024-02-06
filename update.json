@@ -5,6 +5,13 @@
         "file": "SD/wifi/index.htm"
     },
     {
+        "version": 20951,
+        "pcb": 50,
+        "beta": true,
+        "device": "gauge_e36",
+        "file": "firmware/Gauge.S-50-beta.bin"
+    },
+    {
         "version": 20900,
         "pcb": 50,
         "beta": false,
