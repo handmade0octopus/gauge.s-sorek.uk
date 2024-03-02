@@ -1,4 +1,4 @@
-<!--v0002-->
+<!--v0003-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -228,7 +228,7 @@
         right: 0px;
         left: 0px;
         height: 42px;
-        width: 100%;
+        width: 109% - 42px;
         padding-left: 5px;
         padding-right: 0px;
         border-radius: 0px;
@@ -267,7 +267,7 @@
         return newButton;
       }
       
-      function createFileUploader(element, tree, editor){
+      function createFileUploader(element, tree, editor) {
         var xmlHttp;
         //var input = document.createElement("input");
         var input = document.getElementById("file");
@@ -289,7 +289,7 @@
         var mkfile = addButton("MkFile", element);
         var saveFile = addButton("Save", element);
         var restartDev = addButton("Restart", element);
-        var refreshTree = addButton("Refresh", element);
+        var restartToWifi = addButton("To Wifi", element);
         var gaugeButton = addButton("Gauge", element);
         var uploadLabel = document.createElement("label");
         uploadLabel.innerHTML = '';
@@ -302,7 +302,8 @@
               tree.refreshPath(path.value);
             }
           }
-        }
+        };
+
         function createPath(p){
           xmlHttp = new XMLHttpRequest();
           xmlHttp.onreadystatechange = httpPostProcessRequest;
@@ -310,7 +311,7 @@
           formData.append("path", p);
           xmlHttp.open("PUT", "/edit");
           xmlHttp.send(formData);
-        }
+        };
         
         mkfile.onclick = function(e){
           if(path.value.indexOf(".") === -1) return;
@@ -318,7 +319,7 @@
           editor.loadUrl(path.value);
         };
 		
-		    saveFile.onclick = function(e){
+		saveFile.onclick = function(e){
           editor.execCommand("saveCommand");
         };
 
@@ -326,6 +327,18 @@
           xmlHttp = new XMLHttpRequest();
           xmlHttp.onreadystatechange = httpPostProcessRequest;
           xmlHttp.open("GET", "/restart", true);
+          xmlHttp.send(null);
+          setTimeout(() => {
+            // 4 second delay here before running next line
+            console.log("delayed");
+            tree.refreshPath(path.value);
+          }, 4000);
+        };
+        
+        restartToWifi.onclick = function(e){
+          xmlHttp = new XMLHttpRequest();
+          xmlHttp.onreadystatechange = httpPostProcessRequest;
+          xmlHttp.open("GET", "/restart?r=wifi", true);
           xmlHttp.send(null);
           setTimeout(() => {
             // 4 second delay here before running next line
@@ -349,6 +362,7 @@
           }
           createPath(dir);
         };
+
         uploadButton.onclick = function(e){
           if(input.files.length === 0){
             return;
@@ -395,9 +409,9 @@
             path.value = path.value.substring(0, path.value.lastIndexOf("/")+1)+filename;
           }
         }
-      }
+    }
 
-      function createTree(element, editor){
+      function createTree(element, editor) {
         var preview = document.getElementById("preview");
         var treeRoot = document.createElement("div");
         treeRoot.className = "css-treeview";
@@ -810,8 +824,6 @@
         tree = createTree("tree", editor);
         createFileUploader("uploader", tree, editor);
       };
-      
-
 
     
     </script>
