@@ -5,11 +5,16 @@ Made for Gauge.S made by sorek.uk
 
 ## [PURCHASE LINK FOR STANDALONE](http://buystandalone.sorek.uk/) <==
 
-## [JOIN OUR DISCORD!](https://discord.com/invite/v4D9BH6nWC) <==
+
+
+
+
 
 ### [Read wiki for documentation!](https://github.com/handmade0octopus/gauge.s-sorek.uk/wiki)
 
 Please watch video before using this Repository:
+## NEW VIDEO!
+[![Gauge.S NEW VIDEO!](https://i.ytimg.com/vi/1gwIp4gyI30/0.jpg)](https://www.youtube.com/watch?v=1gwIp4gyI30)
 
 [![Gauge.S](https://img.youtube.com/vi/v5P81D6qujs/0.jpg)](https://youtu.be/v5P81D6qujs)
 

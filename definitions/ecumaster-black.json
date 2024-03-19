@@ -39,8 +39,7 @@
 		{
 			"header": "Fuel usage",
 			"unit": "l/h",
-			"expr": "(x/60)*(y/1000)*(250/16.6667)*3",  // Change 328i 250cc/min to 180cc/min for green injectors 320i/323i/325i, 280cc for 330i
-			"x": "Engine Speed",
+			"expr": "(x/60)*(y/1000)*(875/16.6667)*3",
 			"y": "Fuel Inj"
 		},
 		{
@@ -61,13 +60,29 @@
 			"mul": 0.01
 		},
 		{
+			"header": "TPS",
+			"unit": "%",
+			"canId": 1536,
+			"offset": 4,
+			"length": 1,
+			"mul": 0.5,
+			"max": 100
+		},
+		{
 			"header": "Ignition Angle",
 			"unit": "°CRK",
 			"canId": 1539,
 			"offset": 0,
 			"length": 1,
-			"mul": 0.5,
-			"add": -60
+			"expr": "(x > 127)*-0.5*(128-x) + (x < 127)*0.5*x"
+		},
+		{
+			"header": "Dwell",
+			"unit": "ms",
+			"canId": 1539,
+			"offset": 1,
+			"length": 1,
+			"mul": 0.05
 		},
 		{
 			"header": "Fuel Inj",
@@ -128,8 +143,15 @@
 			"canId": 1539,
 			"offset": 2,
 			"length": 1,
-			"mul": 0.0078125,
-			"hidden": true
+			"mul": 0.0078125
+		},
+		{
+			"header": "Fuel trim",
+			"unit": "%",
+			"canId": 1539,
+			"offset": 3,
+			"length": 1,
+			"mul": 0.5
 		},
 		{
 			"header": "WBO",
