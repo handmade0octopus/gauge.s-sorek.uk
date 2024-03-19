@@ -126,6 +126,31 @@
 			"unit": "V",
 			"offset": 25,
 			"max": 20
+		},
+		{
+			"header": "Can button", //clutch is disengaged when value is odd (last bit)
+			"canId": "0x329",
+			"expr": "(x >> 5)",
+			"offset": 3,
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Cruise active",
+			"canId": "0x545",
+			"expr": "(x & 8)",
+			"offset": 0,
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Button press",
+			"unit": "b",
+			"expr": "buttonPress(0, (x == 2) && !y, (x == 1) && !y, (x == 3) && !y)", //use all buttons on steering wheel
+			"x": "Can button", // if != 0 then button is active
+			"y": "Cruise active",
+			"hidden": true,
+			"noLog": true
 		}
 	]
 }

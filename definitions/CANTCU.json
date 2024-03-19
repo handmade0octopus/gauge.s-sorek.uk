@@ -1,4 +1,3 @@
-// These assume 0x5F0 base CAN address (1520 in decimal)
 {
     "canSpeed": 500,
     "ecuparam": [
