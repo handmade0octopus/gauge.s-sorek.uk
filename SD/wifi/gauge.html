@@ -15,10 +15,18 @@
         margin-right: auto;
       }
       body {
-        min-width: 650px;
+        min-width: 256px;
+        max-width: 3000px;
         font-family: 'visitor', sans-serif;
         background-color: #282a36;
         color: #ff7931;
+        user-select: none; /* Prevent text selection */
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        touch-action: none; /* Prevent default touch actions like pinch-zoom and pan */
+        -webkit-touch-callout: none; /* Prevent callout, copy, and paste on long press in iOS */
+        -webkit-user-drag: none; /* Prevent element dragging in iOS */
       }
       a {
         color: #ff7931;
@@ -28,8 +36,7 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
-        font-size: 20px;
-        width: 100%;
+        width: 40%;
         user-select: none; /* Prevent text selection */
         -webkit-user-select: none; /* Safari */
         -moz-user-select: none; /* Firefox */
@@ -41,9 +48,9 @@
       .buttons {
         font-family: 'visitor', sans-serif;
         display: block;
-        font-size: 40px;
-        margin-left: auto;
-        margin-right: auto;
+        font-size: 32px;
+        margin-left: 10px;
+        margin-right: 10px;
         margin-top: 10px;
         width: 100%;
         height: 75px;
@@ -52,6 +59,7 @@
         border: none;
         border-radius: 5px;
         box-shadow: 0px 0px 20px 5px #1e1f28;
+        transition: 0.7s;
       }
       .buttons:hover {
         background-color:#44475c;
@@ -61,23 +69,51 @@
         background-color:#72769a;
         transition: 0.7s;
       }
-      #image { 
+      #bitmapCanvas { 
         display: block;
         width: 100%;
-        height: auto;
+        height: 100%;
         margin-left: auto;
         margin-right: auto;
         image-rendering: pixelated; /* This forces nearest neighbor scaling */
         image-rendering: -moz-crisp-edges; /* For Firefox */
         image-rendering: crisp-edges; /* For Safari */
       }
+ 
       #butts { 
         display: block;
-        width: 38.2%;
-        height: auto;
-        margin-top: 50px;
+        width: 90%;
+        height: 100%;
+        margin-top: auto;
         margin-left: auto;
         margin-right: auto;
+      }
+      
+      table {
+        max-width: 3000px;
+        margin-top: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+        vertical-align: top;
+        background-color: #282a36;
+        user-select: none; /* Prevent text selection */
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        touch-action: none; /* Prevent default touch actions like pinch-zoom and pan */
+        -webkit-touch-callout: none; /* Prevent callout, copy, and paste on long press in iOS */
+        -webkit-user-drag: none; /* Prevent element dragging in iOS */
+      }
+      td {
+        background-color: #282a36;
+      }
+      tr {
+        background-color: #282a36;
+      }
+
+     #dattable {
+        box-sizing: border-box;
+        transform-origin: top center; /* Ensure scaling origin is top left */
       }
     </style>
     <script>
@@ -287,7 +323,7 @@
         buttonControl.getTouch(event, canvas, true);
     }
       
-      function onBodyLoad() {
+    function onBodyLoad() {
         initializeWebSocket();
         canvas = document.getElementById('bitmapCanvas');
         ctx = canvas.getContext('2d');
@@ -308,7 +344,22 @@
         canvas.msImageSmoothingEnabled = false; // For IE
         setInterval(handleSocket, 40);
         //setInterval(fetchAndDisplayBitmap, 30);
-      };
+        //setTimeout(function() { window.scrollTo(0, 100); }, 0);
+        window.addEventListener('load', scaleContent);
+        window.addEventListener('resize', scaleContent);
+        setTimeout(function() { window.scrollTo(0, 1); }, 0);
+        scaleContent();
+    };
+
+    function scaleContent() {
+      const container = document.getElementById('dattable');
+      const scaleX = window.innerWidth / container.offsetWidth;
+      const scaleY = (window.innerHeight-10) / container.offsetHeight;
+      var scale = Math.min(scaleX, scaleY); // Maintain aspect ratio
+      //console.log(`Scale: ${scale}`);
+      if(scale > 1.0) scale = 1.0;
+      container.style.transform = `scale(${scale})`;
+    }
       
       function toggleFullScreen() {
         if (!document.fullscreenElement) {
@@ -342,13 +393,17 @@
     </script>
   </head>
   <body onload="onBodyLoad();">
-    <div id="image" class="center"><canvas class="center" id="bitmapCanvas" width="128" height="64"></canvas></div>
-    <div> </div>
-    <div class="center">Gestures: Swipe left/right/up/down</div>
-    <div id="butts" class="center">
+    <table id="dattable">
+    <tr>
+    <td style="width:80%"><canvas class="center" id="bitmapCanvas" width="128" height="64"></canvas>
+    </td>
+    <td id="butts">
       <button class="buttons" id="fullScreenButton">Full Screen</button>
       <button class="buttons" id="fileEditor">File editor</button>
       <button class="buttons" id="restartButton">Restart</button>
-    </div>
+    </td>
+    </tr>
+    </table>
+    
   </body>
 </html>
