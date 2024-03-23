@@ -1,6 +1,6 @@
 [
     {
-        "wifiVersion": 4,
+        "wifiVersion": 5,
         "device": "gauge_e36",
         "file": "SD/wifi/index.htm"
     },
