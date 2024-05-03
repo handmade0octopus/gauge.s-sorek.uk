@@ -2,6 +2,46 @@
 	"canSpeed": 500,
 	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
 	"ecuparam": [
+		// Start constants
+		{
+			"header": "Rear Tire Width",
+			"unit": "mm",
+			"expr": "255",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Rear Tire Aspect Ratio",
+			"expr": "40",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Rear Wheel Diameter",
+			"unit": "in",
+			"expr": "18",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Final Drive Ratio",
+			"expr": "3.62",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "CAN Raw to KPH Constant",
+			"expr": "0.0000977",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "CAN Raw to MPH Constant",
+			"expr": "0.0000607",
+			"hidden": true,
+			"noLog": true
+		},
+		// End constants
 		{
 			"header": "Trip 1",
 			"unit": "km",
@@ -181,17 +221,46 @@
 			"noLog": true
 		},
 		{
-			"header": "Speedo",
-			"unit": "kph", //change to mph along with changing multiplication factor below
+			"header": "Rear Tire Circumference",
+			"unit": "mm",
+			// "unit": "in", // Change unit if going to mph
+			"x": "Rear Tire Width",
+			"y": "Rear Tire Aspect Ratio",
+			"z": "Rear Wheel Diameter",
+			"expr": "(2 * x * 0.01 * y + z * 25.4) * 3.1415",
+			// "expr": "(2 * (x / 25.4) * 0.01 * y + z) * 3.1415", // Change expr if going to mph
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Drivetrain Ratio",
+			"x": "Rear Tire Circumference",
+			"y": "Final Drive Ratio",
+			"expr": "(x / y) * (60 / 1000000)",
+			// "expr": "(x / y) * (60 / 63360)", // Change expr if going to mph
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Speed CAN Raw",
 			"canId": "0x153",
 			"offset": 1,
 			"length": 2,
-			"mul": 0.00799, //kph - kilometers per hour, stock 255/40/18 tires
-			//"mul": 0.00496, //mph - miles per hour, stock 255/40/18 tires
-			//"mul": 0.00477, //mph - 245/40/17 tires
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Speed",
+			"unit": "kph",
+			// "unit": "mph", // Change unit if going to mph
+			"x": "Speed CAN Raw",
+			"y": "Rear Tire Circumference",
+			"z": "CAN Raw to KPH Constant",
+			// "z": "CAN Raw to MPH Constant", // Change constant if going to mph
+			"expr": "x * y * z",
 			"dec": 0,
 			"hidden": false,
-			"noLog": true
+			"noLog": false
 		},
 		{
 			"header": "RPM CAN",
@@ -203,23 +272,40 @@
 			"noLog": true
 		},
 		{
-			"header": "Gear",
-			"expr": "lutTable(\"Gear\", (y/x))",
-			"x": "Speedo",
-			"y": "RPM CAN",
-			"lutTable": [ //Multiply 'x' values in table by .62 if you change Speedo to mph. Assumes stock 3.62:1 differential and stock diameter tires (255/40/18)
-				{ "x": 55		,	"y": 	0},
-				{ "x": 68.56	,	"y": 	6},
-				{ "x": 82.60	,	"y": 	5},
-				{ "x": 101.60	,	"y": 	4},
-				{ "x": 137.95	,	"y": 	3},
-				{ "x": 209.00	,	"y": 	2},
-				{ "x": 349.42	,	"y": 	1},
-				{ "x": 402.45	,	"y": 	0}
-			],
+			"header": "Clutch",
+			"x": "Button byte",
+			"expr": "!(x & 1)",
 			"dec": 0,
 			"hidden": false,
 			"noLog": true
+		},
+		{
+			"header": "Calculated Gear Ratio",
+			"x": "RPM CAN",
+			"y": "Drivetrain Ratio",
+			"z": "Speed",
+			"expr": "(x * y) / z",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Gear",
+			"expr": "lutTable(\"Gear\", (x * y))",
+			"x": "Calculated Gear Ratio",
+			"y": "Clutch",
+			"lutTable": [ // Getrag 420G gear ratios
+				{ "x": 0.000	,	"y": 0},
+				{ "x": 0.828	,	"y": 6},
+				{ "x": 1.000	,	"y": 5},
+				{ "x": 1.226	,	"y": 4},
+				{ "x": 1.669	,	"y": 3},
+				{ "x": 2.528	,	"y": 2},
+				{ "x": 4.227	,	"y": 1},
+				{ "x": 5.000	,	"y": 0}
+			],
+			"dec": 0,
+			"hidden": false,
+			"noLog": false
 		},
 		{
 			"header": "Steering Angle Raw",
