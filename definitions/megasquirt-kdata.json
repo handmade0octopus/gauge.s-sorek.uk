@@ -1,160 +1,173 @@
 {
-	"canSpeed": 500,
-	"forceKwp": false,
-	"ecuparam": [
-		{
-			"header": "Economy",
-			"unit": "l/100km",
-			"expr": "clip(100*x/(y+0.1))",
-			"x": "Fuel usage",
-			"y": "Speed"
-		},
-		{
-			"header": "Econ avg 1",
-			"unit": "l/100km",
-			"expr": "avg(\"Econ avg 1\",x, y)",
-			"x": "Economy",
-			"y": "Speed",
-			"avgLen": 20.0
-		},
-		{
-			"header": "Econ avg 2",
-			"unit": "l/100km",
-			"expr": "avg(\"Econ avg 2\",x, y)",
-			"x": "Economy",
-			"y": "Speed",
-			"avgLen": 20.0
-		},
-		{
-			"header": "Trip 1",
-			"unit": "km",
-			"expr": "trip(\"Trip 1\",x)",
-			"x": "Speed"
-		},
-		{
-			"header": "Trip 2",
-			"unit": "km",
-			"expr": "trip(\"Trip 2\",x)",
-			"x": "Speed"
-		},
-		{
-			"header": "Fuel usage",
-			"unit": "l/h",
-			"expr": "(x/60)*(y/1000)*(250/16.6667)*3",  // Change 328i 250cc/min to 180cc/min for green injectors 320i/323i/325i, 280cc for 330i
-			"x": "Engine Speed",
-			"y": "Fuel Inj"
-		},
-		{
-			"header": "Engine Speed",
-			"unit": "RPM",
+    "canSpeed": 500,
+    "forceKwp": false,
+    "ecuparam": [
+        {
+            "header": "Economy",
+            "unit": "l/100km",
+            "expr": "clip(100*x/(y+0.1))",
+            "x": "Fuel usage",
+            "y": "Speed"
+        },
+        {
+            "header": "Econ avg 1",
+            "unit": "l/100km",
+            "expr": "avg(\"Econ avg 1\",x, y)",
+            "x": "Economy",
+            "y": "Speed",
+            "avgLen": 20.0
+        },
+        {
+            "header": "Econ avg 2",
+            "unit": "l/100km",
+            "expr": "avg(\"Econ avg 2\",x, y)",
+            "x": "Economy",
+            "y": "Speed",
+            "avgLen": 20.0
+        },
+        {
+            "header": "Trip 1",
+            "unit": "km",
+            "expr": "trip(\"Trip 1\",x)",
+            "x": "Speed"
+        },
+        {
+            "header": "Trip 2",
+            "unit": "km",
+            "expr": "trip(\"Trip 2\",x)",
+            "x": "Speed"
+        },
+        {
+            "header": "Fuel usage",
+            "unit": "l/h",
+            "expr": "(x/60)*(y/1000)*(250/16.6667)*3",  // Change 328i 250cc/min to 180cc/min for green injectors 320i/323i/325i, 280cc for 330i
+            "x": "Engine Speed",
+            "y": "Fuel Inj"
+        },
+        {
+            "header": "Engine Speed",
+            "unit": "RPM",
             "canId": 1520,
             "offset": 6,
             "length": 2,
-			"max": 7000,
-			"dec": 0
-		},
-		{
-			"header": "Engine Load",
-			"unit": "mg/str",
-			"canId": 1528,
+            "max": 7000,
+            "dec": 0,
+            "reverseEndianness": true
+        },
+        {
+            "header": "Engine Load",
+            "unit": "mg/str",
+            "canId": 1528,
             "offset": 0,
             "length": 2,
-			"mul": 0.1,
-			"dec": 1
-		},
-		{
-			"header": "Mass Airflow",
-			"unit": "kg/h",
-			"canId": 1528,
+            "mul": 0.1,
+            "dec": 1,
+            "reverseEndianness": true
+        },
+        {
+            "header": "Mass Airflow",
+            "unit": "kg/h",
+            "canId": 1528,
             "offset": 6,
             "length": 2,
-			"dec": 1,
-			"mul": 0.036 // Converted as this shows in g/s not kg/h
-		},
-		{
-			"header": "Knock Current",
-			"unit": "°CRK",
-			"canId": 1572,
+            "dec": 1,
+            "mul": 0.036, // Converted as this shows in g/s not kg/h
+            "reverseEndianness": true
+        },
+        {
+            "header": "Knock Current",
+            "unit": "°CRK",
+            "canId": 1572,
             "offset": 3,
             "length": 1,
-            "mul": 0.1
-		},
-		{
-			"header": "Vanos",
-			"unit": "°CRK",
-			"canId": 1564,
+            "mul": 0.1,
+            "reverseEndianness": true
+        },
+        {
+            "header": "Vanos",
+            "unit": "°CRK",
+            "canId": 1564,
             "offset": 0,
             "length": 2,
-            "mul": 0.1
-		},
-		{
-			"header": "TPS",
-			"unit": "%",
-			"canId": 1523,
+            "mul": 0.1,
+            "reverseEndianness": true
+        },
+        {
+            "header": "TPS",
+            "unit": "%",
+            "canId": 1523,
             "offset": 0,
             "length": 2,
-            "mul": 0.1,         	// Remember about this comma when editing line below
-			"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
-		},
-		{
-			"header": "Ignition Angle",
-			"unit": "°CRK",
-			"canId": 1521,
+            "mul": 0.1,             // Remember about this comma when editing line below
+            "autoLogPoint": 60.0,    // You can comment out or delete if you don't want to log on WOT.
+            "reverseEndianness": true
+        },
+        {
+            "header": "Ignition Angle",
+            "unit": "°CRK",
+            "canId": 1521,
             "offset": 0,
             "length": 2,
-            "mul": 0.1
-		},
-		{
-			"header": "Fuel Inj",
-			"unit": "ms",
-			"canId": 1520,
+            "mul": 0.1,
+            "reverseEndianness": true
+        },
+        {
+            "header": "Fuel Inj",
+            "unit": "ms",
+            "canId": 1520,
             "offset": 2,
             "length": 2,
-            "mul": 0.001
-		},
-		{
-			"header": "Intake Air Temp",
-			"unit": "°C",
-			"canId": 1531,
+            "mul": 0.001,
+            "reverseEndianness": true
+        },
+        {
+            "header": "Intake Air Temp",
+            "unit": "°C",
+            "canId": 1531,
             "offset": 6,
             "length": 2,
             "mul": 0.05555555,  // Converted from °F
-            "add": -17.777777
+            "add": -17.777777,
+            "reverseEndianness": true
 
-		},
-		{
-			"header": "Coolant Temp",
-			"unit": "°C",
-			"canId": 1522,
+        },
+        {
+            "header": "Coolant Temp",
+            "unit": "°C",
+            "canId": 1522,
             "offset": 6,
             "length": 2,
             "mul": 0.05555555,  // Converted from °F
-            "add": -17.777777
-		},
-		{
-			"header": "Speed",
-			"unit": "km/h",
-			"canId": 1562,
+            "add": -17.777777,
+            "reverseEndianness": true
+        },
+        {
+            "header": "Speed",
+            "unit": "km/h",
+            "canId": 1562,
             "offset": 0,
             "length": 2,
-            "mul": 0.1
-		},
-		{
-			"header": "IACV",
-			"unit": "%",
-			"canId": 1526,
+            "mul": 0.1,
+            "reverseEndianness": true
+        },
+        {
+            "header": "IACV",
+            "unit": "%",
+            "canId": 1526,
             "offset": 6,
             "length": 2,
-            "mul": 1
-		},
-		{
-			"header": "Battery Voltage",
-			"alias": "Battery",
-			"unit": "V",
-			"canId": 1523,
+            "mul": 1,
+            "reverseEndianness": true
+        },
+        {
+            "header": "Battery Voltage",
+            "alias": "Battery",
+            "unit": "V",
+            "canId": 1523,
             "offset": 2,
             "length": 2,
-            "mul": 0.1
-		}
-	]
+            "mul": 0.1,
+            "reverseEndianness": true
+        }
+    ]
 }
