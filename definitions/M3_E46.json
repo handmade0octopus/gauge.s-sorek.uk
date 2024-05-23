@@ -324,6 +324,52 @@
 			"noLog": true
 		},
 		{
+			// Reference: https://www.ms4x.net/index.php?title=CAN_Bus_ID_0x615_ICL3
+			"header": "Instrument Cluster ICL3 Byte 1 Raw",
+			"canId": "0x615",
+			"offset": 1,
+			"length": 1,
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Interior Night Lighting",
+			"unit": "bool",
+			"x": "Instrument Cluster ICL3 Byte 1 Raw",
+			// Bit 2: Interior Night Lighting - 0 off, 1 on
+			"expr": "(x & 4) >> 2",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Brightness",
+			"expr": "setBrightness(lutTable(\"Brightness\", x))",
+			"x": "Interior Night Lighting",
+			"lutTable": [
+					{ "x": 0, "y": 100 },
+					{ "x": 1, "y": 50  }
+			],
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			// Reference: https://www.ms4x.net/index.php?title=CAN_Bus_ID_0x613_ICL2
+			"header": "Fuel Level",
+			"unit": "L",
+			// "unit": "gal", // Change unit if going to gal
+			"canId": "0x613",
+			"offset": 2,
+			"length": 1,
+			// Bits 0-6: Fuel level measured in L
+			// Bit 7: Fuel light status
+			"expr": "(x & 127)",
+			//"expr": "(x & 127) * 0.264172", // Change expr if going to gal
+			"dec": 0,
+			// "dec": 1, // Change dec if going to gal
+			"hidden": false,
+			"noLog": false
+		},
+		{
 			"header": "Lateral G",
 			"alias": "Lat G",
 			"expr": "filter(\"Accel X\", 5)", // Filters for last 5 accelerometer data points to smooth curve. Positive on left turn.
