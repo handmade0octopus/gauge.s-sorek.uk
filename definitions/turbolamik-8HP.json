@@ -1,12 +1,21 @@
 {
 	"canSpeed": 500,
 	"ecuparam": [
-		{
-			"header": "Gear",
-			"unit": "G",
-			"expr": "-1*(x>8)+x*(x<9)",
-			"x": "Gear byte"
-		},
+        {
+            "header": "Gear",
+            "unit": "Byte",
+            "canId": "0x5F2",
+            "offset": 2,
+            "length": 1,
+            "dec": 0,
+			"x": "Gear byte",
+            "expr": "signed(x)",
+            "stringLut": [
+                { "x":   -1.0 , "y": "R" },
+                { "x":    0.0 , "y": "P" },
+                { "x":    1.0 , "y": ""  }
+            ]
+        },
 		{
 			"header": "Gear byte",
 			"unit": "B",
@@ -32,15 +41,6 @@
             "canId": 1602,
             "offset": 2,
             "length": 1,
-			"dec": 0
-		},
-		{
-			"header": "Gear Byte",
-			"unit": "G",
-            "canId": 1602,
-            "offset": 0,
-            "length": 1,
-			"max": 8,
 			"dec": 0
 		},
 		{
