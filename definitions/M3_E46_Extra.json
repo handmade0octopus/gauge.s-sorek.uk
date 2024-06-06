@@ -38,22 +38,17 @@
     //  |    |7 (msb)|128    |Reserved             |               |                   |      |                   |
     //  '----+-------+-------+---------------------+---------------+-------------------+------+-------------------'
     {
-      "header": "CAN Lambda Big Endian",
-      "canId": "0x180",
-      "offset": 0,
-      "length": 2,
-      "hidden": true,
-      "noLog": true
-    },
-    {
-      "header": "AFR",
-      "expr": "(((x & 255) << 8) | ((x & 65280) >> 8)) * 0.00147", // Convert to little-endian and then from lambda to AFR. Resolution is .0001 Lambda/bit, stoichiometric ratio used is 14.7
-      "x": "CAN Lambda Big Endian",
-      "dec": 1,
-      "max": 22,
-      "min": 7,
-      "hidden": true, // CAN AFR parameter is turned off by default, set `hidden` and `noLog` to true if in use.
-      "noLog": true
-    },
+			"header": "AFR",
+			"canId": "0x180",
+			"offset": 0,
+			"length": 2,
+			"reverseEndianness": true,
+			"expr": "x * 0.00147", // Resolution is .0001 Lambda/bit, stoichiometric ratio used is 14.7
+			"dec": 1,
+			"max": 22,
+			"min": 7,
+			"hidden": false,
+			"noLog": false
+		}
   ]
 }
