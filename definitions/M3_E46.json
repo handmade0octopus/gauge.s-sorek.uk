@@ -308,34 +308,22 @@
 			"noLog": false
 		},
 		{
-			"header": "Steering Angle Raw",
+			"header": "Steering Angle",
+			"unit": "deg",
 			"canId": "0x1F5",
 			"offset": 0,
 			"length": 2,
-			"hidden": false,
-			"noLog": true
-		},
-		{
-			"header": "Steering Angle",
-			"unit": "deg",
 			"expr": "(x > 32768)*((x-32768)*.044) + (x<32768)*(-.044*x)",
-			"x": "Steering Angle Raw",
 			"hidden": false,
-			"noLog": true
+			"noLog": false
 		},
 		{
 			// Reference: https://www.ms4x.net/index.php?title=CAN_Bus_ID_0x615_ICL3
-			"header": "Instrument Cluster ICL3 Byte 1 Raw",
+			"header": "Interior Night Lighting",
+			"unit": "bool",
 			"canId": "0x615",
 			"offset": 1,
 			"length": 1,
-			"hidden": true,
-			"noLog": true
-		},
-		{
-			"header": "Interior Night Lighting",
-			"unit": "bool",
-			"x": "Instrument Cluster ICL3 Byte 1 Raw",
 			// Bit 2: Interior Night Lighting - 0 off, 1 on
 			"expr": "(x & 4) >> 2",
 			"hidden": true,
