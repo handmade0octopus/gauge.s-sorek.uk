@@ -45,6 +45,13 @@
             "y": "Fuel Inj"
         },
         {
+            "header": "Boost",
+            "unit": "bar",
+            "expr": "x*0.01-1",
+            "x": "MAP",
+            "dec": 1
+        },
+        {
             "header": "Engine Speed",
             "unit": "RPM",
             "canId": 1520,
@@ -98,9 +105,11 @@
             "canId": 1523,
             "offset": 0,
             "length": 2,
-            "mul": 0.1,             // Remember about this comma when editing line below
-            "autoLogPoint": 60.0,    // You can comment out or delete if you don't want to log on WOT.
-            "reverseEndianness": true
+            "reverseEndianness": true,
+            "max": 100,
+            "dec": 0,
+            "expr": "signed(x,2)*0.1",
+            "autoLogPoint": 60.0    // You can comment out or delete if you don't want to log on WOT.
         },
         {
             "header": "Ignition Angle",
@@ -108,8 +117,8 @@
             "canId": 1521,
             "offset": 0,
             "length": 2,
-            "mul": 0.1,
-            "reverseEndianness": true
+            "reverseEndianness": true,
+            "expr": "signed(x,2)*0.1"
         },
         {
             "header": "Fuel Inj",
@@ -160,6 +169,15 @@
             "reverseEndianness": true
         },
         {
+            "header": "Ethanol %",
+            "unit": "%",
+            "canId": 1567,
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 1,
+        },
+        {
             "header": "Battery Voltage",
             "alias": "Battery",
             "unit": "V",
@@ -169,5 +187,16 @@
             "mul": 0.1,
             "reverseEndianness": true
         }
+        {
+            "header": "AFR1",
+            "alias": "AFR",
+            "unit": "",
+            "canId": 1523,
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 1,
+            "mul": 0.1
+        },
     ]
 }
