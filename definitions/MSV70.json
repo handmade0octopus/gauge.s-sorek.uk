@@ -1,0 +1,349 @@
+{
+	"canSpeed": 500,
+	"address": ["0xB8", "0x12", "0xF1", "0x02", "0x21", "0xF0", "0x88"],
+	"repeatAddress": ["0xB8", "0x12", "0xF1", "0xD4", "0x2C", "0xF0",
+		"0x02", "0x01", "0x01", "0x58", "0x14", "0x01",
+		"0x02", "0x02", "0x02", "0x42", "0x01", "0x01",
+		"0x02", "0x04", "0x01", "0x46", "0x09", "0x01",
+		"0x02", "0x05", "0x01", "0x58", "0x04", "0x01",
+		"0x02", "0x06", "0x01", "0x58", "0x1F", "0x01",
+		"0x02", "0x07", "0x02", "0x5A", "0x17", "0x01",
+		"0x02", "0x09", "0x01", "0x43", "0x00", "0x01",
+		"0x02", "0x0A", "0x01", "0x43", "0x01", "0x01",
+		"0x02", "0x0B", "0x02", "0x48", "0x07", "0x01",
+		"0x02", "0x0D", "0x02", "0x45", "0x07", "0x01",
+		"0x02", "0x0F", "0x01", "0x58", "0x0A", "0x01",
+		"0x02", "0x10", "0x01", "0x58", "0x81", "0x01",
+		"0x02", "0x11", "0x01", "0x58", "0x0E", "0x01",
+		"0x02", "0x12", "0x02", "0x5A", "0x42", "0x01",
+		"0x02", "0x14", "0x01", "0x42", "0x00", "0x01",
+		"0x02", "0x15", "0x02", "0x45", "0x06", "0x01",
+		"0x02", "0x17", "0x02", "0x5A", "0x37", "0x01",
+		"0x02", "0x19", "0x02", "0x5A", "0x38", "0x01",
+		"0x02", "0x1B", "0x02", "0x5A", "0x39", "0x01",
+		"0x02", "0x1D", "0x02", "0x5A", "0x3A", "0x01",
+		"0x02", "0x1F", "0x02", "0x5A", "0x3B", "0x01",
+		"0x02", "0x21", "0x02", "0x5A", "0x3C", "0x01",
+		"0x02", "0x23", "0x01", "0x58", "0x89", "0x01",
+		"0x02", "0x24", "0x01", "0x58", "0x8A", "0x01",
+		"0x02", "0x25", "0x01", "0x58", "0x4F", "0x01",
+		"0x02", "0x26", "0x02", "0x42", "0x02", "0x01",
+		"0x02", "0x28", "0x01", "0x58", "0x12", "0x01",
+		"0x02", "0x29", "0x01", "0x58", "0x13", "0x01",
+		"0x02", "0x2A", "0x02", "0x44", "0x02", "0x01",
+		"0x02", "0x2C", "0x01", "0x44", "0x01", "0x01",
+		"0x02", "0x2D", "0x01", "0x43", "0x05", "0x01",
+		"0x02", "0x2E", "0x01", "0x58", "0x06", "0x01",
+		"0x02", "0x2F", "0x01", "0x58", "0x08", "0x01",
+		"0x02", "0x30", "0x01", "0x58", "0x58", "0x01",
+		"0x02", "0x31", "0x01", "0x5A", "0xB1", "0x01",
+		"0x72"], 
+//	"baudAddress": ["0xB8", "0x12", "0xF1", "0x06", "0x10", "0x81", "0x06", "0x01", "0xE8", "0x48", "0x6B"], // Can cause issues, if you need ~25Hz data rate set this
+//	"baudSpeed": 125000,
+	"forceKwp": true,
+	"ecuparam": [
+		{
+			"header": "Accelerator pedal value",
+			"unit":"%",
+			"offset": 2,
+			"length": 2,
+			"mul": 0.390625,
+			"add": 0
+		}, 
+		{
+			"header": "Ambient pressure",
+			"unit":"hPa",
+			"offset": 3,
+			"length": 2,
+			"mul": 0.829175263643265,
+			"add": 0
+		}, 
+		{
+			"header": "Battery voltage",
+			"unit":"V",
+			"offset": 5,
+			"length": 2,
+			"mul": 0.101562492549419,
+			"add": 0
+		}, 
+		{
+			"header": "Calculated load value",
+			"unit":"%",
+			"offset": 6,
+			"length": 2,
+			"mul": 0.390625,
+			"add": 0
+		}, 
+		{
+			"header": "Engine temperature",
+			"unit":"C",
+			"offset": 7,
+			"length": 2,
+			"mul": 0.75,
+			"add": -47.9999985694886
+		}, 
+		{
+			"header": "DMTL Volts",
+			"unit":"V",
+			"offset": 8,
+			"length": 2,
+			"mul": 0.48828125,
+			"add": 0
+		}, 
+		{
+			"header": "Water temp",
+			"unit":"°C",
+			"offset": 10,
+			"length": 2,
+			"mul": 0.75,
+			"add": -47.9999985694886
+		}, 
+		{
+			"header": "Outlet temp",
+			"unit":"°C",
+			"offset": 11,
+			"length": 2,
+			"mul": 0.75,
+			"add": -47.9999985694886
+		}, 
+		{
+			"header": "Engine speed",
+			"unit":"rpm",
+			"offset": 12,
+			"length": 2,
+			"mul": 1,
+			"add": 0
+		}, 
+		{
+			"header": "Exhaust vanos",
+			"unit":"°CRK",
+			"offset": 14,
+			"length": 2,
+			"mul": 0.375,
+			"add": -95.9999971389771
+		}, 
+		{
+			"header": "Fuel pressure",
+			"unit":"kPa",
+			"offset": 16,
+			"length": 2,
+			"mul": 3,
+			"add": 0
+		}, 
+		{
+			"header": "Gear",
+			"unit":" ",
+			"offset": 17,
+			"length": 2,
+			"mul": 1,
+			"add": 0
+		}, 
+		{
+			"header": "Ignition 1",
+			"unit":"°KW",
+			"offset": 18,
+			"length": 2,
+			"mul": 0.5,
+			"add": -64
+		}, 
+		{
+			"header": "Injection time cylinder 1",
+			"unit":"ms",
+			"offset": 19,
+			"length": 2,
+			"mul": 0.400000018998981,
+			"add": 0
+		}, 
+		{
+			"header": "Intake air temperature 1",
+			"unit":"°C",
+			"offset": 21,
+			"length": 2,
+			"mul": 0.75,
+			"add": -47.9999985694886
+		}, 
+		{
+			"header": "Intake vanos",
+			"unit":"°CRK",
+			"offset": 22,
+			"length": 2,
+			"mul": 0.375,
+			"add": -95.9999971389771
+		}, 
+		{
+			"header": "Knock 1",
+			"unit":"V",
+			"offset": 24,
+			"length": 2,
+			"mul": 7.629395,
+			"add": 0
+		}, 
+		{
+			"header": "Knock 2",
+			"unit":"V",
+			"offset": 26,
+			"length": 2,
+			"mul": 7.629395,
+			"add": 0
+		}, 
+		{
+			"header": "Knock 3",
+			"unit":"V",
+			"offset": 28,
+			"length": 2,
+			"mul": 7.629395,
+			"add": 0
+		}, 
+		{
+			"header": "Knock 4",
+			"unit":"V",
+			"offset": 30,
+			"length": 2,
+			"mul": 7.629395,
+			"add": 0
+		}, 
+		{
+			"header": "Knock 5",
+			"unit":"V",
+			"offset": 32,
+			"length": 2,
+			"mul": 7.629395,
+			"add": 0
+		}, 
+		{
+			"header": "Knock 6",
+			"unit":"V",
+			"offset": 34,
+			"length": 2,
+			"mul": 7.629395,
+			"add": 0
+		}, 
+		{
+			"header": "Lambda - Bank 1",
+			"unit":"%",
+			"offset": 36,
+			"length": 2,
+			"mul": 0.78125,
+			"add": 0
+		}, 
+		{
+			"header": "Lambda - Bank 2",
+			"unit":"%",
+			"offset": 37,
+			"length": 2,
+			"mul": 0.78125,
+			"add": 0
+		}, 
+		{
+			"header": "MAF Voltage",
+			"unit":"V",
+			"offset": 38,
+			"length": 2,
+			"mul": 0.196000002324581,
+			"add": 0
+		}, 
+		{
+			"header": "Intake manifold pressure",
+			"unit":"hPa",
+			"offset": 39,
+			"length": 2,
+			"mul": 0.829175263643265,
+			"add": 0
+		}, 
+		{
+			"header": "MAF",
+			"unit":"kg/h",
+			"offset": 41,
+			"length": 2,
+			"mul": 8,
+			"add": 0
+		}, 
+		{
+			"header": "Relative Load",
+			"unit":"mg/stk",
+			"offset": 42,
+			"length": 2,
+			"mul": 2.55999994277954,
+			"add": 0
+		}, 
+		{
+			"header": "Oil temperature",
+			"unit":"°C",
+			"offset": 43,
+			"length": 2,
+			"mul": 0.100000001490116,
+			"add": 0
+		}, 
+		{
+			"header": "Engine oil level",
+			"unit":"%",
+			"offset": 45,
+			"length": 2,
+			"mul": 1,
+			"add": 0
+		}, 
+		{
+			"header": "Water pump speed actual",
+			"unit":" ",
+			"offset": 46,
+			"length": 2,
+			"mul": 1,
+			"add": 0
+		}, 
+		{
+			"header": "STFT 1",
+			"unit":"%",
+			"offset": 47,
+			"length": 2,
+			"mul": 0.78125,
+			"add": -100.2235174
+		}, 
+		{
+			"header": "STFT2",
+			"unit":"%",
+			"offset": 48,
+			"length": 2,
+			"mul": 0.78125,
+			"add": -100.2235174
+		}, 
+		{
+			"header": "TPS",
+			"unit":"°DK",
+			"offset": 49,
+			"length": 2,
+			"mul": 1.86730146408081,
+			"add": 0
+		}, 
+		{
+			"header": "Speed",
+			"unit":"kmh",
+			"offset": 50,
+			"length": 2,
+			"mul": 1,
+			"add": 0
+		},
+        {
+            "header": "Can button",
+            "expr": "(x >> 5)",
+            "x": "Button byte",
+            "hidden": false,
+            "noLog": true
+        },
+        {
+            "header": "Cruise active",
+            "canId": "0x545",
+            "expr": "(x & 8)",
+            "offset": 0,
+            "hidden": false,
+            "noLog": true
+        },
+        {
+            "header":"Button press",
+            "unit": "b",
+            "expr":"buttonPress((x == 4), 0, (x == 1), (x == 2))",
+            "x": "Can button",
+            "hidden": true,
+            "noLog": true
+        }
+	]
+}
