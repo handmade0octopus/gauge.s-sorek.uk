@@ -1,0 +1,65 @@
+const API_URL = 'http://172.20.10.4';
+
+// If file does not exist, it will be created, otherwise it will be updated
+export async function upsertFile(filePath: string, newContent: string | File, dataType: string = 'text/plain') {
+    const formData = new FormData();
+
+    let content: File | Blob = newContent as File;
+    if (typeof newContent === 'string') {
+        content = new Blob([newContent], {type: dataType});
+    }
+
+    formData.append("data", content, filePath);
+
+    const res = await fetch(`${API_URL}/edit`, {
+        method: 'POST',
+        body: formData
+    });
+
+    if (!res.ok) {
+        throw new Error(`ERROR[${res.status}]: ${res.statusText}`);
+    }
+}
+
+export async function createFile(filePath: string) {
+    const formData = new FormData();
+    formData.append("path", filePath);
+
+    const res = await fetch(`${API_URL}/edit`, {
+        method: 'PUT',
+        body: formData
+    });
+
+    if (!res.ok) {
+        throw new Error(`ERROR[${res.status}]: ${res.statusText}`);
+    }
+}
+
+export interface DirEntry {
+    name: string;
+    type: 'file' | 'dir';
+}
+
+export async function listDir(dirPath: string): Promise<DirEntry[]> {
+    const res = await fetch(`${API_URL}/list?dir=${dirPath}`, {
+        method: 'GET',
+    });
+
+    if (res.ok) {
+        return await res.json();
+    }
+
+    throw new Error(`ERROR[${res.status}]: ${res.statusText}`);
+}
+
+export async function get(path: string): Promise<string> {
+    const res = await fetch(`${API_URL}/${path}`, {
+        method: 'GET',
+    });
+
+    if (res.ok) {
+        return await res.text();
+    }
+
+    throw new Error(`ERROR[${res.status}]: ${res.statusText}`);
+}

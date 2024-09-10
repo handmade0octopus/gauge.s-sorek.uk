@@ -1,12 +1,13 @@
-<script>
+<script lang="ts">
     import {onMount} from "svelte";
+    import ace from 'ace-builds';
+    import * as api from "./lib/api";
 
     // TODO: make it local variable
-    var xmlHttp = null;
-    const ace = window.ace;
-    console.log("ace typeof:", typeof ace)
+    let xmlHttp = null;
+    //const ace: any = window.ace;
 
-    const API_URL = 'http://10.0.0.180';
+    const API_URL = 'http://172.20.10.4';
 
     function addButton(but, element) {
         var newButton = document.createElement("button");
@@ -17,13 +18,10 @@
     }
 
     function createFileUploader(element, tree, editor) {
-        //var input = document.createElement("input");
         var input = document.getElementById("file");
         input.type = "file";
         input.multiple = false;
         input.name = "data";
-        //input.classList.add('uploader-extra');
-        //document.getElementById(element).appendChild(input);
         var path = document.createElement("input");
         path.id = "upload-path";
         path.type = "text";
@@ -52,13 +50,9 @@
             }
         }
 
-        function createPath(p) {
-            xmlHttp = new XMLHttpRequest();
-            xmlHttp.onreadystatechange = httpPostProcessRequest;
-            var formData = new FormData();
-            formData.append("path", p);
-            xmlHttp.open("PUT", API_URL + "/edit");
-            xmlHttp.send(formData);
+        async function createPath(p) {
+            await api.createFile(p);
+            tree.refreshPath(path.value);
         }
 
         mkfile.onclick = function (e) {
@@ -71,30 +65,27 @@
             editor.execCommand("saveCommand");
         };
 
-        restartDev.onclick = function (e) {
-            xmlHttp = new XMLHttpRequest();
-            xmlHttp.onreadystatechange = httpPostProcessRequest;
-            xmlHttp.open("GET", API_URL + "/restart", true);
-            xmlHttp.send(null);
+        restartDev.onclick = async function (e) {
             setTimeout(() => {
                 // 4 second delay here before running next line
                 console.log("delayed");
                 tree.refreshPath(path.value);
             }, 4000);
+
+            await api.get("/restart");
+            tree.refreshPath(path.value);
         };
 
-        restartToWifi.onclick = function (e) {
-            xmlHttp = new XMLHttpRequest();
-            xmlHttp.onreadystatechange = httpPostProcessRequest;
-            xmlHttp.open("GET", API_URL + "/restart?r=wifi", true);
-            xmlHttp.send(null);
+        restartToWifi.onclick = async function (e) {
             setTimeout(() => {
                 // 4 second delay here before running next line
                 console.log("delayed");
                 tree.refreshPath(path.value);
             }, 4000);
-        };
 
+            await api.get("/restartToWifi");
+            tree.refreshPath(path.value);
+        };
 
         gaugeButton.onclick = function (e) {
             var newUrl = `http://${window.location.hostname}/wifi/gauge.html`;
@@ -111,31 +102,15 @@
             createPath(dir);
         };
 
-        uploadButton.onclick = function (e) {
+        uploadButton.onclick = async function (e) {
             if (input.files.length === 0) {
                 return;
             }
-            xmlHttp = new XMLHttpRequest();
-            xmlHttp.onreadystatechange = httpPostProcessRequest;
-            var formData = new FormData();
-            formData.append("data", input.files[0], path.value);
-            xmlHttp.open("POST", API_URL + "/edit");
-            var startTime = performance.now();
-            xmlHttp.upload.addEventListener("progress", function (evt) {
-                if (evt.lengthComputable) {
-                    var nowTime = performance.now();
-                    var speed = (evt.loaded / 1024) / ((nowTime - startTime) / 1000);
-                    speed = speed.toFixed(2)
-                    var txt = "add upload event-listener" + evt.loaded + "/" + evt.total;
-                    var upl = " Upload: ";
-                    if (evt.loaded == evt.total) upl = " Done: ";
-                    var txt = upl + Math.round(evt.loaded / 1024) + " / " + Math.round(evt.total / 1024) + " KB Speed: " + speed + " KB/s";
-                    console.log(txt);
-                    uploadLabel.innerHTML = txt;
-                }
-            }, false);
-            xmlHttp.send(formData);
+
+            await api.upsertFile(path.value, input.files[0]);
+            tree.refreshPath(path.value);
         }
+
         input.onchange = function (e) {
             if (input.files.length === 0) return;
             var filename = input.files[0].name;
@@ -382,51 +357,23 @@
             return false;
         }
 
-        function delCb(path) {
-            return function () {
-                if (xmlHttp.readyState == 4) {
-                    if (xmlHttp.status != 200) {
-                        alert("ERROR[" + xmlHttp.status + "]: " + xmlHttp.responseText);
-                    } else {
-                        if (path.lastIndexOf('/') < 1) {
-                            path = '/';
-                            treeRoot.removeChild(treeRoot.childNodes[0]);
-                            httpGet(treeRoot, "/");
-                        } else {
-                            path = path.substring(0, path.lastIndexOf('/'));
-                            var leaf = document.getElementById(path).parentNode;
-                            if (leaf.childNodes.length == 3) leaf.removeChild(leaf.childNodes[2]);
-                            httpGet(leaf, path);
-                        }
-                    }
-                }
+        async function httpDelete(filePath: string) {
+            await api.deleteFile(filePath);
+
+            if (filePath.lastIndexOf('/') < 1) {
+                filePath = '/';
+                treeRoot.removeChild(treeRoot.childNodes[0]);
+                await httpGet(treeRoot, "/");
+            } else {
+                filePath = filePath.substring(0, filePath.lastIndexOf('/'));
+                const leaf = document.getElementById(filePath).parentNode;
+                if (leaf.childNodes.length == 3) leaf.removeChild(leaf.childNodes[2]);
+                await httpGet(leaf, filePath);
             }
         }
 
-        function httpDelete(filename) {
-            xmlHttp = new XMLHttpRequest();
-            xmlHttp.onreadystatechange = delCb(filename);
-            var formData = new FormData();
-            formData.append("path", filename);
-            xmlHttp.open("DELETE", API_URL + "/edit");
-            xmlHttp.send(formData);
-        }
-
-        function getCb(parent, path) {
-            return function () {
-                if (xmlHttp.readyState == 4) {
-                    //clear loading
-                    if (xmlHttp.status == 200) addList(parent, path, JSON.parse(xmlHttp.responseText));
-                }
-            }
-        }
-
-        function httpGet(parent, path) {
-            xmlHttp = new XMLHttpRequest(parent, path);
-            xmlHttp.onreadystatechange = getCb(parent, path);
-            xmlHttp.open("GET", API_URL + "/list?dir=" + path, true);
-            xmlHttp.send(null);
-            //start loading
+        async function httpGet(parent, path) {
+            addList(parent, path, await api.listDir(path));
         }
 
         httpGet(treeRoot, "/");
@@ -501,41 +448,22 @@
 
         var editor = ace.edit(element);
 
-        //post
-        function httpPostProcessRequest() {
-            if (xmlHttp.readyState == 4) {
-                if (xmlHttp.status != 200) alert("ERROR[" + xmlHttp.status + "]: " + xmlHttp.responseText);
-            }
-        }
-
-        function httpPost(filename, data, type) {
-            xmlHttp = new XMLHttpRequest();
-            xmlHttp.onreadystatechange = httpPostProcessRequest;
-            var formData = new FormData();
-            formData.append("data", new Blob([data], {type: type}), filename);
-            xmlHttp.open("POST", API_URL + "/edit");
-            xmlHttp.send(formData);
-        }
-
-        //get
-        function httpGetProcessRequest() {
-            if (xmlHttp.readyState == 4) {
-                document.getElementById("preview").style.display = "none";
-                document.getElementById("editor").style.display = "block";
-                if (xmlHttp.status == 200) editor.setValue(xmlHttp.responseText);
-                else editor.setValue("");
-                editor.clearSelection();
-            }
-        }
-
-        function httpGet(theUrl) {
+        async function httpGet(theUrl: string) {
             // TODO: its temporary solution
             theUrl = theUrl.replaceAll(API_URL, "");
 
-            xmlHttp = new XMLHttpRequest();
-            xmlHttp.onreadystatechange = httpGetProcessRequest;
-            xmlHttp.open("GET", API_URL + theUrl, true);
-            xmlHttp.send(null);
+            try {
+                const res = await api.get(theUrl);
+
+                document.getElementById("preview").style.display = "none";
+                document.getElementById("editor").style.display = "block";
+
+                editor.setValue(res);
+            } catch (e) {
+                editor.setValue("");
+            } finally {
+                editor.clearSelection();
+            }
         }
 
         if (lang !== "plain") editor.getSession().setMode("ace/mode/" + lang);
@@ -549,7 +477,7 @@
             name: 'saveCommand',
             bindKey: {win: 'Ctrl-S', mac: 'Command-S'},
             exec: function (editor) {
-                httpPost(file, editor.getValue() + "", type);
+                api.upsertFile(file, editor.getValue() + "", type);
             },
             readOnly: false
         });
@@ -584,7 +512,7 @@
     var tree;
     var editor;
     onMount(() => {
-        var vars = {};
+        var vars: any = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
             vars[key] = value;
         });
@@ -595,13 +523,10 @@
 
 </script>
 
-<!--
-    TODO: remove if import statement is working
-    <script src="/wifi/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
--->
-
-<div id="uploader"><input type="file" name="file" id="file" class="inputfile"/><label class="flabel" for="file">Load
-    file</label></div>
+<div id="uploader">
+    <input type="file" name="file" id="file" class="inputfile"/>
+    <label class="flabel" for="file">Load file</label>
+</div>
 <div id="tree"></div>
 <div id="editor"></div>
 <div id="preview" style="display:none;"></div>
