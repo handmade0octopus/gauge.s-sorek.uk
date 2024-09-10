@@ -5,9 +5,6 @@
 
     // TODO: make it local variable
     let xmlHttp = null;
-    //const ace: any = window.ace;
-
-    const API_URL = 'http://172.20.10.4';
 
     function addButton(but, element) {
         var newButton = document.createElement("button");
@@ -433,7 +430,7 @@
         }
 
         // TODO: its temporary solution
-        if (typeof file === "undefined") file = API_URL + "/index.htm";
+        if (typeof file === "undefined") file = api.API_URL + "/index.htm";
 
         if (typeof lang === "undefined") {
             lang = getLangFromFilename(file);
@@ -450,7 +447,7 @@
 
         async function httpGet(theUrl: string) {
             // TODO: its temporary solution
-            theUrl = theUrl.replaceAll(API_URL, "");
+            theUrl = theUrl.replaceAll(api.API_URL, "");
 
             try {
                 const res = await api.get(theUrl);

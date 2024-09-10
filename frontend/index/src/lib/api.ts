@@ -1,4 +1,4 @@
-const API_URL = 'http://172.20.10.4';
+export const API_URL = 'http://172.20.10.4';
 
 // If file does not exist, it will be created, otherwise it will be updated
 export async function upsertFile(filePath: string, newContent: string | File, dataType: string = 'text/plain') {
@@ -16,9 +16,7 @@ export async function upsertFile(filePath: string, newContent: string | File, da
         body: formData
     });
 
-    if (!res.ok) {
-        throw new Error(`ERROR[${res.status}]: ${res.statusText}`);
-    }
+    throwIfNotOk(res);
 }
 
 export async function createFile(filePath: string) {
@@ -30,9 +28,7 @@ export async function createFile(filePath: string) {
         body: formData
     });
 
-    if (!res.ok) {
-        throw new Error(`ERROR[${res.status}]: ${res.statusText}`);
-    }
+    throwIfNotOk(res);
 }
 
 export interface DirEntry {
@@ -49,7 +45,7 @@ export async function listDir(dirPath: string): Promise<DirEntry[]> {
         return await res.json();
     }
 
-    throw new Error(`ERROR[${res.status}]: ${res.statusText}`);
+    throwIfNotOk(res);
 }
 
 export async function get(path: string): Promise<string> {
@@ -61,5 +57,11 @@ export async function get(path: string): Promise<string> {
         return await res.text();
     }
 
-    throw new Error(`ERROR[${res.status}]: ${res.statusText}`);
+    throwIfNotOk(res);
+}
+
+function throwIfNotOk(res: Response) {
+    if (!res.ok) {
+        throw new Error(`ERROR[${res.status}]: ${res.statusText}`);
+    }
 }
