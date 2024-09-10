@@ -1,4 +1,4 @@
-export const API_URL = 'http://172.20.10.4';
+export const API_URL = '/api';
 
 // If file does not exist, it will be created, otherwise it will be updated
 export async function upsertFile(filePath: string, newContent: string | File, dataType: string = 'text/plain') {
@@ -13,7 +13,7 @@ export async function upsertFile(filePath: string, newContent: string | File, da
 
     const res = await fetch(`${API_URL}/edit`, {
         method: 'POST',
-        body: formData
+        body: formData,
     });
 
     throwIfNotOk(res);
@@ -49,7 +49,7 @@ export async function listDir(dirPath: string): Promise<DirEntry[]> {
 }
 
 export async function get(path: string): Promise<string> {
-    const res = await fetch(`${API_URL}/${path}`, {
+    const res = await fetch(`${API_URL}${path}`, {
         method: 'GET',
     });
 
@@ -62,6 +62,7 @@ export async function get(path: string): Promise<string> {
 
 function throwIfNotOk(res: Response) {
     if (!res.ok) {
+        res.text().then(console.error);
         throw new Error(`ERROR[${res.status}]: ${res.statusText}`);
     }
 }
