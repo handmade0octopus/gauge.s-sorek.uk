@@ -31,7 +31,18 @@ router.put('/edit', upload.none(), async (req, res) => {
         fs.writeFileSync(path.join(WORKING_DIR, filePath), '', {flag: 'w'});
         res.status(200).send();
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send(error.toString());
+    }
+});
+
+// TODO: check if it should also delete directories
+router.delete('/edit', upload.none(), async (req, res) => {
+    try {
+        const filePath = req.body.path;
+        fs.unlinkSync(path.join(WORKING_DIR, filePath));
+        res.status(200).send();
+    } catch (error) {
+        res.status(500).send(error.toString());
     }
 });
 

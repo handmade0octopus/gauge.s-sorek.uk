@@ -5,6 +5,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import fsEndpoints from "./fs_endpoints";
 import * as process from "node:process";
+import hardwareEndpoints from "./hardware_endpoints";
 
 export const WORKING_DIR = path.resolve(__dirname, '..', 'working_dir');
 
@@ -28,6 +29,7 @@ app.use(cors({
 app.use(morgan('combined'));
 app.use(express.json());
 
+app.use(hardwareEndpoints);
 app.use(fsEndpoints);
 
 const PORT = process.env.PORT || 3000;

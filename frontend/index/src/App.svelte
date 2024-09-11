@@ -69,7 +69,7 @@
                 tree.refreshPath(path.value);
             }, 4000);
 
-            await api.get("/restart");
+            await api.restart();
             tree.refreshPath(path.value);
         };
 
@@ -80,7 +80,7 @@
                 tree.refreshPath(path.value);
             }, 4000);
 
-            await api.get("/restartToWifi");
+            await api.restartToWifi();
             tree.refreshPath(path.value);
         };
 

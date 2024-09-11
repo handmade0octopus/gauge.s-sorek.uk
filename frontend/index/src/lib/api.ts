@@ -60,6 +60,26 @@ export async function get(path: string): Promise<string> {
     throwIfNotOk(res);
 }
 
+export async function restart() {
+    await get('/restart');
+}
+
+export async function restartToWifi() {
+    await get('/restartToWifi');
+}
+
+export async function deleteFile(filePath: string) {
+    const formData = new FormData();
+    formData.append("path", filePath);
+
+    const res = await fetch(`${API_URL}/edit`, {
+        method: 'DELETE',
+        body: formData,
+    });
+
+    throwIfNotOk(res);
+}
+
 function throwIfNotOk(res: Response) {
     if (!res.ok) {
         res.text().then(console.error);
