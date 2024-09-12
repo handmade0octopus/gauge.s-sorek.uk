@@ -17,6 +17,11 @@ export default defineConfig({
         }),
         viteSingleFile(),
     ],
+    resolve: {
+        alias: {
+            '$lib': '/src/lib',
+        }
+    },
     build: {
         sourcemap: true,
         assetsInlineLimit: 10 * 1024 * 1024, // 10MiB
