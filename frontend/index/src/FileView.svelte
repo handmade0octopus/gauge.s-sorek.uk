@@ -9,6 +9,7 @@
 <script lang="ts">
     import * as api from '$lib/api';
     import {onMount} from "svelte";
+    import folderIcon from './assets/folder.svg';
 
     export let openedFile: string = null;
     export let expand = false;
@@ -54,16 +55,16 @@
     }
 </script>
 
-<main>
+<main style="--folder-icon: url({folderIcon})">
     {#await children}
         <p>Loading...</p>
     {:then children}
         {#each children as child}
             {@const childPath = `${dirPath}${child.label}`}
             <div class:marginLeft>
-            <span on:click={() => toggleExpand(child)} class:clicked={child.clicked || openedFile === childPath}
+            <a on:click={() => toggleExpand(child)} class:clicked={child.clicked || openedFile === childPath}
                   class="label"
-                  class:directory={child.isDir}>{child.label}</span>
+                  class:directory={child.isDir}>{child.label}</a>
                 <svelte:self bind:openedFile dirPath={childPath + '/'} bind:tree={child}/>
             </div>
         {/each}
@@ -84,10 +85,16 @@
     .directory {
         display: inline-flex;
         align-items: center;
+        vertical-align: center;
     }
 
     .directory::before {
-        content: "📁";
+        content: '';
+        background-image: var(--folder-icon);
+        background-size: 1em 1em;
+        display: inline-block;
+        width: 1em;
+        height: 1em;
         margin-right: 4px;
     }
 

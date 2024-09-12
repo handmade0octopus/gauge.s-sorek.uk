@@ -1,21 +1,22 @@
 import {defineConfig} from 'vite';
 import {svelte} from '@sveltejs/vite-plugin-svelte';
-import { viteStaticCopy } from 'vite-plugin-static-copy'
-import { viteSingleFile } from 'vite-plugin-singlefile';
+import {viteStaticCopy} from 'vite-plugin-static-copy'
+import {viteSingleFile} from 'vite-plugin-singlefile';
 import commonjs from 'vite-plugin-commonjs';
+import babel from 'vite-plugin-babel';
 
-// https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({mode}) => ({
     plugins: [
         svelte(),
         commonjs(),
         viteStaticCopy({
-           targets: [{
-               src: 'node_modules/ace-builds/src-min/*',
-               dest: './',
-           }],
+            targets: [{
+                src: 'node_modules/ace-builds/src-min/*',
+                dest: './',
+            }],
         }),
         viteSingleFile(),
+        babel(),
     ],
     resolve: {
         alias: {
@@ -23,13 +24,13 @@ export default defineConfig({
         }
     },
     build: {
-        sourcemap: true,
-        assetsInlineLimit: 10 * 1024 * 1024, // 10MiB
+        sourcemap: mode === 'development',
+        assetsInlineLimit: Number.MAX_VALUE,
         cssCodeSplit: false,
         rollupOptions: {
-          output: {
-            inlineDynamicImports: true,
-          },
+            output: {
+                inlineDynamicImports: true,
+            },
         },
     },
     server: {
@@ -41,4 +42,4 @@ export default defineConfig({
             }
         }
     }
-})
+}));

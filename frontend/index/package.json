@@ -10,6 +10,9 @@
     "check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json"
   },
   "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/plugin-transform-runtime": "^7.25.4",
+    "@babel/preset-env": "^7.25.4",
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
     "@tsconfig/svelte": "^5.0.4",
     "svelte": "^4.2.18",
@@ -17,13 +20,19 @@
     "tslib": "^2.6.3",
     "typescript": "^5.5.3",
     "vite": "^5.4.1",
+    "vite-plugin-babel": "^1.2.0",
     "vite-plugin-commonjs": "^0.10.1",
     "vite-plugin-singlefile": "^2.0.2",
     "vite-plugin-static-copy": "^1.0.6"
   },
   "dependencies": {
+    "@codemirror/lang-json": "^6.0.1",
     "@keenmate/svelte-treeview": "^1.2.11",
-    "svelte-tree-view": "^1.4.2",
-    "svelte-tree-viewer": "^1.0.1"
+    "@svelteuidev/core": "^0.15.7",
+    "@uiw/codemirror-theme-androidstudio": "^4.23.2",
+    "@uiw/codemirror-theme-vscode": "^4.23.2",
+    "extends": "link:@babel/runtime/helpers/extends",
+    "svelte-codemirror-editor": "^1.4.1",
+    "svelte-tree-view": "^1.4.2"
   }
 }
