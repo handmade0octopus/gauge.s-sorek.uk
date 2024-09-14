@@ -17,10 +17,11 @@
     "checkJs": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "paths": {
-      "$lib/*": ["./src/lib/*"],
-    }
   },
-  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
+  "include": [
+    "index-src/**/*.ts",
+    "index-src/**/*.js",
+    "index-src/**/*.svelte"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

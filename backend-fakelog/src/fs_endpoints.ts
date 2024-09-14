@@ -79,7 +79,9 @@ router.get('/list', async (req, res) => {
 
 router.get('*', async (req, res) => {
     try {
-        const fileContent = fs.readFileSync(path.join(WORKING_DIR, req.path), 'utf8');
+        const filePath = decodeURI(req.path);
+        console.log('\n\n\nfilePath: ', filePath);
+        const fileContent = fs.readFileSync(path.join(WORKING_DIR, filePath), 'utf8');
 
         res.status(200).send(fileContent);
     } catch (error) {

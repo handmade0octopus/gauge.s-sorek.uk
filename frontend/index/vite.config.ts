@@ -11,7 +11,7 @@ export default defineConfig(({mode}) => ({
         commonjs(),
         viteStaticCopy({
             targets: [{
-                src: 'node_modules/ace-builds/src-min/*',
+                src: 'node_modules/ace-builds/index-src-min/*',
                 dest: './',
             }],
         }),
@@ -20,7 +20,7 @@ export default defineConfig(({mode}) => ({
     ],
     resolve: {
         alias: {
-            '$lib': '/src/lib',
+            '$lib': '/index-src/lib',
         }
     },
     build: {
