@@ -1,4 +1,7 @@
-export const API_URL = '/api';
+// @ts-ignore
+const isDev: boolean = import.meta.env.DEV
+
+export const API_URL = isDev ? '/api' : '/';
 
 // If file does not exist, it will be created, otherwise it will be updated
 export async function upsertFile(filePath: string, newContent: string | File, dataType: string = 'text/plain') {
@@ -85,7 +88,8 @@ export async function deleteFile(filePath: string) {
 }
 
 async function throwIfNotOk(res: Response) {
-    let resText = await res.text().catch(() => {}); // ignore errors
+    let resText = await res.text().catch(() => {
+    }); // ignore errors
 
     if (!res.ok) {
         throw new Error(`ERROR[${res.status}]: ${res.statusText} \n ${resText}`);

@@ -5,7 +5,7 @@
     import CurrentFile from "./lib/CurrentFile.svelte";
 </script>
 
-<div id="app">
+<div class="app">
     <NavBar/>
     <main>
         <aside>
@@ -23,7 +23,7 @@
 </div>
 
 <style>
-    #app {
+    .app {
         display: flex;
         flex-direction: column;
         height: 100vh;
