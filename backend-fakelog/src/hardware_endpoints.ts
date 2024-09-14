@@ -9,6 +9,7 @@ async function restartServer(durationSec: number) {
 
 router.get('/restart', async (req, res) => {
     try {
+        res.status(200).send();
         await restartServer(3);
     } catch (error) {
         console.error(error);

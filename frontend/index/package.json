@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp-cli ./dist/index.html ../../SD/wifi/index.htm",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json"
   },
@@ -15,6 +15,7 @@
     "@babel/preset-env": "^7.25.4",
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
     "@tsconfig/svelte": "^5.0.4",
+    "cp-cli": "^2.0.0",
     "svelte": "^4.2.18",
     "svelte-check": "^3.8.5",
     "tslib": "^2.6.3",
@@ -26,11 +27,18 @@
     "vite-plugin-static-copy": "^1.0.6"
   },
   "dependencies": {
+    "@codemirror/autocomplete": "^6.18.0",
     "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/language": "^6.10.2",
+    "@codemirror/lint": "^6.8.1",
     "@keenmate/svelte-treeview": "^1.2.11",
+    "@shopify/lang-jsonc": "^1.0.0",
     "@svelteuidev/core": "^0.15.7",
     "@uiw/codemirror-theme-androidstudio": "^4.23.2",
+    "@uiw/codemirror-theme-darcula": "^4.23.2",
+    "@uiw/codemirror-theme-material": "^4.23.2",
     "@uiw/codemirror-theme-vscode": "^4.23.2",
+    "codemirror": "^6.0.1",
     "extends": "link:@babel/runtime/helpers/extends",
     "svelte-codemirror-editor": "^1.4.1",
     "svelte-tree-view": "^1.4.2"

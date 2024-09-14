@@ -10,64 +10,106 @@
     import * as api from '$lib/api';
     import {onMount} from "svelte";
     import folderIcon from './assets/folder.svg';
+    import {refreshTreePath} from "./store/refreshTreeStore";
+    import {currentPath} from "./store/currentPath";
 
-    export let openedFile: string = null;
-    export let expand = false;
+    export let isRoot = true;
     export let dirPath = "/";
-    export let marginLeft = true;
+    export let marginLeft = false;
     export let tree: TreeNode = null;
 
+    // if clicked then children, else empty array
     $: children = tree?.clicked ? (tree?.children || []) : [];
 
-    onMount(() => {
-        if (expand) toggleExpand(tree);
+    refreshTreePath.subscribe(path => {
+        if (path === dirPath + tree.label) {
+            tree.children = fetchChildren();
+            tree = {...tree};
+        }
     });
 
-    function toggleExpand(child: TreeNode) {
-        if (!child.isDir) {
-            const filePath = dirPath + child.label;
+    onMount(() => {
+        if (isRoot) toggleExpand();
+    });
 
-            if (openedFile === filePath) {
-                openedFile = null;
+    $: {
+        // if someone click to the current file, then we need highlight it
+        if ($currentPath === (dirPath + tree.label) && !tree.clicked && !isRoot) {
+            tree.clicked = true;
+            tree = {...tree};
+        }
+
+        // if someone click to another file, then we need to remove highlight from current file
+        if ($currentPath !== (dirPath + tree.label) && tree.clicked && !isRoot && !tree.isDir) {
+            tree.clicked = false;
+            tree = {...tree};
+        }
+    }
+
+    function toggleExpand() {
+        if (!tree.isDir) {
+            let filePath = dirPath + tree.label;
+
+            if ($currentPath === filePath) {
+                console.log('cooo kurwa??', $currentPath, filePath);
+                currentPath.set('/');
             } else {
-                openedFile = filePath;
+                currentPath.set(filePath);
             }
             return;
         }
 
-        child.clicked = !child.clicked;
+        tree.clicked = !tree.clicked;
 
         // if initially it was true, then we don't need to fetch children
-        if (!child.clicked) {
+        if (!tree.clicked) {
             tree = {...tree};
             return;
         }
 
-        console.log('child: ', child);
-        const entries = api.listDir(dirPath + child.label);
+        tree.children = fetchChildren()
+        tree = {...tree};
+    }
 
-        child.children = entries.then(dir => dir.map(e => ({
+    async function fetchChildren(): Promise<TreeNode[]> {
+        const entries = api.listDir(dirPath + tree.label);
+        let dir = await entries;
+        return dir.map(e => ({
             label: e.name,
             isDir: e.type === "dir",
             clicked: false,
-        })));
-        tree = {...tree};
+        }));
+    }
+
+    $: {
+        console.log($currentPath, dirPath + tree.label, $currentPath === (dirPath + tree.label));
     }
 </script>
 
 <main style="--folder-icon: url({folderIcon})">
+    {#if !isRoot}
+        <a
+                on:click={toggleExpand}
+                class:clicked={tree.clicked || $currentPath === (dirPath + tree.label)}
+                class="label"
+                class:directory={tree.isDir}
+        >{tree.label}</a>
+    {/if}
     {#await children}
         <p>Loading...</p>
     {:then children}
-        {#each children as child}
-            {@const childPath = `${dirPath}${child.label}`}
-            <div class:marginLeft>
-            <a on:click={() => toggleExpand(child)} class:clicked={child.clicked || openedFile === childPath}
-                  class="label"
-                  class:directory={child.isDir}>{child.label}</a>
-                <svelte:self bind:openedFile dirPath={childPath + '/'} bind:tree={child}/>
-            </div>
-        {/each}
+        <div class:marginLeft>
+            {#each children as child}
+                {@const childDirPath = `${dirPath}${tree.label}/`.replaceAll('//', '/')}
+
+                <svelte:self
+                        marginLeft={true}
+                        isRoot={false}
+                        dirPath={childDirPath}
+                        bind:tree={child}
+                />
+            {/each}
+        </div>
     {:catch error}
         <p style="color: red">{error.message}</p>
     {/await}

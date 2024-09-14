@@ -2,6 +2,7 @@
     import {createEventDispatcher} from "svelte";
 
     export let showSpinner = false;
+    export let disabled = false;
 
     const dispatch = createEventDispatcher();
 
@@ -10,20 +11,21 @@
     }
 </script>
 
-{#if showSpinner}
-    <p>Loading...</p>
-{:else}
-    <button on:click={handleClick}>
+<button on:click={handleClick} {disabled}>
+    {#if showSpinner}
+        Loading...
+    {:else}
         <slot/>
-    </button>
-{/if}
+    {/if}
+</button>
 
 <style>
     button {
         background-color: #E45826;
         border: none;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 2px 4px rgba(35, 35, 35, 0.5);
         margin: 5px;
+        min-width: 100px;
         font-size: 20px;
         border-radius: 50px;
         padding: 5px 10px;

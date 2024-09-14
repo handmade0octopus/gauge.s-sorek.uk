@@ -19,7 +19,7 @@ export async function upsertFile(filePath: string, newContent: string | File, da
     throwIfNotOk(res);
 }
 
-export async function createFile(filePath: string) {
+export async function createPath(filePath: string) {
     const formData = new FormData();
     formData.append("path", filePath);
 
@@ -42,7 +42,11 @@ export async function listDir(dirPath: string): Promise<DirEntry[]> {
     });
 
     if (res.ok) {
-        return await res.json();
+        const entries: DirEntry[] = await res.json();
+
+        // dirs first:
+        entries.sort((a, b) => a.type === b.type ? 0 : a.type === 'dir' ? -1 : 1);
+        return entries;
     }
 
     throwIfNotOk(res);

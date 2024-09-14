@@ -28,7 +28,17 @@ router.post('/edit', express.urlencoded({extended: true}), upload.single('data')
 router.put('/edit', upload.none(), async (req, res) => {
     try {
         const filePath = req.body.path;
-        fs.writeFileSync(path.join(WORKING_DIR, filePath), '', {flag: 'w'});
+        const fullPath = path.join(WORKING_DIR, filePath);
+
+        // If the path contains a dot, treat it as a file
+        if (path.basename(filePath).includes('.')) {
+            fs.writeFileSync(fullPath, '', { flag: 'w' });
+        } else {
+            if (!fs.existsSync(fullPath)) {
+                fs.mkdirSync(fullPath, { recursive: true });
+            }
+        }
+
         res.status(200).send();
     } catch (error) {
         res.status(500).send(error.toString());
