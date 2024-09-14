@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp-cli ./dist/index.html ../../SD/wifi/index.htm",
+    "build": "vite build && cp-cli ./dist/index.html ../SD/wifi/index.htm",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json"
   },
