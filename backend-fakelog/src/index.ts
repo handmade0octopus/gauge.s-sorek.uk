@@ -1,13 +1,20 @@
 import * as path from "node:path";
 import * as fs from "node:fs";
 import express from 'express';
+import expressWs from 'express-ws';
 import cors from 'cors';
 import morgan from 'morgan';
-import fsEndpoints from "./fs_endpoints";
 import * as process from "node:process";
-import hardwareEndpoints from "./hardware_endpoints";
+
+const app = express();
+expressWs(app);
 
 export const WORKING_DIR = path.resolve(__dirname, '..', 'working_dir');
+export const BITMAP_DIR = path.resolve(__dirname, '..', 'bitmaps');
+
+import wsEndpoints from "./ws";
+import hardwareEndpoints from "./hardware_endpoints";
+import fsEndpoints from "./fs_endpoints";
 
 function setupWorkingDir() {
     const defaultWorkingDir = path.resolve(__dirname, '..', 'working_dir_default');
@@ -20,8 +27,6 @@ function setupWorkingDir() {
 
 setupWorkingDir();
 
-const app = express();
-
 app.use(cors({
   origin: true
 }));
@@ -29,6 +34,7 @@ app.use(cors({
 app.use(morgan('combined'));
 app.use(express.json());
 
+app.use(wsEndpoints);
 app.use(hardwareEndpoints);
 app.use(fsEndpoints);
 
