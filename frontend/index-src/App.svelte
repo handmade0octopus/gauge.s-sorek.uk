@@ -2,14 +2,12 @@
     import FileViewer from "./FileView.svelte";
     import Editor from "./Editor.svelte";
     import NavBar from "./NavBar.svelte";
-    import CurrentFile from "./lib/CurrentFile.svelte";
 </script>
 
 <div class="app">
     <NavBar/>
     <main>
         <aside>
-            <CurrentFile/>
             <div class="file-viewer">
                 <div style="direction: ltr">
                     <FileViewer tree={{label: '', isDir: true}}/>
@@ -22,7 +20,7 @@
     </main>
 </div>
 
-<style>
+<style lang="less">
     .app {
         display: flex;
         flex-direction: column;
@@ -51,7 +49,7 @@
     }
 
     aside {
-        width: 300px;
+        width: 200px;
         border-right: 1px solid rgba(204, 204, 204, 0.5);
     }
 </style>

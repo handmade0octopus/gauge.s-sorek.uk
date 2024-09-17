@@ -51,7 +51,6 @@
             let filePath = dirPath + tree.label;
 
             if ($currentPath === filePath) {
-                console.log('cooo kurwa??', $currentPath, filePath);
                 currentPath.set('/');
             } else {
                 currentPath.set(filePath);
@@ -79,10 +78,6 @@
             isDir: e.type === "dir",
             clicked: false,
         }));
-    }
-
-    $: {
-        console.log($currentPath, dirPath + tree.label, $currentPath === (dirPath + tree.label));
     }
 </script>
 
@@ -143,7 +138,9 @@
     main {
         display: flex;
         flex-direction: column;
-        font-family: sans-serif;
+        font: normal 11px Verdana, Arial, Sans-serif;
+        line-height: 16px;
+        font-size: 12px;
     }
 
     .marginLeft {

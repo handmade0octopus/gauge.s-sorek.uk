@@ -169,8 +169,9 @@
       let ws; // Define WebSocket globally
 
       function initializeWebSocket() {
-        const wsUrl = `ws://${window.location.hostname}/ws`;
-    
+        //const wsUrl = `ws://${window.location.hostname}/ws`;
+        const wsUrl = `ws://localhost:3000/ws`;
+
         ws = new WebSocket(wsUrl);
 
         ws.onopen = function(event) {

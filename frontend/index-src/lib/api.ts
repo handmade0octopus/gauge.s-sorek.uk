@@ -2,6 +2,7 @@
 const isDev: boolean = import.meta.env.DEV
 
 export const API_URL = isDev ? '/api' : '/';
+export const WS_URL = `ws://${window.location.host}${API_URL}/ws`;
 
 // If file does not exist, it will be created, otherwise it will be updated
 export async function upsertFile(filePath: string, newContent: string | File, dataType: string = 'text/plain') {

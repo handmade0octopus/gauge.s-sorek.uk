@@ -5,8 +5,10 @@
 
     export let page = writable<PageParam>("");
 
-    export function setPage(newPage: PageParam) {
+    export function setPage(newPage?: PageParam) {
+        newPage = newPage || "";
         const url = new URL(window.location.href);
+
         url.searchParams.set('page', newPage);
         window.history.pushState({}, '', url.toString());
         page.set(newPage);

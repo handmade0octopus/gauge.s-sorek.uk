@@ -2,9 +2,10 @@
     import CodeMirror from "svelte-codemirror-editor";
     import * as api from "./lib/api";
     import {basicSetup} from 'codemirror';
-    import {darcula} from '@uiw/codemirror-theme-darcula';
+    import {dracula} from '@ddietr/codemirror-themes/dracula.js';
     import {jsonc, jsoncLanguage} from "@shopify/lang-jsonc";
     import {autocompletion, CompletionContext} from "@codemirror/autocomplete";
+    import {EditorState} from '@codemirror/state'
     import {LanguageSupport} from "@codemirror/language";
     import {currentPath} from "./store/currentPath";
     import {refreshTreePath} from "./store/refreshTreeStore";
@@ -43,10 +44,11 @@
 
     const extensions = [
         basicSetup,
-        darcula,
+        dracula,
         new LanguageSupport(jsoncLanguage),
         //linter(
         autocompletion({override: [jsonCompletion]}),
+        EditorState.tabSize.of(2),
     ];
 </script>
 

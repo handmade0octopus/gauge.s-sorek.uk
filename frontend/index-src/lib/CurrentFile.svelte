@@ -2,22 +2,7 @@
     import {currentPath} from "../store/currentPath";
     import {onMount} from "svelte";
 
-    const TIME_BETWEEN_REFRESH_MS = 2000;
-
     let value = '/';
-    let lastTimeUpdated = Date.now();
-
-    $: value, updateCurrentPath();
-
-    function updateCurrentPath() {
-        lastTimeUpdated = Date.now();
-        const lastTime = lastTimeUpdated;
-        setTimeout(() => {
-            if (lastTime === lastTimeUpdated) {
-                currentPath.set(value);
-            }
-        }, TIME_BETWEEN_REFRESH_MS);
-    }
 
     onMount(() => {
         currentPath.subscribe(newValue => {
@@ -30,24 +15,27 @@
     <input type="text" bind:value>
 </div>
 
-<style>
-    div {
-        width: 100%;
-        display: flex;
-    }
+<style lang="less">
+  @import "../../src/global";
 
-    input {
-        width: 100%;
-        padding: 10px;
-        background-color: rgba(240, 165, 0, 0.9);
-        border: none;
-        font-size: 16px;
-        font-weight: bold;
-        color: #1e1f28;
-        box-shadow: 0 0 10px rgba(228, 76, 26, 0.5);
-    }
+  div {
+    width: 150px;
+    display: flex;
+  }
 
-    input:focus {
-        outline: none;
-    }
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 3px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: @navbar-button-bg-color;
+    color: @navbar-button-text-color;
+    border: none;
+    font-size: 16px;
+  }
+
+  input:focus {
+    outline: none;
+  }
 </style>

@@ -1,10 +1,11 @@
 <script lang="ts">
     import * as api from './lib/api';
-    import RoundButton from "./lib/RoundButton.svelte";
+    import NavButton from "./lib/NavButton.svelte";
     import {refreshTreePath} from "./store/refreshTreeStore";
     import {currentPath} from "./store/currentPath";
     import {currentlyEditedFile, filesBeingEdited} from "./store/editorStore";
     import {setPage} from "../src/Router.svelte";
+    import CurrentFile from "./lib/CurrentFile.svelte";
 
     function wrapErrHandler<T>(fn: (...args: any) => Promise<T>): (...args: any) => Promise<T> {
         return (...args) => fn(...args).catch(err => {
@@ -17,6 +18,7 @@
     let fileInput: HTMLInputElement;
 
     const loadingButtons = {
+        "LOAD_FILE": false,
         "UPLOAD": false,
         "MKDIR": false,
         "MKFILE": false,
@@ -39,7 +41,11 @@
         refresh(dirToRefresh);
     }
 
-    function onFileInputChange() {
+    function loadFile() {
+        fileInput.click();
+    }
+
+    function upload() {
         const file = fileInput.files[0];
         if (!file) return;
 
@@ -94,25 +100,26 @@
 </script>
 
 {"" /* It is for uploading files */ + ""}
-<input on:change={onFileInputChange} bind:this={fileInput} type="file" id="fileInput" style="display: none;"/>
+<input bind:this={fileInput} type="file" id="fileInput" style="display: none;"/>
 <nav>
-    <RoundButton showSpinner={loadingButtons.UPLOAD} on:click={() => fileInput.click()}>UPLOAD</RoundButton>
-    <RoundButton showSpinner={loadingButtons.MKDIR} on:click={mkdir}>MKDIR</RoundButton>
-    <RoundButton showSpinner={loadingButtons.MKFILE} on:click={mkfile}>MKFILE</RoundButton>
-    <RoundButton showSpinner={loadingButtons.SAVE} on:click={save}>SAVE</RoundButton>
-    <RoundButton showSpinner={loadingButtons.RESTART} on:click={restart}>RESTART</RoundButton>
-    <RoundButton showSpinner={loadingButtons.RESTART_TO_WIFI} on:click={restartToWifi}>RESTART TO WIFI</RoundButton>
-    <RoundButton on:click={() => setPage('gauge')}>GAUGE</RoundButton>
+    <NavButton on:click={loadFile}>LOAD FILE</NavButton>
+    <CurrentFile/>
+    <NavButton showSpinner={loadingButtons.UPLOAD} on:click={upload}>UPLOAD</NavButton>
+    <NavButton showSpinner={loadingButtons.MKDIR} on:click={mkdir}>MKDIR</NavButton>
+    <NavButton showSpinner={loadingButtons.MKFILE} on:click={mkfile}>MKFILE</NavButton>
+    <NavButton showSpinner={loadingButtons.SAVE} on:click={save}>SAVE</NavButton>
+    <NavButton showSpinner={loadingButtons.RESTART} on:click={restart}>RESTART</NavButton>
+    <NavButton showSpinner={loadingButtons.RESTART_TO_WIFI} on:click={restartToWifi}>TO WIFI</NavButton>
+    <NavButton on:click={() => setPage('gauge')}>GAUGE</NavButton>
 </nav>
 
-<style>
-    nav {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        padding: 10px;
-        background-color: #505050;
-        box-shadow: 0 2px 4px rgba(35, 35, 35, 0.5);
-        z-index: 1;
-    }
+<style lang="less">
+  @import "../src/global";
+
+  nav {
+    display: flex;
+    background-color: @navbar-bg-color;
+    box-shadow: 0 2px 4px rgba(35, 35, 35, 0.5);
+    z-index: 1;
+  }
 </style>
