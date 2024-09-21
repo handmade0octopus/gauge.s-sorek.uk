@@ -8,7 +8,7 @@
     import {EditorState} from '@codemirror/state'
     import {LanguageSupport} from "@codemirror/language";
     import {currentPath} from "./store/currentPath";
-    import {refreshTreePath} from "./store/refreshTreeStore";
+    import {refreshTreePath} from "./store/treeStore";
     import {currentlyEditedFile, filesBeingEdited} from "./store/editorStore";
 
     let isLoading = false;

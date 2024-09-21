@@ -2,6 +2,7 @@
     import {onMount} from "svelte";
     import {WS_URL} from "../index-src/lib/api";
 
+    const REFRESH_INTERVAL = 500;
     const bgColor = '#282a36';
     const fgColor = '#f76830';
     const canvasWidth = 128;
@@ -15,7 +16,7 @@
     export let canvas: HTMLCanvasElement = null;
     let ctx: CanvasRenderingContext2D;
 
-    onMount(() => {
+    onMount(async () => {
         ctx = canvas.getContext('2d');
         ctx.imageSmoothingEnabled = false;
 
@@ -43,8 +44,11 @@
             isWsClosed = true;
             error = "WebSocket connection closed, try to refresh the page";
         };
-    });
 
+        setInterval(() => {
+            ws.send('be0')
+        }, REFRESH_INTERVAL);
+    });
 
     function drawBitmap(data: Uint8Array) {
         ctx.fillStyle = bgColor;
@@ -78,6 +82,12 @@
 {/if}
 
 <style>
+    @media (max-width: 800px) {
+        .canvas {
+            width: 100% !important;
+        }
+    }
+
     .canvas {
         width: 40%;
 

@@ -31,6 +31,14 @@
         flex-grow: 1;
         height: 100%;
         gap: 20px;
+        padding: 10px;
+    }
+
+    @media (max-width: 800px) {
+        main {
+            flex-direction: column;
+            align-items: center;
+        }
     }
 
     aside {

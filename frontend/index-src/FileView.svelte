@@ -10,7 +10,7 @@
     import * as api from './lib/api';
     import {onMount} from "svelte";
     import folderIcon from './assets/folder.svg';
-    import {refreshTreePath} from "./store/refreshTreeStore";
+    import {refreshTreePath} from "./store/treeStore";
     import {currentPath} from "./store/currentPath";
 
     export let isRoot = true;

@@ -2,6 +2,7 @@
     import {currentPath} from "../store/currentPath";
     import {onMount} from "svelte";
 
+    export let style = "";
     let value = '/';
 
     onMount(() => {
@@ -11,7 +12,7 @@
     });
 </script>
 
-<div>
+<div {style}>
     <input type="text" bind:value>
 </div>
 

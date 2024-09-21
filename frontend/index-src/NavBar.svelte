@@ -1,11 +1,14 @@
 <script lang="ts">
     import * as api from './lib/api';
     import NavButton from "./lib/NavButton.svelte";
-    import {refreshTreePath} from "./store/refreshTreeStore";
+    import {refreshTreePath} from "./store/treeStore";
     import {currentPath} from "./store/currentPath";
     import {currentlyEditedFile, filesBeingEdited} from "./store/editorStore";
     import {setPage} from "../src/Router.svelte";
     import CurrentFile from "./lib/CurrentFile.svelte";
+    import burgerIconLeft from "./assets/burger-icon-left.svg";
+    import burgerIconRight from "./assets/burger-icon-right.svg";
+    import IconButton from "./lib/IconButton.svelte";
 
     function wrapErrHandler<T>(fn: (...args: any) => Promise<T>): (...args: any) => Promise<T> {
         return (...args) => fn(...args).catch(err => {
@@ -15,6 +18,9 @@
         });
     }
 
+    export let sidebarCollapsed: boolean;
+
+    let navbarCollapsed = true;
     let fileInput: HTMLInputElement;
 
     const loadingButtons = {
@@ -97,11 +103,16 @@
         await wrapErrHandler(api.restartToWifi)();
         loadingButtons.RESTART_TO_WIFI = false;
     }
+
 </script>
 
 {"" /* It is for uploading files */ + ""}
 <input bind:this={fileInput} type="file" id="fileInput" style="display: none;"/>
-<nav>
+<nav class:navbarCollapsed>
+    <div class="expansion-menu">
+        <IconButton src={burgerIconLeft} onClick={() => sidebarCollapsed = !sidebarCollapsed} />
+        <IconButton src={burgerIconRight} onClick={() => navbarCollapsed = !navbarCollapsed}/>
+    </div>
     <NavButton on:click={loadFile}>LOAD FILE</NavButton>
     <CurrentFile/>
     <NavButton showSpinner={loadingButtons.UPLOAD} on:click={upload}>UPLOAD</NavButton>
@@ -116,7 +127,34 @@
 <style lang="less">
   @import "../src/global";
 
+  @media (max-width: 800px) {
+    nav {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    nav > :global(:not(.expansion-menu)) {
+      width: 50%;
+    }
+
+    .navbarCollapsed > :global(:not(.expansion-menu)) {
+      display: none;
+    }
+
+    .expansion-menu {
+      display: flex !important;
+    }
+  }
+
+  .expansion-menu {
+    width: 100%;
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   nav {
+    flex-wrap: wrap;
     display: flex;
     background-color: @navbar-bg-color;
     box-shadow: 0 2px 4px rgba(35, 35, 35, 0.5);
