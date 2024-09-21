@@ -28,10 +28,10 @@
         page.set(newPage);
     }
 
-    onMount(() => {
+
         updatePage();
         window.addEventListener('popstate', updatePage);
-    })
+
 </script>
 <svelte:head>
     <link rel="icon" type="image/svg+xml" href={favIcon}/>
