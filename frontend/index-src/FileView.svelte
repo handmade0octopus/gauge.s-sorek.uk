@@ -81,14 +81,17 @@
     }
 </script>
 
-<main style="--folder-icon: url({folderIcon})">
+<main>
     {#if !isRoot}
         <a
                 on:click={toggleExpand}
                 class:clicked={tree.clicked || $currentPath === (dirPath + tree.label)}
                 class="label"
                 class:directory={tree.isDir}
-        >{tree.label}</a>
+        >
+            <img class="folder-icon" src={folderIcon}>
+            <span>{tree.label}</span>
+        </a>
     {/if}
     {#await children}
         <p>Loading...</p>
@@ -125,14 +128,15 @@
         vertical-align: center;
     }
 
-    .directory::before {
-        content: '';
-        background-image: var(--folder-icon);
-        background-size: 1em 1em;
-        display: inline-block;
-        width: 1em;
-        height: 1em;
-        margin-right: 4px;
+    .folder-icon {
+        width: 16px;
+        height: 16px;
+        margin-right: 5px;
+    }
+
+    /* hide folder icon for files */
+    :not(.directory) > .folder-icon {
+        display: none;
     }
 
     main {
