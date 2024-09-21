@@ -1,19 +1,19 @@
 <script lang="ts">
-    import {currentPath} from "../store/currentPath";
+    import {openedFilePath} from "../store/openedFilePath";
     import {onMount} from "svelte";
+    import {currentPath} from "../store/currentPath";
 
     export let style = "";
-    let value = '/';
 
     onMount(() => {
-        currentPath.subscribe(newValue => {
-            value = newValue;
+        openedFilePath.subscribe((path: string) => {
+            currentPath.set(path);
         });
     });
 </script>
 
 <div {style}>
-    <input type="text" bind:value>
+    <input type="text" bind:value={$currentPath}>
 </div>
 
 <style lang="less">

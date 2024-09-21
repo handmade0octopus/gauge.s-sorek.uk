@@ -2,13 +2,14 @@
     import * as api from './lib/api';
     import NavButton from "./lib/NavButton.svelte";
     import {refreshTreePath} from "./store/treeStore";
-    import {currentPath} from "./store/currentPath";
+    import {openedFilePath} from "./store/openedFilePath";
     import {currentlyEditedFile, filesBeingEdited} from "./store/editorStore";
     import {setPage} from "../src/Router.svelte";
     import CurrentFile from "./lib/CurrentFile.svelte";
     import burgerIconLeft from "./assets/burger-icon-left.svg";
     import burgerIconRight from "./assets/burger-icon-right.svg";
     import IconButton from "./lib/IconButton.svelte";
+    import {currentPath} from "./store/currentPath";
 
     function wrapErrHandler<T>(fn: (...args: any) => Promise<T>): (...args: any) => Promise<T> {
         return (...args) => fn(...args).catch(err => {

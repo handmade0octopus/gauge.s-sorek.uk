@@ -11,7 +11,7 @@
     import {onMount} from "svelte";
     import folderIcon from './assets/folder.svg';
     import {refreshTreePath} from "./store/treeStore";
-    import {currentPath} from "./store/currentPath";
+    import {openedFilePath} from "./store/openedFilePath";
 
     export let isRoot = true;
     export let dirPath = "/";
@@ -34,13 +34,13 @@
 
     $: {
         // if someone click to the current file, then we need highlight it
-        if ($currentPath === (dirPath + tree.label) && !tree.clicked && !isRoot) {
+        if ($openedFilePath === (dirPath + tree.label) && !tree.clicked && !isRoot) {
             tree.clicked = true;
             tree = {...tree};
         }
 
         // if someone click to another file, then we need to remove highlight from current file
-        if ($currentPath !== (dirPath + tree.label) && tree.clicked && !isRoot && !tree.isDir) {
+        if ($openedFilePath !== (dirPath + tree.label) && tree.clicked && !isRoot && !tree.isDir) {
             tree.clicked = false;
             tree = {...tree};
         }
@@ -50,10 +50,10 @@
         if (!tree.isDir) {
             let filePath = dirPath + tree.label;
 
-            if ($currentPath === filePath) {
-                currentPath.set('/');
+            if ($openedFilePath === filePath) {
+                openedFilePath.set('/');
             } else {
-                currentPath.set(filePath);
+                openedFilePath.set(filePath);
             }
             return;
         }
@@ -85,7 +85,7 @@
     {#if !isRoot}
         <a
                 on:click={toggleExpand}
-                class:clicked={tree.clicked || $currentPath === (dirPath + tree.label)}
+                class:clicked={tree.clicked || $openedFilePath === (dirPath + tree.label)}
                 class="label"
                 class:directory={tree.isDir}
         >

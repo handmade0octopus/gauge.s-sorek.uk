@@ -7,7 +7,7 @@
     import {autocompletion, CompletionContext} from "@codemirror/autocomplete";
     import {EditorState} from '@codemirror/state'
     import {LanguageSupport} from "@codemirror/language";
-    import {currentPath} from "./store/currentPath";
+    import {openedFilePath} from "./store/openedFilePath";
     import {refreshTreePath} from "./store/treeStore";
     import {currentlyEditedFile, filesBeingEdited} from "./store/editorStore";
 
@@ -17,13 +17,13 @@
     $: {
         $refreshTreePath;
         error = null; // reset error
-        const isNotFetched = !filesBeingEdited[$currentPath] && filesBeingEdited[$currentPath] !== "";
-        if (isNotFetched && $currentPath !== '/' && $currentPath) {
+        const isNotFetched = !filesBeingEdited[$openedFilePath] && filesBeingEdited[$openedFilePath] !== "";
+        if (isNotFetched && $openedFilePath !== '/' && $openedFilePath) {
             isLoading = true;
 
-            api.get($currentPath).then(data => {
-                filesBeingEdited[$currentPath] = data;
-                currentlyEditedFile.set($currentPath);
+            api.get($openedFilePath).then(data => {
+                filesBeingEdited[$openedFilePath] = data;
+                currentlyEditedFile.set($openedFilePath);
             }).catch(err => {
                 error = err;
             }).finally(() => isLoading = false);
@@ -57,12 +57,12 @@
 {:else if error}
     <p>Select file</p>
     <p>{error.message}</p>
-{:else if filesBeingEdited[$currentPath] === null}
+{:else if filesBeingEdited[$openedFilePath] === null}
     <p>Select file</p>
 {:else}
     <CodeMirror
             {extensions}
-            bind:value={filesBeingEdited[$currentPath]}
+            bind:value={filesBeingEdited[$openedFilePath]}
             lang={jsonc()}
             styles={{
                 '&': {
