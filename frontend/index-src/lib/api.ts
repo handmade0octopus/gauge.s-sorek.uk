@@ -75,7 +75,7 @@ export async function restart() {
 }
 
 export async function restartToWifi() {
-    await get('/restartToWifi');
+    await get('/restart?r=wifi');
 }
 
 export async function deleteFile(filePath: string) {
