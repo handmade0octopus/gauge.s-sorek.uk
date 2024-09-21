@@ -6,6 +6,6 @@ export function getBasePath(path: string): string {
     if (lastPathElement.includes('.')) {
         return path.split('/').slice(0, -1).join('/');
     }
-    
+
     return path.at(-1) === '/' ? path : path + '/';
 }
