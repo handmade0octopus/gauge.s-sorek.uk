@@ -10,6 +10,7 @@
     import burgerIconRight from "./assets/burger-icon-right.svg";
     import IconButton from "./lib/IconButton.svelte";
     import {currentPath} from "./store/currentPath";
+    import {getBasePath} from "./lib/utils";
 
     function wrapErrHandler<T>(fn: (...args: any) => Promise<T>): (...args: any) => Promise<T> {
         return (...args) => fn(...args).catch(err => {
@@ -52,6 +53,13 @@
         fileInput.click();
     }
 
+    function onFileInputChange() {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        currentPath.set(getBasePath($currentPath) + file.name);
+    }
+
     function upload() {
         const file = fileInput.files[0];
         if (!file) return;
@@ -59,13 +67,11 @@
         const reader = new FileReader();
         reader.onload = async () => {
             const content = reader.result as string;
-            let path = $currentPath + '/' + file.name;
-            path = path.replaceAll('//', '/');
 
             loadingButtons.UPLOAD = true;
-            await wrapErrHandler(api.upsertFile)(path, content);
+            await wrapErrHandler(api.upsertFile)($currentPath, content);
             loadingButtons.UPLOAD = false;
-            refresh($currentPath);
+            refresh(getBasePath($currentPath));
         };
 
         reader.readAsText(file);
@@ -108,10 +114,10 @@
 </script>
 
 {"" /* It is for uploading files */ + ""}
-<input bind:this={fileInput} type="file" id="fileInput" style="display: none;"/>
+<input bind:this={fileInput} on:change={onFileInputChange} type="file" id="fileInput" style="display: none;"/>
 <nav class:navbarCollapsed>
     <div class="expansion-menu">
-        <IconButton src={burgerIconLeft} onClick={() => sidebarCollapsed = !sidebarCollapsed} />
+        <IconButton src={burgerIconLeft} onClick={() => sidebarCollapsed = !sidebarCollapsed}/>
         <IconButton src={burgerIconRight} onClick={() => navbarCollapsed = !navbarCollapsed}/>
     </div>
     <NavButton on:click={loadFile}>LOAD FILE</NavButton>
