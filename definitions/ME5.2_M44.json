@@ -42,7 +42,7 @@
 		{
 			"header": "Fuel usage",
 			"unit": "l/h",
-			"expr": "(x/60)(y/1000)12.768*2", 
+			"expr": "(x/60)*(y/1000)*12.768*2", 
 			"x": "Engine Speed",
 			"y": "Fuel Inj"
 		},
