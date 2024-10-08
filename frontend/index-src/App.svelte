@@ -1,0 +1,63 @@
+<script lang="ts">
+    import FileViewer from "./FileView.svelte";
+    import Editor from "./Editor.svelte";
+    import NavBar from "./NavBar.svelte";
+
+    let sidebarCollapsed = true;
+</script>
+
+<div class="app">
+    <NavBar bind:sidebarCollapsed/>
+    <main>
+        <aside class:sidebarCollapsed>
+            <div class="file-viewer">
+                <div style="direction: ltr">
+                    <FileViewer tree={{label: '', isDir: true}}/>
+                </div>
+            </div>
+        </aside>
+        <section class="editor">
+            <Editor/>
+        </section>
+    </main>
+</div>
+
+<style lang="less">
+  @media (max-width: 800px) {
+    .sidebarCollapsed {
+      display: none;
+    }
+  }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  main {
+    display: flex;
+    flex-grow: 1;
+    height: 100%;
+  }
+
+  .editor {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+
+  .file-viewer {
+    padding: 7px 10px;
+    direction: rtl;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+
+  aside {
+    width: 200px;
+    border-right: 1px solid rgba(204, 204, 204, 0.5);
+  }
+</style>
