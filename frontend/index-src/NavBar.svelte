@@ -2,7 +2,6 @@
     import * as api from './lib/api';
     import NavButton from "./lib/NavButton.svelte";
     import {refreshTreePath} from "./store/treeStore";
-    import {openedFilePath} from "./store/openedFilePath";
     import {currentlyEditedFile, filesBeingEdited} from "./store/editorStore";
     import {setPage} from "../src/Router.svelte";
     import CurrentFile from "./lib/CurrentFile.svelte";
@@ -22,6 +21,8 @@
 
     export let sidebarCollapsed: boolean;
 
+    let uploadSpeed: string | null = null;
+    let uploadProgress: number | null = null;
     let navbarCollapsed = true;
     let fileInput: HTMLInputElement;
 
@@ -57,24 +58,50 @@
         const file = fileInput.files[0];
         if (!file) return;
 
-        currentPath.set(getBasePath($currentPath) + file.name);
+        let fileName: string;
+
+        // By default, all files which name ends with .bin are renamed to update.bin
+        if (file.name.endsWith('.bin')) {
+            fileName = 'update.bin';
+        } else {
+            fileName = file.name;
+        }
+
+        currentPath.set(`/${getBasePath($currentPath)}${fileName}`.replaceAll('//', '/'));
     }
 
-    function upload() {
+    function formatSpeed(bytesPerSec: number): string {
+        const units = ['B/s', 'KB/s', 'MB/s', 'GB/s', 'TB/s', 'PB/s'];
+        let index = 0;
+        let speed = bytesPerSec;
+
+        while (speed >= 1024 && index < units.length - 1) {
+            speed /= 1024;
+            index++;
+        }
+
+        return `${speed.toFixed(2)} ${units[index]}`;
+    }
+
+    function onUploadProgress({percent, throughputBps}: { percent: number, throughputBps: number }) {
+        uploadProgress = percent;
+        uploadSpeed = formatSpeed(throughputBps);
+    }
+
+    async function upload() {
         const file = fileInput.files[0];
         if (!file) return;
 
-        const reader = new FileReader();
-        reader.onload = async () => {
-            const content = reader.result as string;
-
-            loadingButtons.UPLOAD = true;
-            await wrapErrHandler(api.upsertFile)($currentPath, content);
-            loadingButtons.UPLOAD = false;
-            refresh(getBasePath($currentPath));
-        };
-
-        reader.readAsText(file);
+        loadingButtons.UPLOAD = true;
+        await wrapErrHandler(api.upsertFile)($currentPath, file, null, onUploadProgress);
+        
+        loadingButtons.UPLOAD = false;
+        refresh(getBasePath($currentPath));
+        
+        // wait 1 sec before removing the progress bar:
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        uploadProgress = null;
+        uploadSpeed = null;
     }
 
     async function mkdir() {
@@ -129,6 +156,13 @@
     <NavButton showSpinner={loadingButtons.RESTART} on:click={restart}>RESTART</NavButton>
     <NavButton showSpinner={loadingButtons.RESTART_TO_WIFI} on:click={restartToWifi}>TO WIFI</NavButton>
     <NavButton on:click={() => setPage('gauge')}>GAUGE</NavButton>
+    {#if (uploadSpeed && (uploadProgress !== null))}
+        <div class="progress">
+            <progress value={uploadProgress} max="100"/>
+            <span>{uploadProgress}%</span>
+            <span>{uploadSpeed}</span>
+        </div>
+    {/if}
 </nav>
 
 <style lang="less">
@@ -151,6 +185,21 @@
     .expansion-menu {
       display: flex !important;
     }
+  }
+  
+  .progress {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 10px;
+    font-family: 'visitor', sans-serif;
+    font-size: 1.2em;
+  }
+
+  .progress > span {
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
   }
 
   .expansion-menu {

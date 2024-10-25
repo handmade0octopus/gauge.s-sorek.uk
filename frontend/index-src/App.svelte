@@ -2,10 +2,12 @@
     import FileViewer from "./FileView.svelte";
     import Editor from "./Editor.svelte";
     import NavBar from "./NavBar.svelte";
+    import ContextMenu from "./lib/ContextMenu.svelte";
 
     let sidebarCollapsed = true;
 </script>
 
+<ContextMenu/>
 <div class="app">
     <NavBar bind:sidebarCollapsed/>
     <main>

@@ -4,10 +4,65 @@ const isDev: boolean = import.meta.env.DEV
 const API_POSTFIX = isDev ? '/api' : '';
 
 const API_URL = `http://${window.location.host}${API_POSTFIX}`;
-export const WS_URL = `ws://${window.location.hostname}/ws`;
+export const WS_URL = `ws://${window.location.host}${API_POSTFIX}/ws`;
+
+export async function upsertFile(
+    filePath: string,
+    newContent: string | File,
+    dataType: string = 'text/plain',
+    onProgress?: (progress: {percent: number, throughputBps: number}) => void
+) {
+    const formData = new FormData();
+
+    let content: File | Blob = newContent as File;
+    if (typeof newContent === 'string') {
+        content = new Blob([newContent], {type: dataType});
+    }
+
+    formData.append("data", content, filePath);
+
+    return new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('POST', `${API_URL}/edit`, true);
+
+        let startTime: number = Date.now();
+        let lastUploadedBytes: number = 0;
+
+        xhr.upload.onprogress = (event) => {
+            if (onProgress && event.lengthComputable) {
+                const currentTime = Date.now();
+
+                const percent = (event.loaded / event.total) * 100;
+
+                // Calculate throughput (bytes per second)
+                const elapsedTime = (currentTime - startTime) / 1000; // convert to seconds
+                const bytesUploadedSinceLast = event.loaded - lastUploadedBytes;
+                const throughput = bytesUploadedSinceLast / elapsedTime; // bytes per second
+
+                lastUploadedBytes = event.loaded;
+                startTime = currentTime; // Reset for next calculation
+
+                onProgress({percent, throughputBps: throughput});
+            }
+        };
+
+        xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                resolve();
+            } else {
+                reject(new Error(`Upload failed with status: ${xhr.status}`));
+            }
+        };
+
+        xhr.onerror = () => reject(new Error('Upload failed'));
+
+        xhr.send(formData);
+    });
+}
 
 // If file does not exist, it will be created, otherwise it will be updated
-export async function upsertFile(filePath: string, newContent: string | File, dataType: string = 'text/plain') {
+export async function upsertFileOld(filePath: string, newContent: string | File, dataType: string = 'text/plain') {
     const formData = new FormData();
 
     let content: File | Blob = newContent as File;

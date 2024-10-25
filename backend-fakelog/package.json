@@ -17,7 +17,7 @@
     "@types/morgan": "^1.9.9",
     "@types/multer": "^1.4.12",
     "multer": "1.4.5-lts.1",
-    "nodemon": "^3.1.4",
+    "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   },
