@@ -89,7 +89,7 @@
                 class="label"
                 class:directory={tree.isDir}
         >
-            <img class="folder-icon" src={folderIcon}>
+            <img class="folder-icon" src={folderIcon} alt="">
             <span>{tree.label}</span>
         </a>
     {/if}

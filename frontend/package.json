@@ -40,6 +40,7 @@
     "codemirror": "^6.0.1",
     "codemirror-themes": "link:@ddietr/codemirror-themes",
     "extends": "link:@babel/runtime/helpers/extends",
+    "istextorbinary": "^9.5.0",
     "svelte-codemirror-editor": "^1.4.1",
     "svelte-tree-view": "^1.4.2"
   }

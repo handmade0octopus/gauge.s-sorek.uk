@@ -10,6 +10,7 @@
     import {openedFilePath} from "./store/openedFilePath";
     import {refreshTreePath} from "./store/treeStore";
     import {currentlyEditedFile, filesBeingEdited} from "./store/editorStore";
+    import type {GetFileResponse} from "./lib/api";
 
     let isLoading = false;
     let error = null;
@@ -17,18 +18,41 @@
     $: {
         $refreshTreePath;
         error = null; // reset error
-        const isNotFetched = !filesBeingEdited[$openedFilePath] && filesBeingEdited[$openedFilePath] !== "";
+        const isNotFetched = !filesBeingEdited[$openedFilePath];
         if (isNotFetched && $openedFilePath !== '/' && $openedFilePath) {
             isLoading = true;
 
             api.get($openedFilePath).then(data => {
                 filesBeingEdited[$openedFilePath] = data;
+                if(data.isBinary) {
+                    downloadFile(data);
+                    return;
+                }
                 currentlyEditedFile.set($openedFilePath);
             }).catch(err => {
                 error = err;
             }).finally(() => isLoading = false);
+        } else {
+            if(filesBeingEdited[$openedFilePath]?.isBinary) {
+                downloadFile(filesBeingEdited[$openedFilePath]);
+                openedFilePath.set(null);
+            }
         }
     }
+
+    function downloadFile(data: GetFileResponse) {
+        const url = window.URL.createObjectURL(new Blob([data.buffer]));
+        const link = document.createElement('a');
+
+        link.href = url;
+        link.setAttribute('download', data.name);
+        document.body.appendChild(link);
+        link.click();
+
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+    }
+
 
     function jsonCompletion(context: CompletionContext) {
         let word = context.matchBefore(/\w*/);
@@ -46,7 +70,6 @@
         basicSetup,
         dracula,
         new LanguageSupport(jsoncLanguage),
-        //linter(
         autocompletion({override: [jsonCompletion]}),
         EditorState.tabSize.of(2),
     ];
@@ -57,12 +80,12 @@
 {:else if error}
     <p>Select file</p>
     <p>{error.message}</p>
-{:else if filesBeingEdited[$openedFilePath] === null}
+{:else if !filesBeingEdited[$openedFilePath]}
     <p>Select file</p>
 {:else}
     <CodeMirror
             {extensions}
-            bind:value={filesBeingEdited[$openedFilePath]}
+            bind:value={filesBeingEdited[$openedFilePath].content}
             lang={jsonc()}
             styles={{
                 '&': {

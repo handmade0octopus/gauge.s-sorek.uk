@@ -1,3 +1,5 @@
+import {Path} from "./utils";
+
 // @ts-ignore
 const isDev: boolean = import.meta.env.DEV
 
@@ -113,16 +115,55 @@ export async function listDir(dirPath: string): Promise<DirEntry[]> {
     await throwIfNotOk(res);
 }
 
-export async function get(path: string): Promise<string> {
+export interface GetFileResponse {
+    name: string;
+    content: string;
+    buffer: ArrayBuffer;
+    isBinary: boolean;
+}
+
+export async function get(path: string): Promise<GetFileResponse> {
     const res = await fetch(`${API_URL}${path}`, {
         method: 'GET',
     });
 
-    if (res.ok) {
-        return await res.text();
+    if (!res.ok) {
+        await throwIfNotOk(res);
+        return null as any;
     }
 
-    await throwIfNotOk(res);
+    const alternativeFileName = `unknown${path.replaceAll('/', '_')}.bin`;
+    const fileName = new Path(path).popIfFile() || alternativeFileName;
+
+    const buffer = await res.arrayBuffer();
+    const text = await new Response(buffer).text();
+
+    return {
+        buffer,
+        name: fileName,
+        content: text,
+        isBinary: isBinary(buffer),
+    };
+}
+
+function isBinary(data: ArrayBuffer): boolean {
+    const uint8Array = new Uint8Array(data);
+
+    // Heuristic: Look at the first 100 bytes
+    const sampleSize = Math.min(100, uint8Array.length);
+    let nonPrintableCount = 0;
+
+    for (let i = 0; i < sampleSize; i++) {
+        const byte = uint8Array[i];
+
+        // Check for non-printable ASCII characters (excluding common control characters like newline)
+        if (byte < 32 && byte !== 10 && byte !== 13) {
+            nonPrintableCount++;
+        }
+    }
+
+    // If more than 10% of the first 100 bytes are non-printable, treat it as binary
+    return nonPrintableCount > sampleSize * 0.1;
 }
 
 export async function restart() {

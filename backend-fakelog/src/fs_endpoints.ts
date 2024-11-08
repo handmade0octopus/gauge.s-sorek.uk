@@ -1,4 +1,5 @@
 import express from 'express';
+import mime from 'mime-types';
 import * as path from "node:path";
 import {WORKING_DIR} from "./index";
 import * as fs from "node:fs";
@@ -80,9 +81,16 @@ router.get('/list', async (req, res) => {
 router.get('*', async (req, res) => {
     try {
         const filePath = decodeURI(req.path);
-        console.log('\n\n\nfilePath: ', filePath);
-        const fileContent = fs.readFileSync(path.join(WORKING_DIR, filePath), 'utf8');
+        const absolutePath = path.join(WORKING_DIR, filePath);
 
+        if (!fs.existsSync(absolutePath) || !fs.lstatSync(absolutePath).isFile()) {
+            return res.status(404).send('File not found');
+        }
+
+        const mimeType = mime.contentType(path.basename(absolutePath)) || 'application/octet-stream';
+        const fileContent = fs.readFileSync(absolutePath);
+
+        res.setHeader('Content-Type', mimeType);
         res.status(200).send(fileContent);
     } catch (error) {
         res.status(500).send(error.toString());

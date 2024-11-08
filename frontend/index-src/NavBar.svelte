@@ -9,7 +9,7 @@
     import burgerIconRight from "./assets/burger-icon-right.svg";
     import IconButton from "./lib/IconButton.svelte";
     import {currentPath} from "./store/currentPath";
-    import {getBasePath} from "./lib/utils";
+    import {getBasePath, Path} from "./lib/utils";
 
     function wrapErrHandler<T>(fn: (...args: any) => Promise<T>): (...args: any) => Promise<T> {
         return (...args) => fn(...args).catch(err => {
@@ -67,7 +67,11 @@
             fileName = file.name;
         }
 
-        currentPath.set(`/${getBasePath($currentPath)}${fileName}`.replaceAll('//', '/'));
+        const path = new Path($currentPath);
+        path.popIfFile();
+        path.append(fileName);
+
+        currentPath.set('/' + path.toString());
     }
 
     function formatSpeed(bytesPerSec: number): string {
@@ -93,13 +97,13 @@
         if (!file) return;
 
         loadingButtons.UPLOAD = true;
-        await wrapErrHandler(api.upsertFile)($currentPath, file, null, onUploadProgress);
+        await wrapErrHandler(api.upsertFile)($currentPath, file, file.type, onUploadProgress);
         
         loadingButtons.UPLOAD = false;
         refresh(getBasePath($currentPath));
         
-        // wait 1 sec before removing the progress bar:
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // wait 2 sec before removing the progress bar:
+        await new Promise(resolve => setTimeout(resolve, 2000));
         uploadProgress = null;
         uploadSpeed = null;
     }
