@@ -8,10 +8,13 @@
 </script>
 <script lang="ts">
     import * as api from './lib/api';
+    import * as contextMenu from './lib/ContextMenu.svelte';
     import {onMount} from "svelte";
     import folderIcon from './assets/folder.svg';
     import {refreshTreePath} from "./store/treeStore";
     import {openedFilePath} from "./store/openedFilePath";
+    import {MenuItemType} from "./lib/ContextMenu.svelte";
+    import {downloadFile} from "./lib/utils.js";
 
     export let isRoot = true;
     export let dirPath = "/";
@@ -70,6 +73,46 @@
         tree = {...tree};
     }
 
+    function showContextMenu(e: MouseEvent) {
+        let label = tree.label;
+
+        const menuItems: contextMenu.MenuItem[] = [
+            {
+                type: MenuItemType.LabelEditable,
+                content: tree.label,
+                onNameChange(newName) {
+                    label = newName;
+                },
+            },
+            {type: MenuItemType.Hr},
+            {
+                type: MenuItemType.Button,
+                content: "Rename",
+                async onClick(): Promise<void> {
+                    // TODO: implement renaming in api
+                    console.log(`Trying to rename ${dirPath + tree.label} to ${dirPath + label}`);
+                }
+            },
+            {
+                type: MenuItemType.Button,
+                content: "Download",
+                async onClick(): Promise<void> {
+                    const file = await api.get(dirPath + tree.label);
+                    downloadFile(file);
+                }
+            },
+            {
+                type: MenuItemType.Button,
+                content: "Delete",
+                async onClick() {
+                    await api.deleteFile(dirPath + tree.label);
+                    refreshTreePath.set(dirPath);
+                },
+            }
+        ];
+        contextMenu.showContextMenu(e, menuItems);
+    }
+
     async function fetchChildren(): Promise<TreeNode[]> {
         const entries = api.listDir(dirPath + tree.label);
         let dir = await entries;
@@ -84,12 +127,16 @@
 <main>
     {#if !isRoot}
         <a
+                on:dblclick={showContextMenu}
+                on:contextmenu|preventDefault={showContextMenu}
                 on:click={toggleExpand}
                 class:clicked={tree.clicked || $openedFilePath === (dirPath + tree.label)}
                 class="label"
                 class:directory={tree.isDir}
         >
-            <img class="folder-icon" src={folderIcon} alt="">
+            {#if (tree.isDir)}
+                <img class="folder-icon" src={folderIcon} alt="">
+            {/if}
             <span>{tree.label}</span>
         </a>
     {/if}
@@ -120,6 +167,7 @@
 
     .label {
         cursor: pointer;
+        user-select: none;
     }
 
     .directory {
@@ -132,11 +180,6 @@
         width: 16px;
         height: 16px;
         margin-right: 5px;
-    }
-
-    /* hide folder icon for files */
-    :not(.directory) > .folder-icon {
-        display: none;
     }
 
     main {

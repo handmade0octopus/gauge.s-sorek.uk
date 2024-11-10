@@ -10,7 +10,7 @@
     import {openedFilePath} from "./store/openedFilePath";
     import {refreshTreePath} from "./store/treeStore";
     import {currentlyEditedFile, filesBeingEdited} from "./store/editorStore";
-    import type {GetFileResponse} from "./lib/api";
+    import {downloadFile} from "./lib/utils";
 
     let isLoading = false;
     let error = null;
@@ -39,20 +39,6 @@
             }
         }
     }
-
-    function downloadFile(data: GetFileResponse) {
-        const url = window.URL.createObjectURL(new Blob([data.buffer]));
-        const link = document.createElement('a');
-
-        link.href = url;
-        link.setAttribute('download', data.name);
-        document.body.appendChild(link);
-        link.click();
-
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-    }
-
 
     function jsonCompletion(context: CompletionContext) {
         let word = context.matchBefore(/\w*/);

@@ -1,3 +1,5 @@
+import type {GetFileResponse} from "./api";
+
 export class Path {
     pathParts: string[];
     constructor(path?: string) {
@@ -47,6 +49,19 @@ export class Path {
 
         return this.pathParts[this.pathParts.length - 1] === '/' ? this.pathParts.join('/') : this.pathParts.join('/') + '/';
     }
+}
+
+export function downloadFile(data: GetFileResponse) {
+    const url = window.URL.createObjectURL(new Blob([data.buffer]));
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.setAttribute('download', data.name);
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
 }
 
 // TODO: Replace all getBasePath calls with Path class

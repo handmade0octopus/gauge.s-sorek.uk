@@ -1,84 +1,100 @@
-<script lang="ts">
-    // pos is cursor position when right click occur
-    let pos = {x: 0, y: 0}
-    // menu is dimension (height and width) of context menu
-    let menu: any = {h: 0, y: 0}
-    // browser/window dimension (height and width)
-    let browser: any = {h: 0, y: 0}
-    // showMenu is state of context-menu visibility
-    let showMenu = false;
+<script lang="ts" context="module">
+    import {type Writable, writable} from "svelte/store";
 
-    function rightClickContextMenu(e) {
-        showMenu = true
-        browser = {
+    export enum MenuItemType {
+        LabelEditable,
+        Button,
+        Label,
+        Hr,
+    }
+
+    export interface MenuItem {
+        type: MenuItemType;
+        content?: string;
+        onClick?: () => void | Promise<void>;
+        onNameChange?: (newName: string) => void | Promise<void>;
+    }
+
+    // pos is cursor position when right click occur
+    let pos = writable({x: 0, y: 0});
+    // menu is dimension (height and width) of context menu
+    let menu: Writable<any> = writable({h: 0, y: 0});
+    // browser/window dimension (height and width)
+    let browser: Writable<any> = writable({h: 0, y: 0});
+    // showMenu is state of context-menu visibility
+    let showMenu = writable(false);
+
+    let menuItems: Writable<MenuItem[]> = writable([]);
+
+    export function showContextMenu(e: MouseEvent, newMenuItems?: MenuItem[]) {
+        browser.set({
             w: window.innerWidth,
             h: window.innerHeight
-        };
-        pos = {
+        });
+        pos.set({
             x: e.clientX,
             y: e.clientY
-        };
+        });
+        showMenu.set(true);
+
+        if (newMenuItems) {
+            menuItems.set(newMenuItems);
+        }
+    }
+</script>
+
+<script lang="ts">
+    showMenu.subscribe(() => {
         // If bottom part of context menu will be displayed
         // after right-click, then change the position of the
         // context menu. This position is controlled by `top` and `left`
-        // at inline style. 
+        // at inline style.
         // Instead of context menu is displayed from top left of cursor position
         // when right-click occur, it will be displayed from bottom left.
-        if (browser.h - pos.y < menu.h)
-            pos.y = pos.y - menu.h
-        if (browser.w - pos.x < menu.w)
-            pos.x = pos.x - menu.w
-    }
+
+        if ($browser.h - $pos.y < $menu.h)
+            $pos.y = $pos.y - $menu.h;
+        if ($browser.w - $pos.x < $menu.w)
+            $pos.x = $pos.x - $menu.w;
+    });
 
     function getContextMenuDimension(node) {
         // This function will get context menu dimension
         // when navigation is shown => showMenu = true
         let height = node.offsetHeight
         let width = node.offsetWidth
-        menu = {
+        menu.set({
             h: height,
             w: width
-        }
+        });
     }
 
-    let menuItems = [
-        {
-            'type': 'label',
-            'content': "config.json",
-        },
-        {'type': 'hr'},
-        {
-            'type': 'button',
-            'content': "Edit",
-            'onClick': () => undefined,
-        },
-        {
-            'type': 'button',
-            'content': "Download",
-            'onClick': () => undefined,
-        },
-        {
-            'type': 'button',
-            'content': "Delete",
-            'onClick': () => undefined,
-        },
-    ]
+    function wrapOnClick(fn: () => void | Promise<void>) {
+        return async () => {
+            await fn();
+            showMenu.set(false);
+        };
+    }
 </script>
 
-{#if showMenu}
-    <nav use:getContextMenuDimension style="z-index: 1000; position: absolute; top:{pos.y}px; left:{pos.x}px">
+{#if $showMenu}
+    <nav use:getContextMenuDimension style="z-index: 1000; position: absolute; top:{$pos.y}px; left:{$pos.x}px">
         <div class="navbar" id="navbar">
             <ul>
-                {#each menuItems as item}
-                    {#if item.type === 'label'}
+                {#each $menuItems as item}
+                    {#if item.type === MenuItemType.Label}
                         <li>
                             <span>{item.content}</span>
                         </li>
-                    {:else if item.type === 'hr'}
-                        <hr/>
-                    {:else}
+                    {:else if item.type === MenuItemType.LabelEditable}
                         <li>
-                            <button on:click={item.onClick}>{item.content}</button>
+                            <input type="text" value={item.content} on:input={e => item.onNameChange(e.target.value)}/>
+                        </li>
+                    {:else if item.type === MenuItemType.Hr}
+                        <hr/>
+                    {:else if item.type === MenuItemType.Button}
+                        <li>
+                            <button on:click={wrapOnClick(item.onClick)}>{item.content}</button>
                         </li>
                     {/if}
                 {/each}
@@ -87,9 +103,9 @@
     </nav>
 {/if}
 
-<svelte:window
-        on:contextmenu|preventDefault={rightClickContextMenu}
-        on:click={() => showMenu = false}/>
+<div on:click={() => showMenu.set(false)}>
+    <slot/>
+</div>
 
 <style lang="less">
   @import "../../src/global";
@@ -127,7 +143,7 @@
     padding: 10px;
   }
 
-  .navbar li:hover:not(:first-child) {
+  .navbar li:hover:has(button) {
     filter: brightness(1.3);
     background-color: @navbar-button-bg-color;
   }
@@ -156,6 +172,28 @@
     font-size: 16px;
     text-align: center;
     width: 100%;
+  }
+
+  .navbar input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 3px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: @navbar-button-bg-color;
+    color: @navbar-button-text-color;
+    border: none;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .navbar input:focus {
+    outline: none;
+  }
+
+  .navbar li:has(input:focus) {
+    filter: brightness(1.3);
+    background-color: @navbar-button-bg-color;
   }
 
   .navbar li:last-child {

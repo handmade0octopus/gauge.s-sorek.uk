@@ -63,25 +63,6 @@ export async function upsertFile(
     });
 }
 
-// If file does not exist, it will be created, otherwise it will be updated
-export async function upsertFileOld(filePath: string, newContent: string | File, dataType: string = 'text/plain') {
-    const formData = new FormData();
-
-    let content: File | Blob = newContent as File;
-    if (typeof newContent === 'string') {
-        content = new Blob([newContent], {type: dataType});
-    }
-
-    formData.append("data", content, filePath);
-
-    const res = await fetch(`${API_URL}/edit`, {
-        method: 'POST',
-        body: formData,
-    });
-
-    await throwIfNotOk(res);
-}
-
 export async function createPath(filePath: string) {
     const formData = new FormData();
     formData.append("path", filePath);

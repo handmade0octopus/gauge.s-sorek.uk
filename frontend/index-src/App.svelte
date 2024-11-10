@@ -7,22 +7,23 @@
     let sidebarCollapsed = true;
 </script>
 
-<ContextMenu/>
-<div class="app">
-    <NavBar bind:sidebarCollapsed/>
-    <main>
-        <aside class:sidebarCollapsed>
-            <div class="file-viewer">
-                <div style="direction: ltr">
-                    <FileViewer tree={{label: '', isDir: true}}/>
+<ContextMenu>
+    <div class="app">
+        <NavBar bind:sidebarCollapsed/>
+        <main>
+            <aside class:sidebarCollapsed>
+                <div class="file-viewer">
+                    <div style="direction: ltr">
+                        <FileViewer tree={{label: '', isDir: true}}/>
+                    </div>
                 </div>
-            </div>
-        </aside>
-        <section class="editor">
-            <Editor/>
-        </section>
-    </main>
-</div>
+            </aside>
+            <section class="editor">
+                <Editor/>
+            </section>
+        </main>
+    </div>
+</ContextMenu>
 
 <style lang="less">
   @media (max-width: 800px) {
