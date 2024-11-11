@@ -1,4 +1,5 @@
 <script lang="ts">
+    import svelteHammer, {Hammer} from 'svelte-hammer';
     import {onMount} from "svelte";
     import {WS_URL} from "../index-src/lib/api";
 
@@ -78,7 +79,17 @@
 {/if}
 
 {#if !isWsClosed}
-    <canvas class="canvas" width={canvasWidth} height={canvasHeight} bind:this={canvas}></canvas>
+    <canvas
+            bind:this={canvas}
+            use:svelteHammer.swipe={{ direction: Hammer.DIRECTION_ALL }}
+            on:swipeleft={() => console.log('swipe left')}
+            on:swiperight={() => console.log('swipe right')}
+            on:swipeup={() => console.log('swipe up')}
+            on:swipedown={() => console.log('swipe down')}
+            class="canvas"
+            width={canvasWidth}
+            height={canvasHeight}
+    />
 {/if}
 
 <style>

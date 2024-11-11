@@ -122,7 +122,7 @@
 
     async function save() {
         const path = $currentlyEditedFile;
-        const content = filesBeingEdited[$currentlyEditedFile];
+        const content = filesBeingEdited[$currentlyEditedFile].content;
         if (!path || !content || content === '/') return;
 
         loadingButtons.SAVE = true;

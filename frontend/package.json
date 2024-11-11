@@ -42,6 +42,7 @@
     "extends": "link:@babel/runtime/helpers/extends",
     "istextorbinary": "^9.5.0",
     "svelte-codemirror-editor": "^1.4.1",
+    "svelte-hammer": "^0.1.7",
     "svelte-tree-view": "^1.4.2"
   }
 }
