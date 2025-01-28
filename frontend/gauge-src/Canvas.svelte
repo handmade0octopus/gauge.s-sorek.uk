@@ -3,12 +3,24 @@
     import {onMount} from "svelte";
     import {WS_URL} from "../index-src/lib/api";
 
+    enum WsGestureRequests {
+        Null = 'be0',
+        Nudge = 'be1',
+        Ok = 'be2',
+        Next = 'be3',
+        Previous = 'be4',
+        Special = 'be5',
+        Exit = 'be6',
+        Size = 'be7',
+    }
+
     const REFRESH_INTERVAL = 500;
     const bgColor = '#282a36';
     const fgColor = '#f76830';
     const canvasWidth = 128;
     const canvasHeight = 64;
 
+    let lastGesture: WsGestureRequests = WsGestureRequests.Null;
     let isConnected = false;
     let error: string = null;
     let isWsClosed = false;
@@ -41,14 +53,17 @@
             }
         };
 
+        const refreshInternal = setInterval(() => {
+            console.log('sending: ', lastGesture);
+            ws.send(lastGesture);
+            lastGesture = WsGestureRequests.Null;
+        }, REFRESH_INTERVAL);
+
         ws.onclose = function () {
             isWsClosed = true;
             error = "WebSocket connection closed, try to refresh the page";
+            clearInterval(refreshInternal);
         };
-
-        setInterval(() => {
-            ws.send('be0')
-        }, REFRESH_INTERVAL);
     });
 
     function drawBitmap(data: Uint8Array) {
@@ -82,10 +97,10 @@
     <canvas
             bind:this={canvas}
             use:svelteHammer.swipe={{ direction: Hammer.DIRECTION_ALL }}
-            on:swipeleft={() => console.log('swipe left')}
-            on:swiperight={() => console.log('swipe right')}
-            on:swipeup={() => console.log('swipe up')}
-            on:swipedown={() => console.log('swipe down')}
+            on:swipeleft={() => lastGesture = WsGestureRequests.Previous}
+            on:swiperight={() => lastGesture = WsGestureRequests.Next}
+            on:swipeup={() => lastGesture = WsGestureRequests.Ok}
+            on:swipedown={() => lastGesture = WsGestureRequests.Exit}
             class="canvas"
             width={canvasWidth}
             height={canvasHeight}
