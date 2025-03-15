@@ -1,5 +1,5 @@
 {
-	"obdRefresh": 80,	// default is 20; uncomment if you are sure your ECU will accept this speed!
+	"obdRefresh": 200,	// default is 20; uncomment if you are sure your ECU will accept this speed!
 	"canSpeed": 500, // some cars may need 250
 	"ecuparam": [
 		{
@@ -34,9 +34,20 @@
 			"min": 1.1
 		},
 		{
+			"header": "Torque",
+			"unit": "Nm",
+			"obdPID": 98
+		},
+		{
 			"header": "MAF",
 			"unit": "kg/h",
 			"obdPID": 16,
+			"mul": 3.6
+		},
+		{
+			"header": "TPS",
+			"unit": "kg/h",
+			"obdPID": 17,
 			"mul": 3.6
 		},
 		{
@@ -45,21 +56,27 @@
 			"obdPID": 14
 		},
 		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"obdPID": 5,
+			"eventsPerSecond": 0.1
+		},
+		{
 			"header": "Intake Air Temp",
 			"unit": "°C",
 			"obdPID": 15,
-			"eventsPerMinute": 10
+			"eventsPerSecond": 0.1
+		},
+		{
+			"header": "Oil Temp",
+			"unit": "°C",
+			"obdPID": 92,
+			"eventsPerSecond": 0.1
 		},
 		{
 			"header": "Speed",
 			"unit": "km/h",
 			"obdPID": 13
-		},
-		{
-			"header": "Coolant Temp",
-			"unit": "°C",
-			"obdPID": 5,
-			"eventsPerMinute": 10
 		},
 		{
 			"header": "STFT 1",
@@ -75,25 +92,35 @@
 			"header": "Adapt Add 1",
 			"unit": "%",
 			"obdPID": 6,
-			"eventsPerMinute": 1
+			"eventsPerSecond": 0.01
 		},
 		{
 			"header": "Adapt Add 2",
 			"unit": "%",
 			"obdPID": 8,
-			"eventsPerMinute": 1
+			"eventsPerSecond": 0.01
 		},
 		{
 			"header": "Adapt Mul 1",
 			"unit": "%",
 			"obdPID": 7,
-			"eventsPerMinute": 1
+			"eventsPerSecond": 0.01
 		},
 		{
 			"header": "Adapt Mul 2",
 			"unit": "%",
 			"obdPID": 9,
-			"eventsPerMinute": 1
+			"eventsPerSecond": 0.01
+		},
+		{
+			"header": "Can sleep",
+			"canId": "0x130",	 	//  For BMW
+			"expr": "sleep(x == 192)",
+			"length": 1
+		},
+		{
+			"header": "Input V",
+			"alias": "Battery"
 		}
 	]
 }

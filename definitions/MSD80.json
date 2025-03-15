@@ -125,9 +125,9 @@
 			"header": "Real boost",
 			"unit": "Bar",
 			"kwpCan": "0x4205",
-      "x": "Boost before",
-      "y": "Vacuum",
-      "expr": "x-y"
+      		"x": "Boost before",
+      		"y": "Vacuum",
+      		"expr": "x-y"
 		},
 		{
 			"header": "Target boost",
@@ -255,6 +255,12 @@
 			"kwpCan": "0x5AAB",
 			"length": 2,
 			"mul": 0.00152587890625
+		},
+		{
+			"header": "Can sleep",
+			"canId": "0x130",
+			"expr": "sleep(x == 192)",
+			"length": 1
 		}
 	]
 }
