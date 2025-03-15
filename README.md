@@ -11,11 +11,14 @@ Made for Gauge.S made by sorek.uk - all files in this repository are therfore li
 
 ## IMPORTANT
 [Watch this video first before using this repository](https://www.youtube.com/watch?v=1gwIp4gyI30) <==
+
 [![Gauge.S NEW VIDEO!](https://i.ytimg.com/vi/1gwIp4gyI30/0.jpg)](https://www.youtube.com/watch?v=1gwIp4gyI30)
 
 
 [Original video for E36](https://youtu.be/v5P81D6qujs) <==
+
 [![Gauge.S](https://img.youtube.com/vi/v5P81D6qujs/0.jpg)](https://youtu.be/v5P81D6qujs)
+
 
 
 WARNING:
