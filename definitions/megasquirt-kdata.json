@@ -175,7 +175,7 @@
             "offset": 0,
             "length": 2,
             "reverseEndianness": true,
-            "dec": 1,
+            "dec": 1
         },
         {
             "header": "Battery Voltage",
@@ -186,7 +186,7 @@
             "length": 2,
             "mul": 0.1,
             "reverseEndianness": true
-        }
+        },
         {
             "header": "AFR1",
             "alias": "AFR",
@@ -197,6 +197,6 @@
             "reverseEndianness": true,
             "dec": 1,
             "mul": 0.1
-        },
+        }
     ]
 }
