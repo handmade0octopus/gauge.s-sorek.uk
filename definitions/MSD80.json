@@ -3,50 +3,91 @@
 	"canSpeed": 500,
 	"ecuparam": [
 		{
+			"header": "Torque ACT",
+			"unit": "Nm",
+			"canId": "0x0AA",
+			"expr": "(signed(x & 0xFFF0, 2)) / 64",
+			"offset": 1,
+			"length": 2,
+			"reverseEndianess": true
+		},
+		{
+			"header": "PVS ACT",
+			"unit": "%",
+			"canId": "0x0AA",
+			"offset": 3,
+			"length": 1,
+			"mul": 0.39063
+		},
+		{
+			"header": "RPM speed",
+			"unit": "RPM",
+			"canId": "0x0AA",
+			"offset": 4,
+			"length": 2,
+			"mul": 0.25
+		},
+		{
+			"header": "Fuel usage",
+			"unit": "l/h",
+			"canId": "0x0AA",
+			"offset": 7,
+			"length": 1,
+			"mul": 1
+		},
+		{
+			"header": "Coolant temp ACT",
+			"unit": "°C",
+			"canId": "0x1D0",
+			"offset": 0,
+			"length": 1,
+			"add": -48
+		},
+		{
+			"header": "Oil temp ACT",
+			"unit": "°C",
+			"canId": "0x1D0",
+			"offset": 1,
+			"length": 1,
+			"add": -48
+		},
+		{
+			"header": "Speed ACT",
+			"unit": "km/h",
+			"canId": "0x1A0",
+			"expr": "(x & 0xFFF) * 0.1",
+			"offset": 0,
+			"length": 2,
+			"reverseEndianess": true
+		},
+		{
+			"header": "Yaw",
+			"unit": "°/s",
+			"canId": "0x1A0",
+			"expr": "(x & 0xFFF) * 0.05",
+			"offset": 5,
+			"length": 2,
+			"reverseEndianess": true
+		},
+		{
+			"header": "Steering angle",
+			"unit": "°",
+			"canId": "0x0C4",
+			"expr": "signed(x, 2)*0.01",
+			"offset": 0,
+			"length": 2
+		},
+		{
 			"header": "Trip 1",
 			"unit": "km",
-			"expr": "trip(\"Trip 1\",x)",
+			"expr": "trip(\"Trip 1\", x)",
 			"x": "Speed"
 		},
 		{
 			"header": "Trip 2",
 			"unit": "km",
-			"expr": "trip(\"Trip 2\",x)",
+			"expr": "trip(\"Trip 2\", x)",
 			"x": "Speed"
-		},
-		{
-			"header": "Can button",
-			"canId": "0x193",
-			"expr": "(x & 5)",
-			"offset": 3,
-			"hidden": false,
-			"noLog": false
-		},
-		{
-			"header": "RT button",
-			"canId": "0x1D6",
-			"expr": "(x & 128)",
-			"offset": 0,
-			"hidden": false,
-			"noLog": false
-		},
-		{
-			"header": "Cruise active",
-			"canId": "0x193",
-			"expr": "(x & 8)",
-			"offset": 5,
-			"hidden": false,
-			"noLog": false
-		},
-		{
-			"header": "Button press",
-			"unit": "b",
-			"expr": "buttonPress(z && y, z && !y, (x == 1) && !y, (x == 4) && !y)", //use all buttons on steering wheel
-			"x": "Can button", 
-			"y": "Cruise active",
-			"z": "RT button",
-			"hidden": false,
-			"noLog": false
 		},
 		{
 			"header": "Engine speed",
@@ -91,7 +132,7 @@
 			"mul": 0.00729414634406567
 		},
 		{
-			"header": "APS",
+			"header": "PVS",
 			"unit": "%",
 			"kwpCan": "0x480B",
 			"length": 1,
@@ -261,6 +302,14 @@
 			"canId": "0x130",
 			"expr": "sleep(x == 192)",
 			"length": 1
-		}
+		},
+        {
+            "header": "Can button",
+            "canId": "0x194",
+			"expr": "buttonPress(0, (x) == 0x10, (x) == 0x90, (x) == 0x04)",
+            "offset": 2,
+            "hidden": true,
+            "noLog": true
+        }
 	]
 }
