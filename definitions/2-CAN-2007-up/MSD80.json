@@ -1,0 +1,228 @@
+{
+	"obdRefresh": 100,
+	"canSpeed": 500,
+	"ecuparam": [
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"kwpCan": "0x4807",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 1
+		},
+		{
+			"header": "Load",
+			"unit": "%",
+			"kwpCan": "0x5804",
+			"mul": 0.390625
+		},
+		{
+			"header": "Torque",
+			"unit": "Nm",
+			"kwpCan": "0x58D0",
+			"mul": 2
+		},
+		{
+			"header": "Req torque",
+			"unit": "Nm",
+			"kwpCan": "0x58CF",
+			"mul": 2
+		},
+		{
+			"header": "Mass airflow",
+			"unit": "kg/h",
+			"kwpCan": "0x4203",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.03125
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"kwpCan": "0x4600",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00729414634406567
+		},
+		{
+			"header": "PVS",
+			"unit": "%",
+			"kwpCan": "0x480B",
+			"length": 1,
+			"mul": 0.390625
+		},
+		{
+			"header": "Boost before",
+			"unit": "Bar",
+			"kwpCan": "0x5A2C",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0000390625
+		},
+		{
+			"header": "Boost",
+			"unit": "Bar",
+			"kwpCan": "0x5A2D",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0000390625
+		},
+		{
+			"header": "Vacuum",
+			"unit": "Bar",
+			"kwpCan": "0x4205",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0000829175263643265
+		},
+		{
+			"header": "Real boost",
+			"unit": "Bar",
+			"kwpCan": "0x4205",
+      		"x": "Boost before",
+      		"y": "Vacuum",
+      		"expr": "x-y"
+		},
+		{
+			"header": "Target boost",
+			"unit": "Bar",
+			"kwpCan": "0x5AB0",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0000390625
+		},
+		{
+			"header": "Low Pressure pump",
+			"unit": "Bar",
+			"kwpCan": "0x5A2E",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00265336084365845
+		},
+		{
+			"header": "Rail Pressure",
+			"unit": "Bar",
+			"kwpCan": "0x5A2F",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00530672168731689
+		},
+		{
+			"header": "Ignition cylinder 1",
+			"unit": "°CRK",
+			"kwpCan": "0x580E",
+			"length": 1,
+			"mul": 0.5,
+			"add": -64
+		},
+		{
+			"header": "Lambda 1",
+			"unit": "AFR",
+			"kwpCan": "0x5889",
+			"length": 1,
+			"mul": 0.11484375 //"mul": 0.0078125
+		},
+		{
+			"header": "Lambda 2",
+			"unit": "AFR",
+			"kwpCan": "0x588A",
+			"length": 1,
+			"mul": 0.11484375 //"mul": 0.0078125
+		},
+		{
+			"header": "EGT",
+			"unit": "°C",
+			"kwpCan": "0x5896",
+			"mul": 16
+		},
+		{
+			"header": "STFT1",
+			"unit": "%",
+			"kwpCan": "0x5806",
+			"length": 1,
+			"mul": 0.78125,
+			"add": -100
+		},
+		{
+			"header": "STFT2",
+			"unit": "%",
+			"kwpCan": "0x5808",
+			"length": 1,
+			"mul": 0.78125,
+			"add": -100
+		},
+		{
+			"header": "LTFT1",
+			"unit": "%",
+			"kwpCan": "0x5A85",
+			"length": 2,
+			"reverseEndianness": false,
+			"expr": "signed(x, 2)*0.00152587890625"
+		},
+		{
+			"header": "LTFT2",
+			"unit": "%",
+			"kwpCan": "0x5A86",
+			"length": 2,
+			"reverseEndianness": false,
+			"expr": "signed(x, 2)*0.00152587890625"
+		},
+		{
+			"header": "Intake Temp",
+			"unit": "°C",
+			"kwpCan": "0x581E",
+			"length": 1,
+			"mul": 0.390625
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"kwpCan": "0x4300",
+			"length": 1,
+			"mul": 0.75,
+			"add": -47
+		},
+		{
+			"header": "Oil Temp",
+			"unit": "°C",
+			"kwpCan": "0x4402",
+			"length": 2,
+			"mul": 0.1
+		},
+		{
+			"header": "Oil level",
+			"unit": "%",
+			"kwpCan": "0x4401",
+			"length": 1,
+			"mul": 1
+		},
+		{
+			"header": "Gear",
+			"unit": "G",
+			"kwpCan": "0x5881",
+			"length": 1,
+			"mul": 1
+		},
+		{
+			"header": "WG PWM",
+			"unit": "%",
+			"kwpCan": "0x5AAB",
+			"length": 2,
+			"mul": 0.00152587890625
+		},
+		{
+			"header": "Can sleep",
+			"canId": "0x130",
+			"expr": "sleep(x == 192)",
+			"length": 1
+		},
+        {
+            "header": "Can button",
+            "canId": "0x194",
+			"expr": "buttonPress(0, (x) == 0x10, (x) == 0x90, (x) == 0x04)",
+            "offset": 2,
+            "hidden": true,
+            "noLog": true
+        }
+	]
+}

@@ -1,0 +1,11 @@
+{
+    // Bosch 20-300kPa 0261230119
+    "ecuparam": [
+    {
+        "header": "MAP analog",
+        "unit": "Bar",
+        "expr": "0.658824 * x - 0.0635294",
+        "x": "Analog 2"
+    }
+  ]
+}

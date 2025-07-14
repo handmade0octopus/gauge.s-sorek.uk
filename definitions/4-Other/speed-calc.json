@@ -1,0 +1,86 @@
+{
+	"canSpeed": 500,
+	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
+	"ecuparam": [
+        // Start constants
+		{
+			"header": "Rear Tire Width",
+			"unit": "mm",
+			"expr": "255",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Rear Tire Aspect Ratio",
+			"expr": "40",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Rear Wheel Diameter",
+			"unit": "in",
+			"expr": "18",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Final Drive Ratio",
+			"expr": "3.62",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "CAN Raw to KPH Constant",
+			"expr": "0.0000977",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "CAN Raw to MPH Constant",
+			"expr": "0.0000607",
+			"hidden": true,
+			"noLog": true
+		},
+		// End constants
+        {
+			"header": "Speed CAN Raw", // For E46/E39
+			"canId": "0x153",
+			"offset": 1,
+			"length": 2,
+			"hidden": true,
+			"noLog": true
+		},
+        {
+			"header": "Rear Tire Circumference",
+			"unit": "mm",
+			// "unit": "in", // Change unit if going to mph
+			"x": "Rear Tire Width",
+			"y": "Rear Tire Aspect Ratio",
+			"z": "Rear Wheel Diameter",
+			"expr": "(2 * x * 0.01 * y + z * 25.4) * 3.1415",
+			// "expr": "(2 * (x / 25.4) * 0.01 * y + z) * 3.1415", // Change expr if going to mph
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Drivetrain Ratio",
+			"x": "Rear Tire Circumference",
+			"y": "Final Drive Ratio",
+			"expr": "(x / y) * (60 / 1000000)",
+			// "expr": "(x / y) * (60 / 63360)", // Change expr if going to mph
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Speed",
+			"unit": "kph",
+			// "unit": "mph", // Change unit if going to mph
+			"x": "Speed CAN Raw",
+			"y": "Rear Tire Circumference",
+			"z": "CAN Raw to KPH Constant",
+			// "z": "CAN Raw to MPH Constant", // Change constant if going to mph
+			"expr": "x * y * z",
+			"dec": 0
+		}
+    ]
+}
