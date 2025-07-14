@@ -1,0 +1,32 @@
+{
+	"canSpeed": 500,
+	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
+	"ecuparam": [
+        {
+			"header": "Lateral G",
+			"alias": "Lat G",
+			"expr": "filter(\"Accel X\", 5)", // Filters for last 5 accelerometer data points to smooth curve. Positive on left turn.
+			"dec": 2
+		},
+		{
+			"header": "Longitudinal G",
+			"alias": "Lon G",
+			"expr": "-filter(\"Accel Z\", 5)",  // Filters for last 5 accelerometer data points to smooth curve. Positive under braking.
+			"dec": 2
+		},
+		{
+			"header": "Total G",
+			"alias": "Tot G",
+			"expr": "sqrt(x*x + z*z)",
+			"x": "Accel X",
+			"z": "Accel Z",
+			"dec": 2
+		},
+		{
+			"header": "Total G Smooth",
+			"alias": "Tot Gs",
+			"expr": "filter(\"Total G\", 5)",  // Filters for last 5 accelerometer data points to smooth curve
+			"dec": 2
+		}
+    ]
+}

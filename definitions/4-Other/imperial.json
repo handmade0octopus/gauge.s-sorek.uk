@@ -1,0 +1,52 @@
+{
+	"ecuparam": [
+        {
+			"header": "Intake Air Temp IMP",
+            "alias": "IAT",
+			"unit": "°F",
+            "expr": "{Intake Air Temp} * 1.8 + 32"
+		},
+        {
+			"header": "Coolant Temp IMP",
+            "alias": "CTL",
+			"unit": "°F",
+            "expr": "{Coolant Temp} * 1.8 + 32"
+        },
+        {
+			"header": "Radiator Temp IMP",
+            "alias": "Radiator Temp",
+			"unit": "°F",
+            "expr": "{Radiator Temp} * 1.8 + 32"
+        },
+        {
+			"header": "Oil Temp IMP",
+            "alias": "Oil Temp",
+			"unit": "°F",
+            "expr": "{Oil Temp} * 1.8 + 32"
+        },
+        {
+            "header": "Speed IMP",
+            "alias": "Speed",
+            "unit": "mph",
+            "expr": "{Speed} * 0.621371"
+        },
+        {
+            "header": "Economy IMP",
+            "alias": "Economy",
+            "unit": "mpg",
+            "expr": "235.215/{Economy}"
+        },
+        {
+            "header": "Boost IMP",
+            "alias": "Boost",
+            "unit": "psi",
+            "expr": "14.504 * {Boost}"
+        },
+        {
+            "header": "MAP IMP",
+            "alias": "MAP",
+            "unit": "psi",
+            "expr": "14.504 * {MAP}"
+        }
+    ]
+}

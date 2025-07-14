@@ -1,0 +1,177 @@
+{
+  "canSpeed": 500,
+  "ecuparam": [
+    {
+      "header": "Engine_Speed",
+      "unit": "",
+      "canId": "0x3E8",
+      "offset": 0,
+      "length": 2,
+      "dec": 0,
+      "reverseEndianess": false
+    },
+    {
+      "header": "MGP",
+      "unit": "Kpa",
+      "canId": "0x3E8",
+      "offset": 2,
+      "length": 2,
+      "add": -100,
+      "dec": 0,
+      "reverseEndianess": false
+    },
+    {
+      "header": "ECT",
+      "unit": "C",
+      "canId": "0x3E8",
+      "offset": 4,
+      "length": 1,
+      "add": -50,
+      "dec": 0
+    },
+    {
+      "header": "IAT",
+      "unit": "C",
+      "canId": "0x3E8",
+      "offset": 5,
+      "length": 1,
+      "add": -50,
+      "dec": 0
+    },
+    {
+      "header": "Batt_Volts",
+      "unit": "V",
+      "canId": "0x3E8",
+      "offset": 6,
+      "length": 1,
+      "dec": 0
+    },
+    {
+      "header": "Oil_Temp",
+      "unit": "C",
+      "canId": "0x3E8",
+      "offset": 7,
+      "length": 1,
+      "add": -50,
+      "dec": 0
+    },
+    {
+      "header": "TPS",
+      "unit": "%",
+      "canId": "0x3E9",
+      "offset": 0,
+      "length": 2,
+      "mul": 0.1,
+      "dec": 1,
+      "reverseEndianess": false
+    },
+    {
+      "header": "Non_Driven_Wheel_Speed",
+      "unit": "kmh",
+      "canId": "0x3E9",
+      "offset": 4,
+      "length": 1,
+      "dec": 0
+    },
+    {
+      "header": "Oil_Press",
+      "unit": "kpa",
+      "canId": "0x3E9",
+      "offset": 5,
+      "length": 1,
+      "mul": 10,
+      "dec": 0
+    },
+    {
+      "header": "Fuel_Press",
+      "unit": "kpa",
+      "canId": "0x3E9",
+      "offset": 6,
+      "length": 1,
+      "mul": 10,
+      "dec": 0
+    },
+    {
+      "header": "Lambda_1",
+      "unit": "Lambda",
+      "canId": "0x3EA",
+      "offset": 0,
+      "length": 2,
+      "mul": 0.001,
+      "dec": 3,
+      "reverseEndianess": false
+    },
+    {
+      "header": "Lambda_2",
+      "unit": "Lambda",
+      "canId": "0x3EA",
+      "offset": 2,
+      "length": 2,
+      "mul": 0.001,
+      "dec": 3,
+      "reverseEndianess": false
+    },
+    {
+      "header": "BAP",
+      "unit": "kpa",
+      "canId": "0x3EA",
+      "offset": 6,
+      "length": 2,
+      "mul": 0.1,
+      "dec": 1,
+      "reverseEndianess": false
+    },
+    {
+      "header": "Gear",
+      "unit": "",
+      "canId": "0x3EB",
+      "offset": 0,
+      "length": 1,
+      "dec": 0
+    },
+    {
+      "header": "Fuel_Cut",
+      "unit": "%",
+      "canId": "0x3EB",
+      "offset": 1,
+      "length": 1,
+      "dec": 0
+    },
+    {
+      "header": "Ignition_Cut",
+      "unit": "%",
+      "canId": "0x3EB",
+      "offset": 2,
+      "length": 1,
+      "dec": 0
+    },
+    {
+      "header": "Injector_PW",
+      "unit": "mS",
+      "canId": "0x3EB",
+      "offset": 3,
+      "length": 2,
+      "mul": 0.001,
+      "dec": 3,
+      "reverseEndianess": false
+    },
+    {
+      "header": "Fault_Code_Count",
+      "unit": "",
+      "canId": "0x3EB",
+      "offset": 5,
+      "length": 1,
+      "dec": 0
+    },
+    {
+      "header": "Knock_Level_Global",
+      "unit": "",
+      "canId": "0x3EB",
+      "offset": 6,
+      "length": 2,
+      "mul": 5,
+      "dec": 0,
+      "reverseEndianess": false
+    }
+  ]
+}

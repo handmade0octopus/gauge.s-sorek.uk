@@ -1,0 +1,20 @@
+{
+	"ecuparam": [
+        {
+            "header": "Speed", // Dummy, used for trip calculation
+            "expr": "0"
+        },
+        {
+			"header": "Trip 1",
+			"unit": "km",
+			"expr": "trip(\"Trip 1\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Trip 2",
+			"unit": "km",
+			"expr": "trip(\"Trip 2\",x)",
+			"x": "Speed"
+		}
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "ecuparam": [
+    {
+        "header": "Filter Oil Temp",
+        "expr": "filter('Analog 6', 64)",
+        "hidden": true,
+        "nolog": true
+    },
+    {
+        "header": "Oil Temp",
+        "unit": "°C",
+        "expr": "-6.2402*x^5 + 54.332*x^4 - 184.54*x^3 + 307.91*x^2 - 291.92*x + 190.48",
+        "dec": 0,
+        "x": "Filter Oil Temp",
+        "replace": true,
+        "flashPoint": 115
+    },
+    {
+        "header": "Oil Pressure",
+        "unit": "Bar",
+        "dec": 1,
+        "replace": true,
+        "expr": "2.5*(filter('Analog 7', 10)*1.454545-0.5)"
+    }
+  ]
+}
