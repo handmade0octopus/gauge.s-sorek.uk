@@ -1,14 +1,23 @@
-<!--v0005-->
+<!--v0006-->
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="en">  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Gauge.S - SD Editor</title>
     <style type="text/css" media="screen">
       @font-face {
         font-family: 'visitor';
         src: url('../wifi/font.ttf');
         font-weight: normal;
-        font-style: normal;
+        font-style: normal;      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }      html, body {
+        height: 100%;
+        width: 100%;
+        overflow: auto;
       }
       body {
         font-family: 'visitor', sans-serif;
@@ -60,22 +69,31 @@
       .css-treeview input {
         position: absolute;
         opacity: 0;
-      }
-
-      .css-treeview {
+      }      .css-treeview {
         font: normal 11px Verdana, Arial, Sans-serif;
         -moz-user-select: none;
         -webkit-user-select: none;
         user-select: none;
+        line-height: 1.4;
       }
 
       .css-treeview span {
         color: #f8f8f2;
         cursor: pointer;
+        word-wrap: break-word;
+        word-break: break-all;
+        display: inline-block;
+        max-width: 160px;
+        vertical-align: top;
       }
 
       .css-treeview span:hover {
         text-decoration: underline;
+      }
+
+      .css-treeview li {
+        margin-bottom: 2px;
+        min-height: 18px;
       }
 
       .css-treeview input + label + ul {
@@ -161,17 +179,17 @@
         background-color: #72769a;
         transition: 0.7s;
       }
-      
-      .input-box {
+        .input-box {
         margin-top: 4px;
-        margin-left: 5px;
-        margin-right: 0px;
+        margin-left: 10px;
+        margin-right: 5px;
         height: 30px;
         width: 130px;
         background-color: #3a3c4e;
         color: #ff7931;
         border: none;
         border-radius: 5px;
+        padding-left: 8px;
         
       }
       
@@ -218,9 +236,7 @@
         background-color: #72769a;
         transition: 0.7s;
       }
-      
-
-      #uploader { 
+          #uploader { 
         min-width: 735px;
         position: absolute;
         margin-top: 0px;
@@ -233,32 +249,925 @@
         padding-right: 0px;
         border-radius: 0px;
         background-color: #121421;
-      }
-      #tree { 
+      }      #tree { 
         position: absolute;
         top: 40px;
         bottom: 0;
         left: 0;
-        width: 200px;
+        width: 220px;
         padding: 8px;
         background-color: #282a36;
+        overflow-x: hidden;
+        overflow-y: auto;
       }
       #editor {
         background-color: #282a36 !important;
-      }
-      #editor, #preview {
+      }      #editor, #preview {
         position: absolute;
         top: 40px;
         right: 0;
         bottom: 0;
-        left: 200px;
-      }
-      #preview {
+        left: 220px;
+      }#preview {
         background-color: #EEE;
         padding: 5px;
       }
+      
+      /* Tab Styles */
+      .tab-container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+        .tab-nav {
+        display: flex;
+        background-color: #121421;
+        border-bottom: 2px solid #44475a;
+        padding: 0;
+        margin: 0;
+        min-height: 45px;
+        align-items: center;
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        flex-shrink: 0;
+      }
+        .tab-button {
+        background-color: #3a3c4e;
+        color: #ff7931;
+        border: none;
+        padding: 12px 24px;
+        margin-right: 2px;
+        cursor: pointer;
+        font-family: 'visitor', sans-serif;
+        font-size: 14px;
+        border-radius: 8px 8px 0 0;
+        position: relative;
+        top: 2px;
+      }
+        .tab-button:hover {
+        background-color: #72769a;
+        transition: 0.7s;
+      }
+        .tab-button.active {
+        background-color: #72769a;
+        color: #ff7931;
+        border-bottom: 2px solid #ff7931;
+        top: 0;
+      }
+        .tab-content {
+        flex: 1;
+        display: none;
+        position: relative;
+        overflow: auto;
+      }
+      
+      .tab-content.active {
+        display: block;
+      }
+      
+      .under-construction {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        background-color: #282a36;
+        color: #f8f8f2;
+        font-family: 'visitor', sans-serif;
+        font-size: 24px;
+        text-align: center;
+      }      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .tab-container {
+          height: 100vh;
+          height: -webkit-fill-available;
+        }
+        
+        .tab-nav {
+          min-height: 50px;
+          overflow-x: auto;
+          overflow-y: hidden;
+          white-space: nowrap;
+          position: sticky;
+          top: 0;
+          z-index: 20;
+          flex-shrink: 0;
+          -webkit-overflow-scrolling: touch;
+        }
+        
+        .tab-button {
+          padding: 10px 16px;
+          font-size: 12px;
+          min-width: 80px;
+          flex-shrink: 0;
+          white-space: nowrap;
+        }        .tab-content {
+          flex: 1;
+          overflow: auto;
+          overflow-x: auto; /* Allow horizontal scrolling for wide content */
+          height: calc(100vh - 50px);
+          height: calc(-webkit-fill-available - 50px);
+        }
+          .under-construction {
+          font-size: 18px;
+          padding: 20px;
+        }        /* Tablet editor layout fixes */
+        #uploader {
+          position: relative !important;
+          width: 100% !important;
+          height: auto !important;
+          min-width: auto !important;
+          margin-bottom: 10px;
+          top: auto !important;
+          left: auto !important;
+          right: auto !important;
+        }
+        
+        #tree {
+          position: relative !important;
+          width: 100% !important;
+          height: 200px !important;
+          max-height: 200px;
+          overflow-y: auto;
+          margin-bottom: 10px;
+          padding: 8px;
+          background-color: #282a36;
+          border: 1px solid #44475a;
+          top: auto !important;
+          left: auto !important;
+          bottom: auto !important;
+        }
+          #editor, #preview {
+          position: relative !important;
+          top: auto !important;
+          left: auto !important;
+          right: auto !important;
+          bottom: auto !important;
+          width: 100% !important;
+          height: calc(100vh - 250px) !important;
+          min-height: 500px !important;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .tab-container {
+          height: 100vh;
+          height: -webkit-fill-available;
+        }
+        
+        .tab-nav {
+          min-height: 45px;
+          display: flex;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          overflow-y: hidden;
+          -webkit-overflow-scrolling: touch;
+          position: sticky;
+          top: 0;
+          z-index: 25;
+          background-color: #121421;
+          border-bottom: 2px solid #44475a;
+        }
+        
+        .tab-button {
+          padding: 8px 12px;
+          font-size: 11px;
+          min-width: 70px;
+          flex-shrink: 0;
+          white-space: nowrap;
+          display: block;
+        }        .tab-content {
+          flex: 1;
+          overflow: auto;
+          overflow-x: auto; /* Allow horizontal scrolling for wide content */
+          height: calc(100vh - 45px);
+          height: calc(-webkit-fill-available - 45px);
+        }
+        
+        .under-construction {
+          font-size: 16px;
+        }
+          /* Prevent zoom on mobile */
+        .tab-button:focus {
+          outline: none;
+        }        /* Mobile editor layout fixes */
+        #uploader {
+          position: relative !important;
+          width: 100% !important;
+          height: auto !important;
+          min-width: auto !important;
+          margin-bottom: 10px;
+          top: auto !important;
+          left: auto !important;
+          right: auto !important;
+        }
+        
+        #tree {
+          position: relative !important;
+          width: 100% !important;
+          height: 150px !important;
+          max-height: 150px;
+          overflow-y: auto;
+          margin-bottom: 10px;
+          padding: 8px;
+          background-color: #282a36;
+          border: 1px solid #44475a;
+          border-radius: 4px;
+          top: auto !important;
+          left: auto !important;
+          bottom: auto !important;
+        }
+          #editor, #preview {
+          position: relative !important;
+          top: auto !important;
+          left: auto !important;
+          right: auto !important;
+          bottom: auto !important;
+          width: 100% !important;
+          height: calc(100vh - 200px) !important;
+          min-height: 600px !important;
+        }
+      }
+        /* Data Panel Styles */
+      .data-container {
+        display: flex;
+        height: 100%;
+        background-color: #282a36;
+        position: relative;
+      }
+        .data-panel {
+        position: fixed;
+        left: 20px;
+        top: 80px;
+        bottom: 20px;
+        width: 320px;
+        max-height: calc(100vh - 100px);
+        background-color: #121421;
+        border: 2px solid #44475a;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+        display: flex;
+        flex-direction: column;
+        z-index: 100;
+        backdrop-filter: blur(10px);
+      }
+      
+      .data-panel.collapsed {
+        transform: translateX(-280px);
+        opacity: 0.9;
+      }
+      
+      .data-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        background: linear-gradient(135deg, #191a21 0%, #121421 100%);
+        border-bottom: 1px solid #44475a;
+        border-radius: 10px 10px 0 0;
+        min-height: 60px;
+        flex-shrink: 0;
+      }
+        .data-panel-header h3 {
+        color: #f8f8f2;
+        font-family: 'visitor', sans-serif;
+        font-size: 16px;
+        margin: 0;
+        white-space: nowrap;
+        flex: 1;
+      }
+      
+      .config-buttons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .config-btn {
+        background-color: #3a3c4e;
+        color: #f8f8f2;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 10px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        font-family: 'visitor', sans-serif;
+      }
+      
+      .config-btn:hover {
+        background-color: #4a4d61;
+        transform: translateY(-1px);
+      }
+      
+      .config-btn:active {
+        transform: translateY(0);
+        background-color: #2a2c3e;
+      }
+      
+      .panel-toggle {
+        background-color: #3a3c4e;
+        color: #ff7931;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: 'visitor', sans-serif;
+        font-size: 16px;
+        transition: 0.7s;
+        min-width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 101;
+      }
+      
+      .panel-toggle:hover {
+        background-color: #72769a;
+      }
+        .data-panel-content {
+        flex: 1;
+        padding: 16px 20px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+      }
+      
+      .data-panel-content::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+      }
+      
+      .parameter-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-right: 8px;
+      }
+      
+      .parameter-item {
+        background-color: #282a36;
+        border: 1px solid #44475a;
+        border-radius: 5px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background-color 0.3s ease;
+      }
+      
+      .parameter-item:hover {
+        background-color: #3a3c4e;
+      }
+      
+      .parameter-checkbox {
+        accent-color: #ff7931;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+      }
+      
+      .parameter-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      
+      .parameter-name {
+        color: #f8f8f2;
+        font-family: 'visitor', sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      
+      .parameter-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }        .parameter-value {
+        color: #ff7931;
+        font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+        font-size: 12px;
+        min-width: 90px;
+        text-align: center;
+        padding: 0 4px;
+        white-space: pre;
+        letter-spacing: 0.5px;
+        display: inline-block;
+      }
+      
+      .parameter-unit {
+        color: #8be9fd;
+        font-family: 'visitor', sans-serif;
+        font-size: 11px;
+      }      .data-main {
+        width: 100%;
+        padding: 20px;
+        background-color: #282a36;
+        overflow: hidden;
+        position: relative;
+      }      .grid-view {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        gap: 4px;
+        width: 100%;
+        height: calc(100vh - 140px);
+        min-height: 400px;
+        max-height: 800px;
+        aspect-ratio: 1 / 1;
+        margin: 0 auto;
+      }
+      
+      .grid-drop-zone {
+        border: 2px dashed #6272a4;
+        background-color: rgba(98, 114, 164, 0.1);
+        border-radius: 8px;
+        display: none;
+      }
+      
+      .grid-view.controls-visible .grid-drop-zone {
+        display: block;
+      }
+        .grid-item {
+        background: linear-gradient(135deg, #3a3c4e 0%, #2d2f3e 100%);
+        border: 1px solid #44475a;
+        border-radius: 8px;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: move;
+        transition: all 0.2s ease;
+        user-select: none;
+        position: relative;
+        min-height: 60px;
+        overflow: hidden;
+      }
+      
+      .grid-item:hover {
+        background: linear-gradient(135deg, #4a4c5e 0%, #3d3f4e 100%);
+        border-color: #ff7931;
+        transform: scale(1.02);
+      }
+      
+      .grid-item.dragging {
+        opacity: 0.7;
+        transform: scale(1.05);
+        z-index: 1000;
+      }
+        .grid-item-name {
+        color: #f8f8f2;
+        font-family: 'visitor', sans-serif;
+        font-size: clamp(8px, calc(0.8em + 0.2vw), 14px);
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 4px;
+        line-height: 1.1;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        max-width: 100%;
+      }
+        .grid-item-value {
+        color: #ff7931;
+        font-family: 'Courier New', monospace;
+        font-size: clamp(10px, calc(1.2em + 0.5vw), 32px);
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 2px;
+        white-space: pre;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        width: 100%;
+        min-width: 0;
+        letter-spacing: 0.5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+        .grid-item-unit {
+        color: #8be9fd;
+        font-family: 'visitor', sans-serif;
+        font-size: clamp(6px, calc(0.6em + 0.15vw), 12px);
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+      }      .grid-item-minmax {
+        color: #ff7931;
+        font-family: 'Courier New', monospace;
+        font-size: clamp(6px, calc(0.6em + 0.15vw), 12px);
+        opacity: 0.8;
+        font-weight: bold;
+        text-align: center;
+        white-space: pre;
+        letter-spacing: 0.3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 60px;
+      }
+        .grid-item.style-detailed .grid-item-unit {
+        justify-content: space-between;
+        width: 100%;
+        gap: 6px;
+        padding: 0 4px;
+      }
+        .grid-drop-zone {
+        border: 2px dashed #6272a4;
+        background-color: rgba(98, 114, 164, 0.1);
+        border-radius: 8px;
+      }
+        /* Scale content based on grid span */
+      .grid-item[style*="span 2"] .grid-item-name { font-size: clamp(10px, calc(1em + 0.3vw), 16px) !important; }
+      .grid-item[style*="span 2"] .grid-item-value { font-size: clamp(14px, calc(1.6em + 0.7vw), 40px) !important; }
+      .grid-item[style*="span 2"] .grid-item-unit { font-size: clamp(8px, calc(0.8em + 0.2vw), 14px) !important; }
+      
+      .grid-item[style*="span 3"] .grid-item-name { font-size: clamp(12px, calc(1.2em + 0.4vw), 18px) !important; }
+      .grid-item[style*="span 3"] .grid-item-value { font-size: clamp(18px, calc(2em + 0.9vw), 48px) !important; }
+      .grid-item[style*="span 3"] .grid-item-unit { font-size: clamp(10px, calc(1em + 0.25vw), 16px) !important; }
+      
+      .grid-item[style*="span 4"] .grid-item-name { font-size: clamp(14px, calc(1.4em + 0.5vw), 20px) !important; }
+      .grid-item[style*="span 4"] .grid-item-value { font-size: clamp(22px, calc(2.4em + 1.1vw), 56px) !important; }
+      .grid-item[style*="span 4"] .grid-item-unit { font-size: clamp(12px, calc(1.2em + 0.3vw), 18px) !important; }
+      
+      .grid-item[style*="span 5"] .grid-item-name { font-size: clamp(16px, calc(1.6em + 0.6vw), 22px) !important; }
+      .grid-item[style*="span 5"] .grid-item-value { font-size: clamp(26px, calc(2.8em + 1.3vw), 64px) !important; }
+      .grid-item[style*="span 5"] .grid-item-unit { font-size: clamp(14px, calc(1.4em + 0.35vw), 20px) !important; }
+      
+      /* Grid Size Control Buttons */
+      .grid-size-controls {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(40, 42, 54, 0.95);
+        border: 1px solid #44475a;
+        border-radius: 8px;
+        padding: 8px;
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(5px);
+        transition: opacity 0.3s ease;
+      }
+      
+      .grid-size-controls.visible {
+        display: flex;
+      }
+      
+      .grid-size-controls.hiding {
+        opacity: 0;
+      }
+      
+      .grid-size-label {
+        color: #f8f8f2;
+        font-family: 'visitor', sans-serif;
+        font-size: 10px;
+        text-align: center;
+        margin-bottom: 4px;
+        opacity: 0.8;
+      }
+      
+      .grid-size-row {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+      
+      .grid-size-btn {
+        background: #3a3c4e;
+        border: 1px solid #44475a;
+        color: #f8f8f2;
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        font-family: 'visitor', sans-serif;
+        font-size: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+      }
+      
+      .grid-size-btn:hover {
+        background: #4a4c5e;
+        border-color: #ff7931;
+        transform: scale(1.1);
+      }
+      
+      .grid-size-btn.active {
+        background: #ff7931;
+        border-color: #ff7931;
+        color: #282a36;
+      }
+      
+      .grid-size-btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+        transform: none;
+      }
+        .grid-size-btn:disabled:hover {
+        background: #3a3c4e;
+        border-color: #44475a;
+        transform: none;
+      }
+      
+      .grid-control-action-btn {
+        background: #3a3c4e;
+        border: 1px solid #44475a;
+        color: #f8f8f2;
+        height: 24px;
+        border-radius: 4px;
+        font-family: 'visitor', sans-serif;
+        font-size: 9px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        padding: 4px 8px;
+        flex: 1;
+        min-width: 0;
+      }
+      
+      .grid-control-action-btn:hover {
+        background: #4a4c5e;
+        border-color: #8be9fd;
+        transform: scale(1.05);
+      }
+      
+      .grid-control-action-btn.danger {
+        border-color: #ff5555;
+        color: #ff5555;
+      }
+      
+      .grid-control-action-btn.danger:hover {
+        background: #ff5555;
+        color: #282a36;
+        border-color: #ff5555;
+      }
+        .grid-control-action-btn.active {
+        background: #50fa7b;
+        border-color: #50fa7b;
+        color: #282a36;
+      }
+      
+      .grid-control-select {
+        background: #3a3c4e;
+        border: 1px solid #44475a;
+        color: #f8f8f2;
+        height: 24px;
+        border-radius: 4px;
+        font-family: 'visitor', sans-serif;
+        font-size: 9px;
+        cursor: pointer;
+        flex: 1;
+        padding: 2px 4px;
+        outline: none;
+      }
+      
+      .grid-control-select:hover {
+        background: #4a4c5e;
+        border-color: #8be9fd;
+      }
+      
+      .grid-control-select:focus {
+        border-color: #ff7931;
+        box-shadow: 0 0 0 1px #ff7931;
+      }
+      
+      .data-display h2 {
+        color: #f8f8f2;
+        font-family: 'visitor', sans-serif;
+        margin-bottom: 20px;
+      }
+      
+      .data-display p {
+        color: #8be9fd;
+        font-family: 'visitor', sans-serif;
+        font-size: 14px;
+      }
+        .loading {
+        color: #f8f8f2;
+        font-family: 'visitor', sans-serif;
+        text-align: center;
+        padding: 20px;
+      }
+      
+      /* Parameter Settings Button */
+      .parameter-settings-btn {
+        background-color: #44475a;
+        color: #f8f8f2;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 8px;
+        cursor: pointer;
+        font-size: 12px;
+        margin-left: 8px;
+        transition: all 0.2s ease;
+        font-family: 'visitor', sans-serif;
+      }
+      
+      .parameter-settings-btn:hover {
+        background-color: #6272a4;
+        transform: scale(1.05);
+      }
+      
+      /* Parameter Settings Popup */
+      .parameter-popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(5px);
+      }
+      
+      .parameter-popup {
+        background: linear-gradient(135deg, #282a36 0%, #191a21 100%);
+        border: 2px solid #44475a;
+        border-radius: 10px;
+        padding: 20px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        color: #f8f8f2;
+        font-family: 'visitor', sans-serif;
+      }
+      
+      .parameter-popup h3 {
+        color: #ff7931;
+        margin-bottom: 20px;
+        font-size: 18px;
+        text-align: center;
+        border-bottom: 1px solid #44475a;
+        padding-bottom: 10px;
+      }
+      
+      .popup-field {
+        margin-bottom: 15px;
+      }
+      
+      .popup-field label {
+        display: block;
+        color: #8be9fd;
+        margin-bottom: 5px;
+        font-size: 12px;
+      }
+      
+      .popup-field input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #44475a;
+        border-radius: 4px;
+        background-color: #3a3c4e;
+        color: #f8f8f2;
+        font-family: 'visitor', sans-serif;
+        font-size: 14px;
+      }
+      
+      .popup-field input:focus {
+        outline: none;
+        border-color: #ff7931;
+        box-shadow: 0 0 5px rgba(255, 121, 49, 0.3);
+      }
+      
+      .popup-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        justify-content: center;
+      }
+      
+      .popup-btn {
+        background-color: #3a3c4e;
+        color: #f8f8f2;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-family: 'visitor', sans-serif;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        min-width: 80px;
+      }
+      
+      .popup-btn.primary {
+        background-color: #ff7931;
+      }
+      
+      .popup-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+      
+      .popup-btn.primary:hover {
+        background-color: #ff8c4d;
+      }
+      
+      .popup-btn.secondary:hover {
+        background-color: #4a4d61;
+      }/* Responsive data panel */
+      @media (max-width: 768px) {
+        .data-panel {
+          width: 280px;
+          left: 10px;
+          top: 70px;
+        }
+        
+        .data-panel.collapsed {
+          transform: translateX(-240px);
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .data-panel {
+          width: calc(100vw - 40px);
+          left: 20px;
+          right: 20px;
+        }
+          .data-panel.collapsed {
+          transform: translateX(calc(-100vw + 80px));
+        }
+      }
+      
+      /* Floating toggle button when panel is collapsed */
+      .floating-toggle {
+        position: fixed;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 102;
+        background-color: #3a3c4e;
+        color: #ff7931;
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-family: 'visitor', sans-serif;
+        font-size: 18px;
+        transition: 0.7s;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(5px);
+      }
+      
+      .floating-toggle:hover {
+        background-color: #72769a;
+        transform: translateY(-50%) scale(1.1);
+      }
+        .floating-toggle.show {
+        display: flex;
+      }
+      
+      .floating-toggle.auto-hide {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      
+      /* Make collapsed panel completely invisible */
+      .data-panel.collapsed {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-100%);
+        transition: all 0.3s ease;
+      }
+      
+      .data-panel.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(0);
+        transition: all 0.3s ease;
+      }
     </style>
     <script>
+      const GRID_SIZE = 8;
+      
       function addButton(but, element) {
         var newButton = document.createElement("button");
         newButton.innerHTML = but;
@@ -725,7 +1634,7 @@
           return lang;
         }
   
-        if(typeof file === "undefined") file = "/index.htm";
+        if(typeof file === "undefined") file = "/wifi/index.htm";
   
         if(typeof lang === "undefined"){
           lang = getLangFromFilename(file);
@@ -770,15 +1679,20 @@
             xmlHttp.onreadystatechange = httpGetProcessRequest;
             xmlHttp.open("GET", theUrl, true);
             xmlHttp.send(null);
-        }
-  
-        if(lang !== "plain") editor.getSession().setMode("ace/mode/"+lang);
+        }        if(lang !== "plain") editor.getSession().setMode("ace/mode/"+lang);
         editor.setTheme("ace/theme/"+theme);
         editor.$blockScrolling = Infinity;
         editor.getSession().setUseSoftTabs(true);
         editor.getSession().setTabSize(2);
         editor.setHighlightActiveLine(true);
         editor.setShowPrintMargin(false);
+          // Enable horizontal scrolling for long lines
+        editor.getSession().setUseWrapMode(false); // Disable word wrap for horizontal scrolling
+        editor.setOption("scrollPastEnd", 0.1); // Allow slight scroll past end
+        editor.renderer.setHScrollBarAlwaysVisible(false); // Show horizontal scrollbar only when needed
+        editor.renderer.setVScrollBarAlwaysVisible(false); // Show vertical scrollbar only when needed
+        editor.setOption("wrap", false); // Ensure no text wrapping
+        editor.setOption("fontSize", 14); // Set consistent font size
         editor.commands.addCommand({
             name: 'saveCommand',
             bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
@@ -811,29 +1725,1755 @@
           if(lang !== "plain") editor.getSession().setMode("ace/mode/"+lang);
           httpGet(file);
         }
-        return editor;
+        return editor;      }        function switchTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        
+        // Stop data polling when leaving data tab
+        if (dataUpdateInterval) {
+          clearInterval(dataUpdateInterval);
+          dataUpdateInterval = null;
+        }
+        isDataTabActive = false;
+        
+        // Hide all tab content
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].classList.remove("active");
+        }
+        
+        // Remove active class from all tab buttons
+        tablinks = document.getElementsByClassName("tab-button");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].classList.remove("active");
+        }
+        
+        // Show the selected tab and mark button as active
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+        
+        // Update URL hash
+        window.location.hash = tabName;
+        
+        // Initialize data panel if switching to data tab
+        if (tabName === 'data-tab') {
+          initializeDataPanel();
+        }
+      }
+        // Handle URL hash on page load and changes
+      function handleHashChange() {
+        var hash = window.location.hash.substring(1); // Remove the #
+        
+        // Ensure tabs are visible first (mobile fix)
+        ensureTabsVisible();
+        
+        if (hash === 'data-tab' || hash === 'editor-tab') {
+          var button = document.querySelector('[onclick*="' + hash + '"]');
+          if (button) {
+            switchTab({currentTarget: button}, hash);
+          }
+        } else if (!hash) {
+          // Default to editor tab
+          var editorButton = document.querySelector('[onclick*="editor-tab"]');
+          if (editorButton) {
+            switchTab({currentTarget: editorButton}, 'editor-tab');
+          }
+        }
       }
       
+      function ensureTabsVisible() {
+        var tabNav = document.querySelector('.tab-nav');
+        var tabButtons = document.querySelectorAll('.tab-button');
+        
+        if (tabNav) {
+          tabNav.style.display = 'flex';
+          tabNav.style.visibility = 'visible';
+          tabNav.style.opacity = '1';
+        }
+        
+        tabButtons.forEach(function(button) {
+          button.style.display = 'block';
+          button.style.visibility = 'visible';
+        });
+      }
+        // Data panel functionality
+      var parametersConfig = null;
+      var dataUpdateInterval = null;
+      var isDataTabActive = false;      var userConfig = {
+        selectedParameters: {}, // Changed to object with parameter names as keys
+        parameterSettings: {}, // New: per-parameter settings
+        globalSettings: {
+          defaultDecimalDigits: 3
+        },
+        lastUpdated: null
+      };
+      var configFile = '/wifi/gauge-config.json';      function loadUserConfig() {
+        console.log('Loading user configuration...');
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {            if (xhr.status === 200) {
+              try {
+                var loadedConfig = JSON.parse(xhr.responseText);
+                console.log('User config loaded:', loadedConfig);
+                
+                // Migrate old format to new format if needed
+                if (Array.isArray(loadedConfig.selectedParameters)) {
+                  console.log('Migrating old config format to new format');
+                  userConfig.selectedParameters = {};
+                  userConfig.parameterSettings = {};
+                  userConfig.globalSettings = { defaultDecimalDigits: 3 };
+                } else {
+                  userConfig = Object.assign(userConfig, loadedConfig);
+                  // Ensure all required properties exist
+                  if (!userConfig.parameterSettings) userConfig.parameterSettings = {};
+                  if (!userConfig.globalSettings) userConfig.globalSettings = { defaultDecimalDigits: 3 };
+                  if (!userConfig.selectedParameters) userConfig.selectedParameters = {};                }
+                
+                applyConfigToUI();
+                updateGridView();
+              } catch (e) {
+                console.warn('Failed to parse user config, using defaults:', e);
+                userConfig = { 
+                  selectedParameters: {}, 
+                  parameterSettings: {},
+                  globalSettings: { defaultDecimalDigits: 3 },
+                  lastUpdated: null 
+                };
+              }
+            } else {
+              console.log('No user config found, using defaults');
+              userConfig = { 
+                selectedParameters: {}, 
+                parameterSettings: {},
+                globalSettings: { defaultDecimalDigits: 3 },
+                lastUpdated: null 
+              };
+            }
+          }
+        };
+        xhr.open('GET', configFile, true);
+        xhr.send();
+      }      function applyConfigToUI() {
+        console.log('Applying config to UI:', userConfig.selectedParameters);
+        
+        if (!parametersConfig || !parametersConfig.ecuparam) {
+          console.log('Parameters not loaded yet, skipping UI update');
+          return;
+        }
+        
+        // Apply configuration based on parameter names
+        parametersConfig.ecuparam.forEach(function(param, index) {
+          var checkbox = document.getElementById('param_' + index);
+          if (checkbox && param.h) {
+            // Check if this parameter is selected by name
+            checkbox.checked = userConfig.selectedParameters[param.h] || false;
+          }
+        });
+        
+        // Validate and fix any grid conflicts after loading config
+        var hasConflicts = false;
+        var selectedParams = Object.keys(userConfig.selectedParameters).filter(
+          name => userConfig.selectedParameters[name]
+        );
+        
+        // Check for grid position conflicts
+        for (var i = 0; i < selectedParams.length; i++) {
+          for (var j = i + 1; j < selectedParams.length; j++) {
+            var param1 = selectedParams[i];
+            var param2 = selectedParams[j];
+            var settings1 = userConfig.parameterSettings[param1];
+            var settings2 = userConfig.parameterSettings[param2];
+            
+            if (settings1 && settings2) {
+              // Check if grid areas overlap
+              if (!(settings1.gridX >= settings2.gridX + settings2.gridColumns ||
+                    settings1.gridX + settings1.gridColumns <= settings2.gridX ||
+                    settings1.gridY >= settings2.gridY + settings2.gridRows ||
+                    settings1.gridY + settings1.gridRows <= settings2.gridY)) {
+                hasConflicts = true;
+                break;
+              }
+            }
+          }
+          if (hasConflicts) break;
+        }
+        
+        if (hasConflicts) {
+          console.log('Grid conflicts detected, reorganizing...');
+          reorganizeGrid();
+        }
+        
+        // Apply parameter-specific settings (decimal digits, min/max values)
+        updateParameterDisplays();
+      }
+      
+      function saveUserConfig() {
+        userConfig.lastUpdated = new Date().toISOString();
+        console.log('Saving user configuration:', userConfig);
+        
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              console.log('User config saved successfully');
+            } else {
+              console.error('Failed to save user config:', xhr.status);
+            }
+          }
+        };
+        
+        var formData = new FormData();
+        formData.append("data", new Blob([JSON.stringify(userConfig, null, 2)], { type: 'application/json' }), configFile);
+        xhr.open("POST", "/edit");
+        xhr.send(formData);
+      }      function updateUserConfig() {
+        if (!parametersConfig || !parametersConfig.ecuparam) {
+          return;
+        }
+        
+        // Store previous selections for comparison
+        var prevSelected = Object.keys(userConfig.selectedParameters).filter(
+          name => userConfig.selectedParameters[name]
+        );
+        
+        // Clear current selections
+        userConfig.selectedParameters = {};
+        
+        // Update selections based on parameter names
+        parametersConfig.ecuparam.forEach(function(param, index) {
+          var checkbox = document.getElementById('param_' + index);
+          if (checkbox && param.h && checkbox.checked) {
+            userConfig.selectedParameters[param.h] = true;
+          }
+        });
+        
+        // Get new selections
+        var newSelected = Object.keys(userConfig.selectedParameters).filter(
+          name => userConfig.selectedParameters[name]
+        );
+        
+        // Check if selections changed
+        var selectionsChanged = prevSelected.length !== newSelected.length ||
+          !prevSelected.every(name => newSelected.includes(name));
+        
+        // If selections changed, reorganize grid to handle new/removed parameters
+        if (selectionsChanged) {
+          // Remove settings for unselected parameters to clean up
+          Object.keys(userConfig.parameterSettings).forEach(function(paramName) {
+            if (!userConfig.selectedParameters[paramName]) {
+              delete userConfig.parameterSettings[paramName];
+            }
+          });
+          
+          // For newly selected parameters, ensure they get proper grid positions
+          newSelected.forEach(function(paramName) {
+            if (!prevSelected.includes(paramName)) {
+              // Force re-assignment of grid position for new parameters
+              if (userConfig.parameterSettings[paramName]) {
+                delete userConfig.parameterSettings[paramName].gridX;
+                delete userConfig.parameterSettings[paramName].gridY;
+              }
+              getParameterSettings(paramName); // This will assign a new position
+            }
+          });
+        }
+        
+        updateGridView();
+      }
+      
+      function manualSaveConfig() {
+        updateUserConfig();
+        saveUserConfig();
+        
+        // Visual feedback
+        var saveBtn = document.getElementById('save-config');
+        var originalText = saveBtn.innerHTML;
+        saveBtn.innerHTML = '✓';
+        saveBtn.style.backgroundColor = '#50fa7b';        setTimeout(function() {
+          saveBtn.innerHTML = originalText;
+          saveBtn.style.backgroundColor = '';
+        }, 1000);
+      }
+      
+      function resetAllMinMaxValues() {
+        console.log('Resetting all min/max values');
+        
+        // Reset min/max values for all parameters
+        Object.keys(userConfig.parameterSettings).forEach(function(paramName) {
+          if (userConfig.parameterSettings[paramName]) {
+            userConfig.parameterSettings[paramName].minValue = null;
+            userConfig.parameterSettings[paramName].maxValue = null;
+          }
+        });
+        
+        // Visual feedback
+        var resetBtn = document.getElementById('reset-all-minmax');
+        var originalText = resetBtn.innerHTML;
+        resetBtn.innerHTML = '✓';
+        resetBtn.style.backgroundColor = '#50fa7b';
+        setTimeout(function() {
+          resetBtn.innerHTML = originalText;
+          resetBtn.style.backgroundColor = '';
+        }, 1000);
+        
+        // Update the grid view
+        updateGridView();
+        
+        console.log('All min/max values reset');
+      }
+      
+      function updateParameterDisplays() {
+        if (!parametersConfig || !parametersConfig.ecuparam) {
+          return;
+        }
+        
+        parametersConfig.ecuparam.forEach(function(param, index) {
+          var valueElement = document.querySelector('#param_' + index + '_value');
+          if (valueElement && param.h) {
+            var settings = userConfig.parameterSettings[param.h] || {};
+            var decimals = settings.decimalDigits !== undefined ? 
+                          settings.decimalDigits : 
+                          userConfig.globalSettings.defaultDecimalDigits;              // Update display if current value exists with consistent formatting
+            if (param.v !== undefined) {              var formattedValue = parseFloat(param.v).toFixed(decimals);
+              var paddedValue = formattedValue.padStart(8, ' '); // Fixed 8-character padding
+              valueElement.textContent = paddedValue;
+            }
+          }
+        });
+      }
+        function getParameterSettings(paramName) {
+        if (!userConfig.parameterSettings[paramName]) {
+          var position = findNextAvailablePosition(1, 1);          userConfig.parameterSettings[paramName] = {
+            decimalDigits: userConfig.globalSettings.defaultDecimalDigits,
+            minValue: null,
+            maxValue: null,
+            userMinValue: null,
+            userMaxValue: null,
+            gridColumns: 1,
+            gridRows: 1,
+            gridX: position.x,
+            gridY: position.y,
+            displayStyle: 'simple' // 'simple' or 'detailed'
+          };
+        }        // Ensure grid position is valid and doesn't overlap
+        var settings = userConfig.parameterSettings[paramName];
+        if (!isValidGridPosition(settings.gridX, settings.gridY, settings.gridColumns, settings.gridRows, paramName)) {
+          var newPosition = findNextAvailablePosition(settings.gridColumns, settings.gridRows, paramName);
+          settings.gridX = newPosition.x;
+          settings.gridY = newPosition.y;
+        }
+        
+        // Ensure displayStyle has a default value
+        if (!settings.displayStyle) {
+          settings.displayStyle = 'simple';
+        }
+          return settings;
+      }
+        function calculateValueWidth(value, minValue, maxValue, decimals) {
+        // Determine the longest possible value to calculate consistent width
+        var testValues = [value];
+        
+        if (minValue !== null) testValues.push(minValue);
+        if (maxValue !== null) testValues.push(maxValue);
+        
+        // Add some buffer values to account for future changes
+        if (minValue !== null && maxValue !== null) {
+          var range = maxValue - minValue;
+          testValues.push(minValue - range * 0.1); // 10% below min
+          testValues.push(maxValue + range * 0.1); // 10% above max
+        }
+        
+        // Find the longest formatted value
+        var maxLength = 0;
+        var hasNegative = false;
+        var hasPositive = false;
+        
+        testValues.forEach(function(val) {
+          var formatted = parseFloat(val).toFixed(decimals);
+          if (formatted.length > maxLength) {
+            maxLength = formatted.length;
+          }
+          if (val < 0) hasNegative = true;
+          if (val >= 0) hasPositive = true;
+        });
+        
+        // If we have both positive and negative, or only positive but might go negative
+        // ensure space for the minus sign
+        if (!hasNegative && hasPositive) {
+          // Add space for potential negative sign
+          maxLength += 1;
+        }
+        
+        return Math.max(maxLength, 8); // Minimum width of 8 characters for stability
+      }
+        function formatValueWithConsistentWidth(value, minValue, maxValue, decimals) {
+        // Use the same simple approach as floating menu - fixed 8 character width
+        var formatted = parseFloat(value).toFixed(decimals);
+        return formatted.padStart(8, ' ');
+      }
+      
+      function findNextAvailablePosition(columns, rows, excludeParam) {
+        columns = Math.max(1, Math.min(5, columns || 1));
+        rows = Math.max(1, Math.min(5, rows || 1));
+        
+        for (var y = 0; y <= 5 - rows; y++) {
+          for (var x = 0; x <= 5 - columns; x++) {
+            if (isValidGridPosition(x, y, columns, rows, excludeParam)) {
+              return { x: x, y: y };
+            }
+          }
+        }
+        // If no space found, return top-left as fallback
+        return { x: 0, y: 0 };
+      }
+      
+      function reorganizeGrid() {
+        var selectedParams = Object.keys(userConfig.selectedParameters).filter(
+          name => userConfig.selectedParameters[name]
+        );
+        
+        // Clear all grid positions
+        selectedParams.forEach(function(paramName) {
+          if (userConfig.parameterSettings[paramName]) {
+            delete userConfig.parameterSettings[paramName].gridX;
+            delete userConfig.parameterSettings[paramName].gridY;
+          }
+        });
+        
+        // Reassign positions using the smart positioning logic
+        selectedParams.forEach(function(paramName) {
+          getParameterSettings(paramName); // This will assign a new position
+        });
+        
+        updateGridView();
+        console.log('Grid reorganized automatically');
+      }
+      
+      function isValidGridPosition(x, y, columns, rows, excludeParam) {
+        // Ensure position is within grid bounds
+        if (x < 0 || y < 0 || x + columns > 5 || y + rows > 5) {
+          return false;
+        }
+        
+        // Check for overlaps with other parameters
+        var selectedParams = Object.keys(userConfig.selectedParameters).filter(
+          name => userConfig.selectedParameters[name] && name !== excludeParam
+        );
+        
+        for (var i = 0; i < selectedParams.length; i++) {
+          var paramName = selectedParams[i];
+          var settings = userConfig.parameterSettings[paramName];
+          if (!settings) continue;
+          
+          var otherX = settings.gridX || 0;
+          var otherY = settings.gridY || 0;
+          var otherCols = settings.gridColumns || 1;
+          var otherRows = settings.gridRows || 1;
+          
+          // Check if rectangles overlap
+          if (!(x >= otherX + otherCols || x + columns <= otherX ||
+                y >= otherY + otherRows || y + rows <= otherY)) {
+            return false;
+          }
+        }
+        
+        return true;
+      }
+      
+      function updateParameterSettings(paramName, settings) {
+        userConfig.parameterSettings[paramName] = Object.assign(
+          getParameterSettings(paramName), 
+          settings
+        );
+        updateParameterDisplays();
+      }
+      
+      function manualLoadConfig() {
+        console.log('Manual load config triggered');
+        
+        // Show loading feedback
+        var loadBtn = document.getElementById('load-config');
+        var originalText = loadBtn.innerHTML;
+        loadBtn.innerHTML = '⟳';
+        loadBtn.style.backgroundColor = '#ffb86c';
+        
+        // Load configuration from server
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              try {
+                userConfig = JSON.parse(xhr.responseText);
+                console.log('Manual load - User config loaded:', userConfig);
+                applyConfigToUI();
+                
+                // Success feedback
+                loadBtn.innerHTML = '✓';
+                loadBtn.style.backgroundColor = '#50fa7b';
+              } catch (e) {
+                console.warn('Failed to parse user config:', e);
+                // Error feedback
+                loadBtn.innerHTML = '✗';
+                loadBtn.style.backgroundColor = '#ff5555';
+              }
+            } else {
+              console.log('No config file found or error loading');
+              // Error feedback
+              loadBtn.innerHTML = '✗';
+              loadBtn.style.backgroundColor = '#ff5555';
+            }
+            
+            // Reset button after 1.5 seconds
+            setTimeout(function() {
+              loadBtn.innerHTML = originalText;
+              loadBtn.style.backgroundColor = '';
+            }, 1500);
+          }
+        };
+        xhr.open('GET', configFile, true);
+        xhr.send();
+      }
+      
+      function initializeDataPanel() {
+        if (isDataTabActive) {
+          return; // Already initialized
+        }
+        
+        isDataTabActive = true;
+        
+        // Load user configuration first
+        loadUserConfig();
+        
+        // Setup panel toggle
+        var toggleButton = document.getElementById('panel-toggle');
+        var floatingToggle = document.getElementById('floating-toggle');
+        var dataPanel = document.getElementById('data-panel');
+          function togglePanel() {
+          var isCollapsed = dataPanel.classList.contains('collapsed');
+          
+          if (isCollapsed) {
+            // Expand panel
+            dataPanel.classList.remove('collapsed');
+            dataPanel.classList.add('open');
+            toggleButton.textContent = '▼';
+            floatingToggle.classList.remove('show');
+            floatingToggle.classList.remove('auto-hide');
+            clearTimeout(hideTimeout);
+          } else {
+            // Collapse panel
+            dataPanel.classList.add('collapsed');
+            dataPanel.classList.remove('open');
+            toggleButton.textContent = '◀';
+            floatingToggle.classList.add('show');
+            resetHideTimer();
+          }
+        }
+          if (!toggleButton.onclick) {
+          toggleButton.onclick = togglePanel;
+          floatingToggle.onclick = togglePanel;
+        }
+          // Setup save/load button handlers
+        var saveBtn = document.getElementById('save-config');
+        var loadBtn = document.getElementById('load-config');
+        var resetAllBtn = document.getElementById('reset-all-minmax');
+        
+        if (saveBtn && !saveBtn.onclick) {
+          saveBtn.onclick = manualSaveConfig;
+        }
+        
+        if (loadBtn && !loadBtn.onclick) {
+          loadBtn.onclick = manualLoadConfig;
+        }
+        
+        if (resetAllBtn && !resetAllBtn.onclick) {
+          resetAllBtn.onclick = resetAllMinMaxValues;
+        }
+        
+        // Auto-hide floating toggle after 5 seconds of inactivity
+        var hideTimeout;
+        var dataTabElement = document.getElementById('data-tab');
+        
+        function resetHideTimer() {
+          if (floatingToggle.classList.contains('show')) {
+            floatingToggle.classList.remove('auto-hide');
+            clearTimeout(hideTimeout);
+            hideTimeout = setTimeout(function() {
+              floatingToggle.classList.add('auto-hide');
+            }, 5000);
+          }
+        }
+        
+        function showFloatingToggle() {
+          if (floatingToggle.classList.contains('show')) {
+            floatingToggle.classList.remove('auto-hide');
+            resetHideTimer();
+          }
+        }
+        
+        // Add event listeners for mouse movement and interaction
+        if (dataTabElement) {
+          dataTabElement.addEventListener('mousemove', resetHideTimer);
+          dataTabElement.addEventListener('click', resetHideTimer);
+          dataTabElement.addEventListener('touchstart', resetHideTimer);
+        }
+          floatingToggle.addEventListener('mouseenter', showFloatingToggle);
+        floatingToggle.addEventListener('mouseleave', resetHideTimer);
+        
+        // Initialize grid size controls
+        initializeGridSizeControls();
+        
+        // Load parameters configuration if not already loaded
+        if (!parametersConfig) {
+          loadParametersConfig();
+        } else {
+          startDataPolling();
+        }
+      }
+      
+      function loadParametersConfig() {
+        console.log('Loading parameters configuration...');
+        
+        // Check if MessagePack is available, if not go straight to JSON
+        if (!isMessagePackAvailable()) {
+          console.warn('MessagePack not available, using JSON only');
+          tryJsonFallback('/parameters?config');
+          return;
+        }
+        
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'arraybuffer';
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              var decoded = safeMsgPackDecode(xhr.response);              if (decoded) {
+                parametersConfig = decoded;                console.log('Msgpack config loaded successfully:', parametersConfig);
+                renderParameterList();
+                // Apply user config after rendering parameters
+                setTimeout(function() {
+                  applyConfigToUI();
+                  updateGridView();
+                }, 150);
+                startDataPolling();
+              } else {
+                console.log('Msgpack parsing failed, trying JSON fallback');
+                tryJsonFallback('/parameters?config');
+              }
+            } else {
+              console.error('Failed to load parameters config:', xhr.status);
+              showError('Failed to load parameters configuration (HTTP ' + xhr.status + ')');
+            }
+          }
+        };
+        xhr.open('GET', '/parameters?config', true);
+        xhr.send();
+      }
+      
+      function tryJsonFallback(url) {
+        console.log('Trying JSON fallback for:', url);
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {              try {
+                parametersConfig = JSON.parse(xhr.responseText);                console.log('JSON config loaded successfully:', parametersConfig);
+                renderParameterList();
+                // Apply user config after rendering parameters
+                setTimeout(function() {
+                  applyConfigToUI();
+                  updateGridView();
+                }, 100);
+                startDataPolling();
+              } catch (e) {
+                console.error('Error parsing JSON fallback:', e);
+                showError('Failed to parse parameters configuration');
+              }
+            } else {
+              console.error('JSON fallback also failed:', xhr.status);
+              showError('Failed to load parameters configuration');
+            }
+          }
+        };
+        xhr.open('GET', url + '&json', true);
+        xhr.send();
+      }        function renderParameterList() {
+        var container = document.getElementById('parameter-list');
+        if (!parametersConfig || !parametersConfig.ecuparam) {
+          showError('No parameters available');
+          return;
+        }
+        
+        container.innerHTML = '';
+        
+        parametersConfig.ecuparam.forEach(function(param, index) {
+          var item = document.createElement('div');
+          item.className = 'parameter-item';
+          
+          var checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.className = 'parameter-checkbox';
+          checkbox.id = 'param_' + index;
+          
+          // Check if this parameter was previously selected by name
+          checkbox.checked = param.h && userConfig.selectedParameters[param.h] || false;
+          
+          // Add change listener (no auto-save, manual only)
+          checkbox.addEventListener('change', function() {
+            updateUserConfig();
+          });
+          
+          var info = document.createElement('div');
+          info.className = 'parameter-info';
+          
+          var nameContainer = document.createElement('div');
+          nameContainer.style.display = 'flex';
+          nameContainer.style.alignItems = 'center';
+          nameContainer.style.justifyContent = 'space-between';
+          
+          var name = document.createElement('div');
+          name.className = 'parameter-name';
+          name.textContent = param.h;
+          
+          // Add settings button
+          var settingsBtn = document.createElement('button');
+          settingsBtn.className = 'parameter-settings-btn';
+          settingsBtn.innerHTML = '⚙️';
+          settingsBtn.title = 'Parameter Settings';
+          settingsBtn.onclick = function(e) {
+            e.stopPropagation();
+            openParameterSettings(param.h, index);
+          };
+          
+          nameContainer.appendChild(name);
+          nameContainer.appendChild(settingsBtn);
+          
+          var details = document.createElement('div');
+          details.className = 'parameter-details';
+            var value = document.createElement('span');
+          value.className = 'parameter-value';
+          value.id = 'param_' + index + '_value';
+            // Apply decimal formatting based on settings with consistent width
+          var settings = getParameterSettings(param.h);
+          var decimals = settings.decimalDigits !== undefined ? 
+                        settings.decimalDigits : 
+                        userConfig.globalSettings.defaultDecimalDigits;
+          var formattedValue = parseFloat(param.v).toFixed(decimals);
+          // Center the value properly without excessive padding
+          value.textContent = formattedValue;
+          
+          var unit = document.createElement('span');
+          unit.className = 'parameter-unit';
+          unit.textContent = param.u || '';
+          
+          details.appendChild(value);
+          details.appendChild(unit);
+          
+          info.appendChild(nameContainer);
+          info.appendChild(details);
+          
+          item.appendChild(checkbox);
+          item.appendChild(info);
+          
+          container.appendChild(item);
+        });      }
+      
+      function openParameterSettings(paramName, index) {
+        var settings = getParameterSettings(paramName);
+        
+        // Create popup overlay if it doesn't exist
+        var existingOverlay = document.getElementById('parameter-popup-overlay');
+        if (existingOverlay) {
+          existingOverlay.remove();
+        }
+        
+        var overlay = document.createElement('div');
+        overlay.id = 'parameter-popup-overlay';
+        overlay.className = 'parameter-popup-overlay';
+        overlay.style.display = 'flex';
+        
+        // Get current parameter data
+        var param = parametersConfig.ecuparam[index];
+        var currentValue = param.v;
+        
+        // Update min/max if this is a new observation
+        if (settings.minValue === null || currentValue < settings.minValue) {
+          settings.minValue = currentValue;
+        }
+        if (settings.maxValue === null || currentValue > settings.maxValue) {
+          settings.maxValue = currentValue;
+        }
+          overlay.innerHTML = `
+          <div class="parameter-popup">
+            <h3>Settings: ${paramName}</h3>
+            
+            <div class="popup-field">
+              <label>Decimal Digits:</label>
+              <input type="number" id="decimal-digits" min="0" max="10" value="${settings.decimalDigits}">
+            </div>
+            
+            <div class="popup-field">
+              <label>Grid Columns (1-5):</label>
+              <input type="number" id="grid-columns" min="1" max="5" value="${settings.gridColumns}">
+            </div>
+            
+            <div class="popup-field">
+              <label>Grid Rows (1-5):</label>
+              <input type="number" id="grid-rows" min="1" max="5" value="${settings.gridRows}">
+            </div>
+            
+            <div class="popup-field">
+              <label>Current Value:</label>
+              <input type="text" readonly value="${parseFloat(currentValue).toFixed(settings.decimalDigits)} ${param.u || ''}">
+            </div>
+            
+            <div class="popup-field">
+              <label>Observed Min Value:</label>
+              <input type="text" readonly value="${settings.minValue !== null ? parseFloat(settings.minValue).toFixed(settings.decimalDigits) : 'N/A'} ${param.u || ''}">
+            </div>
+            
+            <div class="popup-field">
+              <label>Observed Max Value:</label>
+              <input type="text" readonly value="${settings.maxValue !== null ? parseFloat(settings.maxValue).toFixed(settings.decimalDigits) : 'N/A'} ${param.u || ''}">
+            </div>
+            
+            <div class="popup-field">
+              <label>Custom Min Value (for gauges):</label>
+              <input type="number" id="custom-min" step="any" value="${settings.userMinValue || ''}" placeholder="Optional">
+            </div>
+            
+            <div class="popup-field">
+              <label>Custom Max Value (for gauges):</label>
+              <input type="number" id="custom-max" step="any" value="${settings.userMaxValue || ''}" placeholder="Optional">
+            </div>
+            
+            <div class="popup-buttons">
+              <button class="popup-btn secondary" onclick="closeParameterSettings()">Cancel</button>
+              <button class="popup-btn primary" onclick="saveParameterSettings('${paramName}')">Save</button>
+            </div>
+          </div>
+        `;
+        
+        // Close on overlay click
+        overlay.addEventListener('click', function(e) {
+          if (e.target === overlay) {
+            closeParameterSettings();
+          }
+        });
+        
+        document.body.appendChild(overlay);
+      }
+      
+      function closeParameterSettings() {
+        var overlay = document.getElementById('parameter-popup-overlay');
+        if (overlay) {
+          overlay.remove();
+        }
+      }      function saveParameterSettings(paramName) {
+        var decimalDigits = parseInt(document.getElementById('decimal-digits').value);
+        var gridColumns = Math.max(1, Math.min(5, parseInt(document.getElementById('grid-columns').value)));
+        var gridRows = Math.max(1, Math.min(5, parseInt(document.getElementById('grid-rows').value)));
+        var customMin = parseFloat(document.getElementById('custom-min').value);
+        var customMax = parseFloat(document.getElementById('custom-max').value);
+        
+        var currentSettings = getParameterSettings(paramName);
+        
+        var newSettings = {
+          decimalDigits: decimalDigits,
+          gridColumns: gridColumns,
+          gridRows: gridRows
+        };
+        
+        if (!isNaN(customMin)) {
+          newSettings.userMinValue = customMin;
+        }
+        
+        if (!isNaN(customMax)) {
+          newSettings.userMaxValue = customMax;
+        }
+        
+        // Check if new size fits in current position
+        if (!isValidGridPosition(currentSettings.gridX, currentSettings.gridY, gridColumns, gridRows, paramName)) {
+          // Find new position if current doesn't work with new size
+          var newPosition = findNextAvailablePosition(gridColumns, gridRows, paramName);
+          newSettings.gridX = newPosition.x;
+          newSettings.gridY = newPosition.y;
+        }
+          updateParameterSettings(paramName, newSettings);
+        
+        // Clear width cache since settings changed
+        clearParameterWidthCache(paramName);
+        
+        closeParameterSettings();
+        updateGridView();
+        
+        console.log('Parameter settings updated for:', paramName, newSettings);
+      }// Cache for parameter widths to avoid repeated calculations
+      var parameterWidthCache = {};
+      
+      // Calculate the optimal width for a parameter's value display
+      function calculateParameterWidth(paramName) {
+        // Check cache first
+        if (parameterWidthCache[paramName]) {
+          return parameterWidthCache[paramName];
+        }
+        
+        var settings = getParameterSettings(paramName);
+        var decimals = settings.decimalDigits !== undefined ? 
+                      settings.decimalDigits : 
+                      userConfig.globalSettings.defaultDecimalDigits;
+        
+        // Start with current parameter value
+        var param = parametersConfig.ecuparam.find(p => p.h === paramName);
+        var currentValue = param ? parseFloat(param.v) : 0;
+        
+        // Consider min/max values if they exist
+        var minValue = settings.minValue !== null ? settings.minValue : currentValue;
+        var maxValue = settings.maxValue !== null ? settings.maxValue : currentValue;
+        
+        // Also consider some reasonable extremes to handle edge cases
+        var testValues = [currentValue, minValue, maxValue];
+        
+        // Add some extreme values to be safe (handle negative numbers)
+        if (minValue >= 0) {
+          testValues.push(-Math.abs(maxValue)); // Test negative version of max
+        }
+        // Add some extra buffer values for safety
+        testValues.push(minValue * 1.5);
+        testValues.push(maxValue * 1.5);
+        testValues.push(-Math.abs(maxValue * 1.5));
+        
+        // Format all test values and find the longest
+        var maxLength = 0;
+        testValues.forEach(function(value) {
+          var formatted = parseFloat(value).toFixed(decimals);
+          maxLength = Math.max(maxLength, formatted.length);
+        });
+        
+        // Ensure minimum width of 6 characters, but allow more if needed
+        var width = Math.max(6, maxLength + 1); // +1 for some padding
+        
+        // Cache the result
+        parameterWidthCache[paramName] = width;
+        return width;
+      }
+      
+      // Clear width cache for a specific parameter (call when settings change)
+      function clearParameterWidthCache(paramName) {
+        if (paramName) {
+          delete parameterWidthCache[paramName];
+        } else {
+          parameterWidthCache = {}; // Clear all
+        }
+      }
+      
+      function updateGridView() {
+        var container = document.getElementById('grid-view');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        var selectedParams = Object.keys(userConfig.selectedParameters).filter(
+          name => userConfig.selectedParameters[name] && parametersConfig.ecuparam.find(p => p.h === name)
+        );
+        
+        selectedParams.forEach(function(paramName, index) {
+          var param = parametersConfig.ecuparam.find(p => p.h === paramName);
+          if (!param) return;
+            var settings = getParameterSettings(paramName);
+          var item = document.createElement('div');
+          item.className = 'grid-item';
+          if (settings.displayStyle === 'detailed') {
+            item.classList.add('style-detailed');
+          }
+          item.draggable = true;
+          item.dataset.paramName = paramName;
+          
+          item.style.gridColumn = `${settings.gridX + 1} / span ${settings.gridColumns}`;
+          item.style.gridRow = `${settings.gridY + 1} / span ${settings.gridRows}`;
+          
+          var name = document.createElement('div');
+          name.className = 'grid-item-name';
+          name.textContent = paramName;          var value = document.createElement('div');
+          value.className = 'grid-item-value';
+          value.id = 'grid-value-' + paramName.replace(/[^a-zA-Z0-9]/g, '_');
+          var decimals = settings.decimalDigits !== undefined ? settings.decimalDigits : userConfig.globalSettings.defaultDecimalDigits;
+          
+          // Calculate optimal width for this parameter
+          var optimalWidth = calculateParameterWidth(paramName);
+            var formattedValue = parseFloat(param.v).toFixed(decimals);
+          // Center the value properly without excessive padding
+          value.textContent = formattedValue;
+          
+          var unit = document.createElement('div');
+          unit.className = 'grid-item-unit';          // Create unit content based on display style
+          if (settings.displayStyle === 'detailed' && settings.minValue !== null && settings.maxValue !== null) {            var minSpan = document.createElement('span');
+            minSpan.className = 'grid-item-minmax';            var minFormatted = parseFloat(settings.minValue).toFixed(decimals);
+            minSpan.textContent = minFormatted;
+            
+            var unitSpan = document.createElement('span');
+            unitSpan.textContent = param.u || '';
+            
+            var maxSpan = document.createElement('span');
+            maxSpan.className = 'grid-item-minmax';            var maxFormatted = parseFloat(settings.maxValue).toFixed(decimals);
+            maxSpan.textContent = maxFormatted;
+            
+            unit.appendChild(minSpan);
+            unit.appendChild(unitSpan);
+            unit.appendChild(maxSpan);
+          } else {
+            unit.textContent = param.u || '';
+          }
+          
+          item.appendChild(name);          item.appendChild(value);
+          item.appendChild(unit);
+          
+          item.addEventListener('dragstart', handleDragStart);
+          item.addEventListener('dragend', handleDragEnd);
+          
+          // Add click handler to show size controls
+          item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var paramName = e.currentTarget.dataset.paramName;
+            if (paramName) {
+              showGridSizeControls(paramName);
+            }
+          });
+          
+          container.appendChild(item);
+        });
+        
+        setupGridDropZones();
+      }
+      
+      function setupGridDropZones() {
+        var container = document.getElementById('grid-view');
+        
+        for (var row = 0; row < 5; row++) {
+          for (var col = 0; col < 5; col++) {
+            if (!isGridOccupied(col, row)) {
+              var zone = document.createElement('div');
+              zone.className = 'grid-drop-zone';
+              zone.style.gridColumn = `${col + 1}`;
+              zone.style.gridRow = `${row + 1}`;
+              zone.dataset.gridX = col;
+              zone.dataset.gridY = row;
+              
+              zone.addEventListener('dragover', handleDragOver);
+              zone.addEventListener('drop', handleDrop);
+              
+              container.appendChild(zone);
+            }
+          }
+        }
+      }
+        function isGridOccupied(x, y) {
+        var selectedParams = Object.keys(userConfig.selectedParameters).filter(
+          name => userConfig.selectedParameters[name]
+        );
+        
+        return selectedParams.some(function(paramName) {
+          var settings = userConfig.parameterSettings[paramName];
+          return x >= settings.gridX && x < settings.gridX + settings.gridColumns &&
+                 y >= settings.gridY && y < settings.gridY + settings.gridRows;
+        });
+      }
+        var draggedElement = null;
+      var gridControlsTimeout = null;
+      var currentSelectedParam = null;
+      
+      function handleDragStart(e) {
+        draggedElement = e.target;
+        e.target.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', e.target.outerHTML);
+      }
+      
+      function handleDragEnd(e) {
+        e.target.classList.remove('dragging');
+        draggedElement = null;
+        
+        // Show grid size controls for the dragged item
+        var paramName = e.target.dataset.paramName;
+        if (paramName) {
+          showGridSizeControls(paramName);
+        }
+        
+        updateGridView();
+      }
+      
+      function handleDragOver(e) {
+        if (e.preventDefault) {
+          e.preventDefault();
+        }
+        e.dataTransfer.dropEffect = 'move';
+        return false;
+      }
+        function handleDrop(e) {
+        if (e.stopPropagation) {
+          e.stopPropagation();
+        }
+        
+        if (draggedElement) {
+          var paramName = draggedElement.dataset.paramName;
+          var newX = parseInt(e.target.dataset.gridX);
+          var newY = parseInt(e.target.dataset.gridY);
+          var currentSettings = getParameterSettings(paramName);
+          
+          // Validate the new position
+          if (isValidGridPosition(newX, newY, currentSettings.gridColumns, currentSettings.gridRows, paramName)) {
+            updateParameterSettings(paramName, {
+              gridX: newX,
+              gridY: newY
+            });
+          } else {
+            // Find alternative position if drop location is invalid
+            var newPosition = findNextAvailablePosition(currentSettings.gridColumns, currentSettings.gridRows, paramName);
+            updateParameterSettings(paramName, {
+              gridX: newPosition.x,
+              gridY: newPosition.y
+            });
+          }
+            updateGridView();
+        }
+        
+        return false;
+      }      function showGridSizeControls(paramName) {
+        currentSelectedParam = paramName;
+        var controls = document.getElementById('grid-size-controls');
+        var gridView = document.getElementById('grid-view');
+        var settings = getParameterSettings(paramName);
+        
+        // Clear any existing timeout
+        if (gridControlsTimeout) {
+          clearTimeout(gridControlsTimeout);
+        }
+        
+        // Update button states
+        updateGridSizeButtons(settings.gridColumns, settings.gridRows);
+        updateActionButtonStates(settings);
+        
+        // Show controls and grid drop zones
+        controls.classList.remove('hiding');
+        controls.classList.add('visible');
+        gridView.classList.add('controls-visible');
+        
+        // Hide after 5 seconds
+        gridControlsTimeout = setTimeout(function() {
+          hideGridSizeControls();
+        }, 5000);
+      }
+      
+      function hideGridSizeControls() {
+        var controls = document.getElementById('grid-size-controls');
+        var gridView = document.getElementById('grid-view');
+        controls.classList.add('hiding');
+        
+        setTimeout(function() {
+          controls.classList.remove('visible', 'hiding');
+          gridView.classList.remove('controls-visible');
+          currentSelectedParam = null;
+        }, 300);
+      }
+      
+      function updateGridSizeButtons(currentWidth, currentHeight) {
+        var buttons = document.querySelectorAll('.grid-size-btn');
+        
+        buttons.forEach(function(btn) {
+          var type = btn.dataset.type;
+          var value = parseInt(btn.dataset.value);
+          
+          // Remove active class
+          btn.classList.remove('active');
+          btn.disabled = false;
+          
+          // Set active state
+          if ((type === 'width' && value === currentWidth) || 
+              (type === 'height' && value === currentHeight)) {
+            btn.classList.add('active');
+          }
+          
+          // Check if this size would be valid
+          if (currentSelectedParam) {
+            var settings = getParameterSettings(currentSelectedParam);
+            var testWidth = type === 'width' ? value : currentWidth;
+            var testHeight = type === 'height' ? value : currentHeight;
+              if (!isValidGridPosition(settings.gridX, settings.gridY, testWidth, testHeight, currentSelectedParam)) {
+              btn.disabled = true;
+            }
+          }
+        });
+      }
+        function updateActionButtonStates(settings) {
+        var styleSelect = document.getElementById('style-select');
+        var resetBtn = document.getElementById('reset-minmax-btn');
+        
+        // Update style select
+        styleSelect.value = settings.displayStyle || 'simple';
+        
+        // Update reset button state based on whether min/max values exist
+        if (settings.minValue !== null || settings.maxValue !== null) {
+          resetBtn.classList.remove('active');
+          resetBtn.disabled = false;
+        } else {
+          resetBtn.classList.add('active');
+          resetBtn.disabled = true;
+        }
+      }
+        function initializeGridSizeControls() {
+        var buttons = document.querySelectorAll('.grid-size-btn');
+        
+        buttons.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            if (!currentSelectedParam || btn.disabled) return;
+            
+            var type = btn.dataset.type;
+            var value = parseInt(btn.dataset.value);
+            var settings = getParameterSettings(currentSelectedParam);
+            
+            var newSettings = {};
+            if (type === 'width') {
+              newSettings.gridColumns = value;
+            } else if (type === 'height') {
+              newSettings.gridRows = value;
+            }
+            
+            // Check if new size fits in current position
+            var newWidth = newSettings.gridColumns || settings.gridColumns;
+            var newHeight = newSettings.gridRows || settings.gridRows;
+            
+            if (isValidGridPosition(settings.gridX, settings.gridY, newWidth, newHeight, currentSelectedParam)) {
+              updateParameterSettings(currentSelectedParam, newSettings);
+            } else {
+              // Find new position if current doesn't work with new size
+              var newPosition = findNextAvailablePosition(newWidth, newHeight, currentSelectedParam);
+              newSettings.gridX = newPosition.x;
+              newSettings.gridY = newPosition.y;
+              updateParameterSettings(currentSelectedParam, newSettings);
+            }
+            
+            // Update button states
+            var currentSettings = getParameterSettings(currentSelectedParam);
+            updateGridSizeButtons(currentSettings.gridColumns, currentSettings.gridRows);
+            
+            updateGridView();
+            
+            // Reset timeout
+            if (gridControlsTimeout) {
+              clearTimeout(gridControlsTimeout);
+            }
+            gridControlsTimeout = setTimeout(function() {
+              hideGridSizeControls();
+            }, 5000);          });
+        });
+        
+        // Style select dropdown
+        var styleSelect = document.getElementById('style-select');
+        styleSelect.addEventListener('change', function() {
+          if (!currentSelectedParam) return;
+          
+          var newStyle = styleSelect.value;
+          
+          updateParameterSettings(currentSelectedParam, {
+            displayStyle: newStyle
+          });
+          
+          updateGridView();
+          resetControlsTimeout();
+        });
+          // Reset min/max button
+        var resetMinMaxBtn = document.getElementById('reset-minmax-btn');
+        resetMinMaxBtn.addEventListener('click', function() {
+          if (!currentSelectedParam) return;
+          
+          updateParameterSettings(currentSelectedParam, {
+            minValue: null,
+            maxValue: null
+          });
+          
+          // Update button states
+          var currentSettings = getParameterSettings(currentSelectedParam);
+          updateActionButtonStates(currentSettings);
+          
+          updateGridView();
+          resetControlsTimeout();
+        });
+          // Remove parameter button
+        var removeParamBtn = document.getElementById('remove-param-btn');
+        removeParamBtn.addEventListener('click', function() {
+          if (!currentSelectedParam) return;
+          
+          // Find and uncheck the parameter
+          if (parametersConfig && parametersConfig.ecuparam) {
+            parametersConfig.ecuparam.forEach(function(param, index) {
+              if (param.h === currentSelectedParam) {
+                var checkbox = document.getElementById('param_' + index);
+                if (checkbox) {
+                  checkbox.checked = false;
+                }
+              }
+            });
+          }
+          
+          // Update config
+          userConfig.selectedParameters[currentSelectedParam] = false;
+          delete userConfig.parameterSettings[currentSelectedParam];
+          
+          hideGridSizeControls();
+          updateGridView();
+        });
+        
+        // Parameter configuration button
+        var paramConfigBtn = document.getElementById('param-config-btn');
+        paramConfigBtn.addEventListener('click', function() {
+          if (!currentSelectedParam) return;
+          
+          // Find the parameter index
+          var paramIndex = -1;
+          if (parametersConfig && parametersConfig.ecuparam) {
+            parametersConfig.ecuparam.forEach(function(param, index) {
+              if (param.h === currentSelectedParam) {
+                paramIndex = index;
+              }
+            });
+          }
+          
+          if (paramIndex !== -1) {
+            hideGridSizeControls();
+            openParameterSettings(currentSelectedParam, paramIndex);
+          }
+        });
+        
+        // Hide controls when clicking elsewhere
+        document.addEventListener('click', function(e) {
+          var controls = document.getElementById('grid-size-controls');
+          var clickedGridItem = e.target.closest('.grid-item');
+          var clickedControls = e.target.closest('.grid-size-controls');
+          
+          if (!clickedGridItem && !clickedControls && controls.classList.contains('visible')) {
+            hideGridSizeControls();
+          }
+        });
+        
+        function resetControlsTimeout() {
+          if (gridControlsTimeout) {
+            clearTimeout(gridControlsTimeout);
+          }
+          gridControlsTimeout = setTimeout(function() {
+            hideGridSizeControls();
+          }, 5000);
+        }
+      }
+      
+      function startDataPolling() {
+        if (dataUpdateInterval) {
+          clearInterval(dataUpdateInterval);
+        }
+        
+        if (!isDataTabActive) {
+          return; // Don't start polling if not on data tab
+        }
+        
+        dataUpdateInterval = setInterval(function() {
+          if (isDataTabActive) {
+            updateParameterValues();
+          } else {
+            clearInterval(dataUpdateInterval);
+            dataUpdateInterval = null;
+          }
+        }, 100); // 10Hz = 100ms
+      }      function updateParameterValues() {
+        if (!isDataTabActive) {
+          return; // Don't update if not on data tab
+        }
+        
+        // Check if MessagePack is available, if not use JSON directly
+        if (!isMessagePackAvailable()) {
+          updateParameterValuesJSON();
+          return;
+        }
+        
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'arraybuffer';
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              var decoded = safeMsgPackDecode(xhr.response);
+              if (decoded) {
+                updateParameterDisplay(decoded);
+              } else {
+                // Fallback to JSON for this request
+                updateParameterValuesJSON();
+              }
+            }
+          }
+        };
+        xhr.open('GET', '/parameters', true);
+        xhr.send();
+      }
+      
+      function updateParameterValuesJSON() {
+        if (!isDataTabActive) {
+          return;
+        }
+        
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              try {
+                var data = JSON.parse(xhr.responseText);
+                updateParameterDisplay(data);
+              } catch (e) {
+                console.error('JSON parsing failed:', e);
+              }
+            }
+          }
+        };
+        xhr.open('GET', '/parameters?json', true);
+        xhr.send();
+      }
+        function updateParameterDisplay(data) {
+        if (data && data.ecuparam && parametersConfig && parametersConfig.ecuparam) {
+          data.ecuparam.forEach(function(param, index) {
+            var valueElement = document.getElementById('param_' + index + '_value');
+            if (valueElement && param.v !== undefined) {
+              // Get parameter name for settings lookup
+              var configParam = parametersConfig.ecuparam[index];
+              if (configParam && configParam.h) {
+                var settings = getParameterSettings(configParam.h);
+                  // Update min/max values
+                var minMaxChanged = false;
+                if (settings.minValue === null || param.v < settings.minValue) {
+                  settings.minValue = param.v;
+                  minMaxChanged = true;
+                }
+                if (settings.maxValue === null || param.v > settings.maxValue) {
+                  settings.maxValue = param.v;
+                  minMaxChanged = true;
+                }
+                
+                // Clear width cache if min/max changed (affects width calculation)
+                if (minMaxChanged) {
+                  clearParameterWidthCache(configParam.h);
+                }                // Apply decimal formatting with consistent width
+                var decimals = settings.decimalDigits !== undefined ? 
+                              settings.decimalDigits : 
+                              userConfig.globalSettings.defaultDecimalDigits;
+                var formattedValue = parseFloat(param.v).toFixed(decimals);                // Center the value properly without excessive padding
+                valueElement.textContent = formattedValue;// Update grid view value and min/max if in detailed view
+                var gridValue = document.getElementById('grid-value-' + configParam.h.replace(/[^a-zA-Z0-9]/g, '_'));
+                if (gridValue) {                  // Center the value properly without excessive padding
+                  gridValue.textContent = formattedValue;
+                  
+                  // Update min/max values in detailed view
+                  var gridItem = gridValue.closest('.grid-item');
+                  if (gridItem && settings.displayStyle === 'detailed') {
+                    var unitElement = gridItem.querySelector('.grid-item-unit');
+                    if (unitElement && settings.minValue !== null && settings.maxValue !== null) {
+                      // Rebuild the unit element with updated min/max
+                      unitElement.innerHTML = '';
+                        var minSpan = document.createElement('span');
+                      minSpan.className = 'grid-item-minmax';
+                      var minFormatted = parseFloat(settings.minValue).toFixed(decimals);                      minSpan.textContent = minFormatted;
+                      
+                      var unitSpan = document.createElement('span');
+                      unitSpan.textContent = configParam.u || '';
+                      
+                      var maxSpan = document.createElement('span');
+                      maxSpan.className = 'grid-item-minmax';
+                      var maxFormatted = parseFloat(settings.maxValue).toFixed(decimals);                      maxSpan.textContent = maxFormatted;
+                      
+                      unitElement.appendChild(minSpan);
+                      unitElement.appendChild(unitSpan);
+                      unitElement.appendChild(maxSpan);
+                    }
+                  }
+                }
+              } else {
+                valueElement.textContent = param.v.toString();
+              }
+            }
+          });
+        }
+      }
+      
+      function showError(message) {
+        var container = document.getElementById('parameter-list');
+        container.innerHTML = '<div class="loading" style="color: #ff5555;">' + message + '</div>';
+      }
       
       var tree;
       var editor;
-      function onBodyLoad() {
+        function onBodyLoad() {
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) { vars[key] = value; });
         editor = createEditor("editor", vars.file, vars.lang, vars.theme);
         tree = createTree("tree", editor);
         createFileUploader("uploader", tree, editor);
+        
+        // Setup hash change listener
+        window.addEventListener('hashchange', handleHashChange);
+        
+        // Add mobile-specific event handling
+        setupMobileTabHandling();
+        
+        // Handle initial hash
+        handleHashChange();
+      }
+      
+      function setupMobileTabHandling() {
+        // Prevent mobile zoom on tab buttons
+        var tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(function(button) {
+          button.addEventListener('touchstart', function(e) {
+            // Prevent zoom but allow the click
+            e.preventDefault();
+            button.click();
+          }, { passive: false });
+        });
+        
+        // Ensure tab navigation is always visible on mobile
+        var tabNav = document.querySelector('.tab-nav');
+        if (tabNav) {
+          // Force reflow on mobile orientation change
+          window.addEventListener('orientationchange', function() {
+            setTimeout(function() {
+              tabNav.style.display = 'none';
+              tabNav.offsetHeight; // trigger reflow
+              tabNav.style.display = 'flex';
+            }, 100);
+          });
+          
+          // Handle resize events
+          window.addEventListener('resize', function() {
+            setTimeout(function() {
+              tabNav.style.display = 'flex';
+              tabNav.style.visibility = 'visible';
+            }, 50);
+          });
+        }
+      }
+    </script>  <script src="/wifi/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+    // Simple native MessagePack decoder implementation - use this as primary
+    function setupNativeMessagePack() {
+      window.MessagePack = {
+        decode: function(buffer) {
+          var view = new DataView(buffer.buffer || buffer);
+          var pos = 0;
+          
+          function read() {
+            if (pos >= view.byteLength) throw new Error('Unexpected end of buffer');
+            
+            var byte = view.getUint8(pos++);
+            
+            // Positive fixint
+            if ((byte & 0x80) === 0) {
+              return byte;
+            }
+            
+            // Negative fixint
+            if ((byte & 0xe0) === 0xe0) {
+              return byte - 256;
+            }
+            
+            // Fixmap
+            if ((byte & 0xf0) === 0x80) {
+              var size = byte & 0x0f;
+              var obj = {};
+              for (var i = 0; i < size; i++) {
+                var key = read();
+                var value = read();
+                obj[key] = value;
+              }
+              return obj;
+            }
+            
+            // Fixarray
+            if ((byte & 0xf0) === 0x90) {
+              var size = byte & 0x0f;
+              var arr = [];
+              for (var i = 0; i < size; i++) {
+                arr.push(read());
+              }
+              return arr;
+            }
+            
+            // Fixstr
+            if ((byte & 0xe0) === 0xa0) {
+              var len = byte & 0x1f;
+              var str = '';
+              for (var i = 0; i < len; i++) {
+                str += String.fromCharCode(view.getUint8(pos++));
+              }
+              return str;
+            }
+            
+            switch (byte) {
+              case 0xc0: return null;
+              case 0xc2: return false;
+              case 0xc3: return true;
+              
+              case 0xcc: return view.getUint8(pos++);
+              case 0xcd: pos += 2; return view.getUint16(pos - 2, false);
+              case 0xce: pos += 4; return view.getUint32(pos - 4, false);
+              
+              case 0xd0: return view.getInt8(pos++);
+              case 0xd1: pos += 2; return view.getInt16(pos - 2, false);
+              case 0xd2: pos += 4; return view.getInt32(pos - 4, false);
+              
+              case 0xca: pos += 4; return view.getFloat32(pos - 4, false);
+              case 0xcb: pos += 8; return view.getFloat64(pos - 8, false);
+              
+              case 0xd9: // str 8
+                var len = view.getUint8(pos++);
+                var str = '';
+                for (var i = 0; i < len; i++) {
+                  str += String.fromCharCode(view.getUint8(pos++));
+                }
+                return str;
+                
+              case 0xda: // str 16
+                var len = view.getUint16(pos, false); pos += 2;
+                var str = '';
+                for (var i = 0; i < len; i++) {
+                  str += String.fromCharCode(view.getUint8(pos++));
+                }
+                return str;
+                
+              case 0xdc: // array 16
+                var size = view.getUint16(pos, false); pos += 2;
+                var arr = [];
+                for (var i = 0; i < size; i++) {
+                  arr.push(read());
+                }
+                return arr;
+                
+              case 0xde: // map 16
+                var size = view.getUint16(pos, false); pos += 2;
+                var obj = {};
+                for (var i = 0; i < size; i++) {
+                  var key = read();
+                  var value = read();
+                  obj[key] = value;
+                }
+                return obj;
+                
+              default:
+                throw new Error('Unknown MessagePack type: 0x' + byte.toString(16));
+            }
+          }
+          
+          return read();
+        }
       };
-
+      console.log('Native MessagePack decoder ready');
+    }
     
-    </script>
-  <script src="/wifi/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-  </head>
-  <body onload="onBodyLoad();">
-    <div id="uploader"><input type="file" name="file" id="file" class="inputfile" /><label class="flabel" for="file">Load file</label></div>
-    <div id="tree"></div>
-    <div id="editor"></div>
-    <div id="preview" style="display:none;"></div>
+    // Initialize native MessagePack immediately - no CDN dependencies
+    setupNativeMessagePack();
+    
+    // MessagePack detection
+    function isMessagePackAvailable() {
+      return typeof MessagePack !== 'undefined' && MessagePack.decode && 
+             typeof MessagePack.decode === 'function';
+    }
+    
+    // Safe MessagePack decode
+    function safeMsgPackDecode(data) {
+      if (isMessagePackAvailable()) {
+        try {
+          return MessagePack.decode(new Uint8Array(data));
+        } catch (e) {
+          console.warn('MessagePack decode failed:', e);
+          return null;
+        }
+      }
+      return null;
+    }
+  </script>
+  </head><body onload="onBodyLoad();">
+    <div class="tab-container">      <nav class="tab-nav">
+        <button class="tab-button active" onclick="switchTab(event, 'editor-tab')">File Editor</button>
+        <button class="tab-button" onclick="switchTab(event, 'data-tab')">Data</button>
+      </nav>
+      
+      <div id="editor-tab" class="tab-content active">
+        <div id="uploader"><input type="file" name="file" id="file" class="inputfile" /><label class="flabel" for="file">Load file</label></div>
+        <div id="tree"></div>
+        <div id="editor"></div>
+        <div id="preview" style="display:none;"></div>
+      </div>      <div id="data-tab" class="tab-content">
+        <button id="floating-toggle" class="floating-toggle">▶</button>
+        <div class="data-container">
+          <div id="data-panel" class="data-panel open">            <div class="data-panel-header">
+              <h3>ECU Parameters</h3>              <div class="config-buttons">
+                <button id="save-config" class="config-btn" title="Save Configuration">💾</button>
+                <button id="load-config" class="config-btn" title="Load Configuration">📁</button>
+                <button id="reset-all-minmax" class="config-btn" title="Reset All Min/Max Values">🔄</button>
+                <button id="panel-toggle" class="panel-toggle">▼</button>
+              </div>
+            </div>
+            <div class="data-panel-content">
+              <div id="parameter-list" class="parameter-list">
+                <div class="loading">Loading parameters...</div>
+              </div>
+            </div>
+          </div>          <div class="data-main">
+            <div id="grid-view" class="grid-view">
+              <!-- Grid items will be dynamically generated -->
+            </div>
+              <!-- Grid Size Controls -->
+            <div id="grid-size-controls" class="grid-size-controls">
+              <div class="grid-size-label">Widget Controls</div>
+              
+              <!-- Size Controls -->
+              <div class="grid-size-row">
+                <span style="color: #8be9fd; font-size: 9px; margin-right: 4px;">W:</span>
+                <button class="grid-size-btn" data-type="width" data-value="1">1</button>
+                <button class="grid-size-btn" data-type="width" data-value="2">2</button>
+                <button class="grid-size-btn" data-type="width" data-value="3">3</button>
+                <button class="grid-size-btn" data-type="width" data-value="4">4</button>
+                <button class="grid-size-btn" data-type="width" data-value="5">5</button>
+              </div>
+              <div class="grid-size-row">
+                <span style="color: #8be9fd; font-size: 9px; margin-right: 4px;">H:</span>
+                <button class="grid-size-btn" data-type="height" data-value="1">1</button>
+                <button class="grid-size-btn" data-type="height" data-value="2">2</button>
+                <button class="grid-size-btn" data-type="height" data-value="3">3</button>
+                <button class="grid-size-btn" data-type="height" data-value="4">4</button>
+                <button class="grid-size-btn" data-type="height" data-value="5">5</button>
+              </div>
+                <!-- Style Toggle -->
+              <div class="grid-size-row">
+                <label style="color: #8be9fd; font-size: 9px; margin-right: 4px;">Style:</label>
+                <select id="style-select" class="grid-control-select">
+                  <option value="simple">Simple</option>
+                  <option value="detailed">Detailed</option>
+                </select>
+              </div>
+                <!-- Reset Min/Max -->
+              <div class="grid-size-row">
+                <button id="reset-minmax-btn" class="grid-control-action-btn" title="Reset min/max values">
+                  Reset Min/Max
+                </button>
+              </div>
+              
+              <!-- Configuration -->
+              <div class="grid-size-row">
+                <button id="param-config-btn" class="grid-control-action-btn" title="Parameter configuration">
+                  ⚙️ Settings
+                </button>
+              </div>
+              
+              <!-- Remove Parameter -->
+              <div class="grid-size-row">
+                <button id="remove-param-btn" class="grid-control-action-btn danger" title="Remove from grid">
+                  ❌ Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <iframe id=download-frame style='display:none;'></iframe>
   </body>
 </html>
