@@ -1,0 +1,112 @@
+{
+	"obdRefresh": 100,
+	"canSpeed": 500,
+	"ecuparam": [
+		{
+			"header": "Engine speed",
+			"unit": "RPM",
+			"kwpCan": "0x5800",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 1
+		},
+		{
+			"header": "Load",
+			"unit": "%",
+			"kwpCan": "0x5804",
+			"mul": 0.390625
+		},
+		{
+			"header": "Torque",
+			"unit": "Nm",
+			"kwpCan": "0x5817",
+			"length": 2,
+			"reverseEndianness": false,
+			"expr": "signed(x, 2)*0.1"
+		},
+		{
+			"header": "Req torque",
+			"unit": "Nm",
+			"kwpCan": "0x5FDD",
+			"length": 2,
+			"reverseEndianness": false,
+			"expr": "signed(x, 2)*0.1"
+		},
+		{
+			"header": "Mass airflow",
+			"unit": "kg/h",
+			"kwpCan": "0x5804",
+			"length": 2,
+			"reverseEndianness": false,
+			"expr": "signed(x, 2)*0.1"
+		},
+		{
+			"header": "PVS",
+			"unit": "%",
+			"kwpCan": "0x5818",
+			"length": 2,
+			"reverseEndianness": false,
+			"expr": "signed(x, 2)*0.1"
+		},
+		{
+			"header": "Lambda 1",
+			"unit": "AFR",
+			"kwpCan": "0x5827",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00006103515625
+		},
+		{
+			"header": "Lambda 2",
+			"unit": "AFR",
+			"kwpCan": "0x5828",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00006103515625
+		},
+
+		{
+			"header": "Coolant temp",
+			"unit": "°C",
+			"kwpCan": "0x5802",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.1,
+			"add": -273.2
+		},
+		{
+			"header": "Oil temp",
+			"unit": "°C",
+			"kwpCan": "0x581C",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.1,
+			"add": -273.2
+		},
+		{
+			"header": "Radiator temp",
+			"unit": "°C",
+			"kwpCan": "0x5805",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.1,
+			"add": -273.2
+		},
+		{
+			"header": "Gear",
+			"unit": "G",
+			"kwpCan": "0x581B",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 1
+		},
+		{
+			"header": "Speed",
+			"unit": "km/h",
+			"kwpCan": "0x581A",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0625
+		}
+	]
+}
