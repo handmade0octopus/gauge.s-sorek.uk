@@ -1,0 +1,200 @@
+{
+	"canSpeed": 500,
+	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
+	"ecuparam": [
+		{
+			"header": "Economy",
+			"unit": "l/100km",
+			"expr": "clip(100*x/(y+0.1))",
+			"x": "Fuel usage",
+			"y": "Speed"
+		},
+		{
+			"header": "Econ avg 1",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 1\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Econ avg 2",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 2\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Trip 1",
+			"unit": "km",
+			"expr": "trip(\"Trip 1\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Trip 2",
+			"unit": "km",
+			"expr": "trip(\"Trip 2\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Fuel usage",
+			"unit": "l/h",
+			"expr": "(x/60)*(y/1000)*(250/16.6667)*3",  // Change 328i 250cc/min to 180cc/min for green injectors 320i/323i/325i, 280cc for 330i
+			"x": "Engine Speed",
+			"y": "Fuel Inj"
+		},
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"offset": 0,
+			"length": 2,
+			"max": 8400,	
+			"dec": 0
+		},
+		{
+			"header": "Mass Airflow",
+			"unit": "kg/h",
+			"offset": 5,
+			"length": 2,
+			"mul": 0.25,
+			"dec": 1
+		},
+		{
+			"header": "Knock 1",
+			"unit": "C",
+			"offset": 27,
+			"mul": 0.01960
+		},
+		{
+			"header": "Knock 2",
+			"unit": "C",
+			"offset": 28,
+			"mul": 0.01960,
+			"hidden": true
+		},
+		{
+			"header": "Knock 3",
+			"unit": "C",
+			"offset": 29,
+			"mul": 0.01960,
+			"hidden": true
+		},
+		{
+			"header": "Knock 4",
+			"unit": "C",
+			"offset": 30,
+			"mul": 0.01960,
+			"hidden": true
+		},
+		{
+			"header": "Knock 5",
+			"unit": "C",
+			"offset": 31,
+			"mul": 0.01960,
+			"hidden": true
+		},
+		{
+			"header": "Knock 6",
+			"unit": "C",
+			"offset": 32,
+			"mul": 0.01960,
+			"hidden": true
+		},
+		{
+			"header": "Vanos Intake",
+			"unit": "°CRK",
+			"offset": 16,
+			"mul": 0.1,
+			"add": 51.2
+		},
+		{
+			"header": "Vanos Exhaust",
+			"unit": "°CRK",
+			"offset": 18,
+			"mul": 0.1,
+			"add": 51.2
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"offset": 4,
+			"mul": 0.39220,
+			"max": 120,
+			"min": 0,
+			"dec": 0				// Remember about this comma when editing line below
+		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
+		},
+		{
+			"header": "Ignition Angle",
+			"unit": "°CRK",
+			"offset": 10,
+			"mul": 0.1
+		},
+		{
+			"header": "Fuel Inj",
+			"unit": "ms",
+			"offset": 11,
+			"length": 2,
+			"mul": 0.001
+		},
+		{
+			"header": "Fuel Inj 2",
+			"unit": "ms",
+			"offset": 13,
+			"length": 2,
+			"mul": 0.001,
+			"hidden": true
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"offset": 7,
+			"mul": 1,
+			"add": -48
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"offset": 8,
+			"mul": 1,
+			"add": -48
+		},
+		{
+			"header": "Oil Temp",
+			"unit": "°C",
+			"offset": 35,
+			"mul": 1,
+			"add": -48
+		},
+		{
+			"header": "Speed",
+			"unit": "km/h",
+			"offset": 2,
+			"dec": 0
+		},
+		{
+			"header": "Lambda Int 1",
+			"unit": "%",
+			"offset": 20,
+			"mul": 1,
+			"add": -128,
+			"resetTime": 60
+		},
+		{
+			"header": "Lambda Int 2",
+			"unit": "%",
+			"offset": 22,
+			"mul": 1,
+			"add": -128,
+			"resetTime": 60
+		},
+		{
+			"header": "Battery Voltage",
+			"alias": "Battery",
+			"unit": "V",
+			"offset": 19,
+			"mul": 0.1
+		}
+	]
+}

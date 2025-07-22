@@ -1,0 +1,167 @@
+{
+    "canSpeed": 500,
+    "ecuparam": [
+        {
+            "header": "Engine speed",
+            "unit": "RPM",
+            "canId": "0x520",
+            "offset": 0,
+            "length": 2,
+            "dec": 0
+        },
+        {
+            "header": "TPS",
+            "unit": "%",
+            "canId": "0x520",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Map",
+            "unit": "kPa",
+            "canId": "0x520",
+            "offset": 4,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "Lambda",
+            "unit": "L",
+            "canId": "0x520",
+            "offset": 6,
+            "length": 2,
+            "mul": 0.001
+        },
+        {
+            "header": "Lambda 1",
+            "unit": "L",
+            "canId": "0x521",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.001
+        },
+        {
+            "header": "Lambda 2",
+            "unit": "L",
+            "canId": "0x521",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.001
+        },
+        {
+            "header": "Ignition angle",
+            "unit": "BTDC",
+            "canId": "0x521",
+            "offset": 4,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "Ignition cut",
+            "unit": "%",
+            "canId": "0x521",
+            "offset": 6,
+            "length": 2,
+            "mul": 1
+        },
+        {
+            "header": "Fuel pulsewidth",
+            "unit": "ms",
+            "canId": "0x522",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.01
+        },
+        {
+            "header": "Fuel cut",
+            "unit": "%",
+            "canId": "0x522",
+            "offset": 4,
+            "length": 2,
+            "mul": 1
+        },
+        {
+            "header": "Vehicle Speed",
+            "unit": "km/h",
+            "canId": "0x522",
+            "offset": 6,
+            "length": 2,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Lambda corr 1",
+            "unit": "%",
+            "canId": "0x524",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "Lambda corr 2",
+            "unit": "%",
+            "canId": "0x524",
+            "offset": 4,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "Battery voltage",
+            "unit": "V",
+            "canId": "0x530",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.01
+        },
+        {
+            "header": "Intake air temp",
+            "unit": "°C",
+            "canId": "0x530",
+            "offset": 4,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "Coolant temp",
+            "unit": "°C",
+            "canId": "0x530",
+            "offset": 6,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "Oil temp",
+            "unit": "°C",
+            "canId": "0x536",
+            "offset": 6,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "EGT",
+            "unit": "°C",
+            "canId": "0x533",
+            "offset": 6,
+            "length": 2,
+            "mul": 1
+        },
+        {
+            "header": "Oil pressure",
+            "unit": "kPa",
+            "canId": "0x536",
+            "offset": 4,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "Fuel pressure",
+            "unit": "kPa",
+            "canId": "0x537",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.1
+        }
+    ]
+}

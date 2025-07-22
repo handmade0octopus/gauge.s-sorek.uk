@@ -1,0 +1,180 @@
+{
+	"canSpeed": 1000,  // on 1000 seems to be working better, also set hex to 600 in ECU config
+	"ecuparam": [
+		{
+			"header": "Economy",
+			"unit": "l/100km",
+			"expr": "clip(100*x/(y+0.1))",
+			"x": "Fuel usage",
+			"y": "Speed"
+		},
+		{
+			"header": "Econ avg 1",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 1\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Econ avg 2",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 2\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Trip 1",
+			"unit": "km",
+			"expr": "trip(\"Trip 1\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Trip 2",
+			"unit": "km",
+			"expr": "trip(\"Trip 2\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Fuel usage",
+			"unit": "l/h",
+			"expr": "(x/60)*(y/1000)*(875/16.6667)*3",
+			"y": "Fuel Inj"
+		},
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"canId": 1536,
+			"offset": 0,
+			"length": 2,
+			"max": 7000,
+			"dec": 0
+		},
+		{
+			"header": "MAP",
+			"unit": "kPa",
+			"canId": 1536,
+			"offset": 4,
+			"length": 2,
+			"mul": 0.01
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"canId": 1536,
+			"offset": 4,
+			"length": 1,
+			"mul": 0.5,
+			"max": 100
+		},
+		{
+			"header": "Ignition Angle",
+			"unit": "°CRK",
+			"canId": 1539,
+			"offset": 0,
+			"length": 1,
+			"expr": "(x > 127)*-0.5*(128-x) + (x < 127)*0.5*x"
+		},
+		{
+			"header": "Dwell",
+			"unit": "ms",
+			"canId": 1539,
+			"offset": 1,
+			"length": 1,
+			"mul": 0.05
+		},
+		{
+			"header": "Fuel Inj",
+			"unit": "ms",
+			"canId": 1536,
+			"offset": 6,
+			"length": 2,
+			"mul": 0.016129
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"canId": 1536,
+		//	"add": -40,
+			"offset": 3,
+			"length": 1
+		},
+		{
+			"header": "Speed",
+			"unit": "km/h",
+			"canId": 1538,
+			"offset": 0,
+			"length": 2,
+			"reverseEndianness": false
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"canId": 1538,
+			"offset": 6,
+			"length": 2,
+			"mul": 1
+		},
+		{
+			"header": "Oil Temperature",
+			"unit": "°C",
+			"canId": 1538,
+			"offset": 3,
+			"mul": 1
+		},
+		{
+			"header": "Oil pressure",
+			"unit": "Bar",
+			"canId": 1538,
+			"offset": 4,
+			"mul": 0.0625
+		},
+		{
+			"header": "Fuel pressure",
+			"unit": "Bar",
+			"canId": 1538,
+			"offset": 5,
+			"mul": 0.0625
+		},
+		{
+			"header": "Lambda",
+			"unit": "L",
+			"canId": 1539,
+			"offset": 2,
+			"length": 1,
+			"mul": 0.0078125
+		},
+		{
+			"header": "Fuel trim",
+			"unit": "%",
+			"canId": 1539,
+			"offset": 3,
+			"length": 1,
+			"mul": 0.5
+		},
+		{
+			"header": "WBO",
+			"unit": "AFR",
+			"expr": "14.7*x",
+			"x": "Lambda"
+		},
+		{
+			"header": "EGT 1",
+			"unit": "°C",
+			"canId": 1539,
+			"offset": 4,
+			"length": 2,
+			"reverseEndianness": false
+		},
+		{
+			"header": "Battery Voltage",
+			"alias": "Battery",
+			"unit": "V",
+			"canId": 1539,
+			"offset": 2,
+			"length": 2,
+			"mul": 0.027
+		}
+	]
+}

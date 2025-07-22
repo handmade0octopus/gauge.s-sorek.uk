@@ -1,0 +1,156 @@
+{
+	"canSpeed": 500,
+	"address": ["0xB8", "0x12", "0xF1", "0x03", "0x22", "0x40", "0x00", "0x3A"],
+	"forceKwp": true,
+	"ecuparam": [
+		{
+			"header": "Economy",
+			"unit": "l/100km",
+			"expr": "clip(100*x/(y+0.1))",
+			"x": "Fuel usage",
+			"y": "Speed"
+		},
+		{
+			"header": "Econ avg 1",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 1\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Econ avg 2",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 2\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Trip 1",
+			"unit": "km",
+			"expr": "trip(\"Trip 1\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Trip 2",
+			"unit": "km",
+			"expr": "trip(\"Trip 2\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Fuel usage",
+			"unit": "l/h",
+			"expr": "(x/60)*(y/1000)*(250/16.6667)*3",  // Change 328i 250cc/min to 180cc/min for green injectors 320i/323i/325i, 280cc for 330i
+			"x": "Engine Speed",
+			"y": "Fuel Inj"
+		},
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"offset": 10,
+			"length": 2,
+            "mul": 0.25,
+			"max": 6600,
+			"dec": 0
+		},
+		{
+			"header": "Engine Load",
+			"unit": "mg/str",
+			"offset": 23,
+			"length": 2,
+			"mul": 0.0015259,
+			"dec": 1
+		},
+		{
+			"header": "Mass Airflow",
+			"unit": "kg/h",
+			"offset": 21,
+			"length": 2,
+			"mul": 0.1,
+			"dec": 1
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"offset": 20,
+			"mul": 0.39216,
+			"max": 120,
+			"min": 0,
+			"dec": 0				// Remember about this comma when editing line below
+		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
+		},
+		{
+			"header": "Ignition Angle",
+			"unit": "°CRK",
+			"offset": 19,
+			"mul": 0.75
+		},
+		{
+			"header": "Fuel Inj",
+			"unit": "ms",
+			"offset": 3,
+			"length": 2,
+			"mul": 0.016
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"offset": 17,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"offset": 18,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+			"header": "Radiator Temp",
+			"unit": "°C",
+			"offset": 28,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+			"header": "Speed",
+			"unit": "km/h",
+			"offset": 9,
+			"mul": 1.25
+		},
+		{
+			"header": "Battery Voltage",
+			"alias": "Battery",
+			"unit": "V",
+			"offset": 25,
+			"max": 20
+		},
+		{
+			"header": "Can button", //clutch is disengaged when value is odd (last bit)
+			"canId": "0x329",
+			"expr": "(x >> 5)",
+			"offset": 3,
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Cruise active",
+			"canId": "0x545",
+			"expr": "(x & 8)",
+			"offset": 0,
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Button press",
+			"unit": "b",
+			"expr": "buttonPress(0, (x == 2) && !y, (x == 1) && !y, (x == 3) && !y)", //use all buttons on steering wheel
+			"x": "Can button", // if != 0 then button is active
+			"y": "Cruise active",
+			"hidden": true,
+			"noLog": true
+		}
+	]
+}

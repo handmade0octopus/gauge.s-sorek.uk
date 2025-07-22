@@ -1,0 +1,99 @@
+{
+	"canSpeed": 500,
+	"address": ["0xB8", "0x12", "0xF1", "0x02", "0x21", "0xF0", "0x88"],
+	"repeatAddress": ["0xB8", "0x12", "0xF1", "0x3E", "0x2C", "0xF0", 
+		"0x02",	"0x01",	"0x02",	"0x00",	"0x14",	"0x01",
+		"0x02",	"0x03",	"0x02",	"0x00",	"0x34",	"0x01",
+		"0x02",	"0x05",	"0x02",	"0x00",	"0x3C",	"0x01",
+		"0x02",	"0x07",	"0x02",	"0x00",	"0x04",	"0x01",
+		"0x02",	"0x09",	"0x02",	"0x00",	"0x1F",	"0x01",
+		"0x02",	"0x0B",	"0x02",	"0x00",	"0x74",	"0x01",
+		"0x02",	"0x0D",	"0x02",	"0x00",	"0x2C",	"0x01",
+		"0x02",	"0x0F",	"0x02",	"0x00",	"0x2D",	"0x01",
+		"0x02",	"0x11",	"0x02",	"0x00",	"0x11",	"0x01",
+		"0x02",	"0x13",	"0x02",	"0x00",	"0x1C",	"0x01",
+		"0xC4"],
+	"forceKwp": true,
+	"ecuparam": [
+		{
+			"header": "Engine Speed",
+			"unit":"RPM",
+			"offset": 2,
+			"length": 2,
+			"mul": 0.25,
+			"add": 0
+		  },
+		  {
+			"header": "Mass Airflow",
+			"unit":" Kg/h",
+			"offset": 4,
+			"length": 2,
+			"mul": 0.048829,
+			"add": -1599.971484
+		  },
+		  {
+			"header": "Max Torque",
+			"unit":" Nm",
+			"offset": 6,
+			"length": 2,
+			"mul": 0.114445,
+			"add": -2500.060084
+		  },
+		  {
+			"header": "Boost Pressure",
+			"unit":" hPa",
+			"offset": 8,
+			"length": 2,
+			"mul": 0.125002,
+			"add": 0
+		  },
+		  {
+			"header": "Coolant Temp",
+			"unit":" deg C",
+			"offset": 10,
+			"length": 2,
+			"mul": 0.016787,
+			"add": -50.13844
+		  },
+		  {
+			"header": "Intake Air Temp",
+			"unit":" deg C",
+			"offset": 12,
+			"length": 2,
+			"mul": 0.016787,
+			"add": -50.13844
+		  },
+		  {
+			"header": "Charge air temp",
+			"unit":" deg C",
+			"offset": 14,
+			"length": 2,
+			"mul": 0.016787,
+			"add": -50.13844
+		  },
+		  {
+			"header": "Maximum rail press 10ms",
+			"unit":" bar",
+			"offset": 16,
+			"length": 2,
+			"mul": 0.030518,
+			"add": 0
+		  },
+		  {
+			"header": "Rail pressure setpoint",
+			"unit":" bar",
+			"offset": 18,
+			"length": 2,
+			"mul": 0.030518,
+			"add": 0
+		  },
+		  {
+			"header": "Injection",
+			"unit":" mg/cyc",
+			"offset": 20,
+			"length": 2,
+			"mul": 0.003052,
+			"add": -99.998993
+		  }
+	]
+}

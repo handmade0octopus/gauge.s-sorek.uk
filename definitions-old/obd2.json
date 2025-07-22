@@ -1,0 +1,126 @@
+{
+	"obdRefresh": 200,	// default is 20; uncomment if you are sure your ECU will accept this speed!
+	"canSpeed": 500, // some cars may need 250
+	"ecuparam": [
+		{
+			"header": "Trip 1",
+			"unit": "km",
+			"expr": "trip(\"Trip 1\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Trip 2",
+			"unit": "km",
+			"expr": "trip(\"Trip 2\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"obdPID": 12,
+			"max": 7000,
+			"dec": 0
+		},
+		{
+			"header": "MAP",
+			"unit": "kPa",
+			"obdPID": 11
+		},
+		{
+			"header": "Lambda",
+			"unit": "Lmb",
+			"obdPID": 52,
+			"max": 0.8,
+			"min": 1.1
+		},
+		{
+			"header": "Torque",
+			"unit": "Nm",
+			"obdPID": 98
+		},
+		{
+			"header": "MAF",
+			"unit": "kg/h",
+			"obdPID": 16,
+			"mul": 3.6
+		},
+		{
+			"header": "TPS",
+			"unit": "kg/h",
+			"obdPID": 17,
+			"mul": 3.6
+		},
+		{
+			"header": "Ignition Angle",
+			"unit": "°CRK",
+			"obdPID": 14
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"obdPID": 5,
+			"eventsPerSecond": 0.1
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"obdPID": 15,
+			"eventsPerSecond": 0.1
+		},
+		{
+			"header": "Oil Temp",
+			"unit": "°C",
+			"obdPID": 92,
+			"eventsPerSecond": 0.1
+		},
+		{
+			"header": "Speed",
+			"unit": "km/h",
+			"obdPID": 13
+		},
+		{
+			"header": "STFT 1",
+			"unit": "%",
+			"obdPID": 20
+		},
+		{
+			"header": "STFT 2",
+			"unit": "%",
+			"obdPID": 21
+		},
+		{
+			"header": "Adapt Add 1",
+			"unit": "%",
+			"obdPID": 6,
+			"eventsPerSecond": 0.01
+		},
+		{
+			"header": "Adapt Add 2",
+			"unit": "%",
+			"obdPID": 8,
+			"eventsPerSecond": 0.01
+		},
+		{
+			"header": "Adapt Mul 1",
+			"unit": "%",
+			"obdPID": 7,
+			"eventsPerSecond": 0.01
+		},
+		{
+			"header": "Adapt Mul 2",
+			"unit": "%",
+			"obdPID": 9,
+			"eventsPerSecond": 0.01
+		},
+		{
+			"header": "Can sleep",
+			"canId": "0x130",	 	//  For BMW
+			"expr": "sleep(x == 192)",
+			"length": 1
+		},
+		{
+			"header": "Input V",
+			"alias": "Battery"
+		}
+	]
+}

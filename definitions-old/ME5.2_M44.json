@@ -1,0 +1,154 @@
+{
+	"canSpeed": 500,
+	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
+//	"baudAddress": ["0x12", "0x08", "0x91", "0x01", "0xE8", "0x48", "0x00", "0x2A"], // Can cause issues, if you need ~25Hz data rate set this
+//	"baudSpeed": 125000,
+	"ecuparam": [
+		{
+			"header": "Economy",
+			"unit": "l/100km",
+			"expr": "clip(100*x/(y+0.1))",
+			"x": "Fuel usage",
+			"y": "Speed"
+		},
+		{
+			"header": "Econ avg 1",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 1\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Econ avg 2",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 2\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Trip 1",
+			"unit": "km",
+			"expr": "trip(\"Trip 1\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Trip 2",
+			"unit": "km",
+			"expr": "trip(\"Trip 2\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Fuel usage",
+			"unit": "l/h",
+			"expr": "(x/60)*(y/1000)*12.768*2", 
+			"x": "Engine Speed",
+			"y": "Fuel Inj"
+		},
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"offset": 18,
+			"length": 1,
+			"mul": 40.0,
+			"max": 7000,	
+			"dec": 0,
+			"flashPoint": 6500
+		},
+		{
+			"header": "Engine Load",
+			"unit": "mg/str",
+			"offset": 21,
+			"length": 1,
+			"mul": 0.5,
+			"dec": 1
+		},
+		{
+			"header": "Mass Airflow",
+			"unit": "kg/h",
+			"offset": 0,
+			"length": 2,
+			"mul": 0.25,
+			"dec": 1
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"offset": 19,
+			"mul": 0.5,
+			"max": 100,
+			"min": 0,
+			"dec": 0				// Remember about this comma when editing line below
+		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
+		},
+		{
+			"header": "Ignition Angle",
+			"unit": "°CRK",
+			"offset": 20,
+			"mul": -0.75,
+			"add": 54
+		},
+		{
+			"header": "Fuel Inj",
+			"unit": "ms",
+			"offset": 4,
+			"length": 2,
+			"reverseEndianness": true,
+			"mul": 0.024
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"offset": 22,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"offset": 23,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+			"header": "Speed",
+			"unit": "km/h",
+			"offset": 26,
+			"dec": 0,
+			"mul": 1.25
+		},
+		{
+			"header": "IACV",
+			"unit": "%",
+			"reverseEndianness": true,
+			"offset": 2,
+			"length": 2,
+			"mul": 0.0039062,
+			"add": -128
+		},
+		{
+			"header": "Lambda Int 1",
+			"unit": "%",
+			"offset": 6,
+			"length": 2,
+			"mul": 0.000030518,
+			"resetTime": 0
+		},
+		{
+			"header": "Lambda Int 2",
+			"unit": "%",
+			"offset": 8,
+			"length": 2,
+			"mul": 0.000030518,
+			"resetTime": 0
+		},
+		{
+			"header": "Battery Voltage",
+			"alias": "Battery",
+			"unit": "V",
+			"offset": 29,
+			"mul": 0.09431
+		}
+	]
+}

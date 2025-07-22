@@ -1,0 +1,343 @@
+{
+	"canSpeed": 500,
+	"address": ["0xB8", "0x12", "0xF1", "0x02", "0x21", "0xF0", "0x88"],
+	"repeatAddress": ["0xB8", "0x12", "0xF1", "0xD4", "0x2C", "0xF0", 
+		"0x02", "0x01", "0x01", "0x41", "0x14", "0x01", 
+		"0x02", "0x02", "0x01", "0x41", "0x34", "0x01", 
+		"0x02", "0x03", "0x01", "0x41", "0x3C", "0x01", 
+		"0x02", "0x04", "0x01", "0x41", "0x04", "0x01",
+		"0x02", "0x05", "0x01", "0x41", "0x1F", "0x01",
+		"0x02", "0x06", "0x01", "0x41", "0x74", "0x01",
+		"0x02", "0x07", "0x01", "0x41", "0x2C", "0x01",
+		"0x02", "0x08", "0x01", "0x41", "0x2D", "0x01",
+		"0x02", "0x09", "0x01", "0x41", "0x11", "0x01",
+		"0x02", "0x0A", "0x01", "0x41", "0x1C", "0x01",
+		"0x02", "0x0B", "0x01", "0x41", "0x0A", "0x01",
+		"0x02", "0x0C", "0x01", "0x41", "0x81", "0x01",
+		"0x02", "0x0D", "0x02", "0x41", "0x0E", "0x01",
+		"0x02", "0x0F", "0x02", "0x41", "0x15", "0x01",
+		"0x02", "0x11", "0x01", "0x41", "0x1E", "0x01",
+		"0x02", "0x12", "0x01", "0x41", "0x1A", "0x01",
+		"0x02", "0x13", "0x01", "0x41", "0x83", "0x01",
+		"0x02", "0x14", "0x01", "0x41", "0x87", "0x01",
+		"0x02", "0x15", "0x01", "0x41", "0x85", "0x01",
+		"0x02", "0x16", "0x01", "0x41", "0x88", "0x01",
+		"0x02", "0x17", "0x01", "0x41", "0x84", "0x01",
+		"0x02", "0x18", "0x01", "0x41", "0x86", "0x01",
+		"0x02", "0x19", "0x02", "0x41", "0x89", "0x01",
+		"0x02", "0x1B", "0x02", "0x41", "0x8A", "0x01",
+		"0x02", "0x1D", "0x01", "0x41", "0x4F", "0x01",
+		"0x02", "0x1E", "0x01", "0x41", "0x0B", "0x01",
+		"0x02", "0x1F", "0x02", "0x41", "0x12", "0x01",
+		"0x02", "0x21", "0x02", "0x41", "0x18", "0x01",
+		"0x02", "0x23", "0x01", "0x41", "0x22", "0x01",
+		"0x02", "0x24", "0x01", "0x41", "0x13", "0x01",
+		"0x02", "0x25", "0x01", "0x41", "0x75", "0x01",
+		"0x02", "0x26", "0x01", "0x41", "0x06", "0x01",
+		"0x02", "0x27", "0x01", "0x41", "0x08", "0x01",
+		"0x02", "0x28", "0x01", "0x41", "0x26", "0x01",
+		"0x02", "0x29", "0x01", "0x41", "0x0D", "0x01",
+		"0xC7"], 
+	//	"baudAddress": ["0xB8", "0x12", "0xF1", "0x06", "0x10", "0x81", "0x06", "0x01", "0xE8", "0x48", "0x6B"], // Can cause issues, if you need ~25Hz data rate set this
+//	"baudSpeed": 125000,
+	"forceKwp": true,
+	"ecuparam": [
+		{
+			"header": "Economy",
+			"unit": "l/100km",
+			"expr": "clip(100*x/(y+0.1))",
+			"x": "Fuel usage",
+			"y": "Speed"
+		},
+		{
+			"header": "Econ avg 1",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 1\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Econ avg 2",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 2\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Trip 1",
+			"unit": "km",
+			"expr": "trip(\"Trip 1\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Trip 2",
+			"unit": "km",
+			"expr": "trip(\"Trip 2\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Fuel usage",
+			"unit": "l/h",
+			"expr": "(x/60)*(y/1000)*(250/16.6667)*3",  // Change 328i 250cc/min to 180cc/min for green injectors 320i/323i/325i, 280cc for 330i
+			"x": "Engine Speed",
+			"y": "Fuel Inj"
+		},
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"offset": 10,
+			"length": 1,
+			"max": 8000, 
+			"mul": 32,
+			"dec": 0
+		},
+		{
+			"header": "Engine Load",
+			"unit": "mg/str",
+			"offset": 45,
+            "length": 2,
+            "mul": 0.021194458
+		},
+		{
+            "header": "Relative Load",
+            "unit": "%",
+            "offset": 37,
+            "length": 1,
+            "mul": 0.75
+        },
+		{
+            "header": "Calculated Load",
+            "unit": "%",
+            "offset": 5,
+            "length": 1,
+            "mul": 0.3922
+        },
+		{
+            "header": "Fuel Pressure",
+            "unit": "psi",
+            "offset": 12,
+            "length": 1,
+            "mul": 3
+        },
+		{
+			"header": "Mass Airflow",
+			"unit": "kg/h",
+			"offset": 32,
+			"length": 2,
+			"mul": 0.03125,
+			"dec": 1
+		},
+		{
+			"header": "MAP - calculated",
+			"unit": "hPa",
+			"offset": 31,
+            "length": 1
+		},
+		{
+			"header": "MAF V",
+			"unit": "V",
+			"offset": 30,
+			"length": 2,
+			"mul": 0.01953
+		},
+		{
+			"header": "Knock Cyl 1",
+			"unit": "V",
+			"offset": 20,
+			"mul": 0.000077821,
+			"max": 5
+		},
+		{
+			"header": "Knock Cyl 2",
+			"unit": "V",
+			"offset": 21,
+			"mul": 0.000077821,
+			"max": 5
+		},
+		{
+			"header": "Knock Cyl 3",
+			"unit": "V",
+			"offset": 22,
+			"mul": 0.000077821,
+			"max": 5
+		},
+		{
+			"header": "Knock Cyl 4",
+			"unit": "V",
+			"offset": 23,
+			"mul": 0.000077821,
+			"max": 5
+		},
+		{
+			"header": "Knock Cyl 5",
+			"unit": "V",
+			"offset": 24,
+			"mul": 0.000077821,
+			"max": 5
+		},
+		{
+			"header": "Knock Cyl 6",
+			"unit": "V",
+			"offset": 25,
+			"mul": 0.000077821,
+			"max": 5
+		},
+		{
+			"header": "Vanos Intake",
+			"unit": "°CRK",
+			"offset": 19,
+			"max": 126,
+			"min": 80,
+			"mul": 0.375,
+			"add": 60
+		},
+		{
+			"header": "Vanos Exhaust",
+			"unit": "°CRK",
+			"offset": 11,
+			"max": -80,
+			"min": -105,
+			"mul": 0.375,
+			"add": -60
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"offset": 41,
+			"mul": 1.8671875,
+			"dec": 0				// Remember about this comma when editing line below
+		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
+		},
+		{
+			"header": "Ignition Angle - Cyl 1",
+			"unit": "*CRK",
+			"offset": 14,
+			"length": 2,
+			"mul": 0.001953125,
+			"add": -64
+		},
+		{
+			"header": "Fuel Inj",
+			"unit": "ms",
+			"offset": 16,
+			"length": 2,
+			"mul": 0.004
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"offset": 18,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"offset": 6,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+			"header": "Oil Temp",
+			"unit": "°C",
+			"offset": 36,
+			"mul": 1,
+			"add": -40
+		},
+		{
+			"header": "Atmospheric Pressure",
+			"unit": "hPa",
+			"offset": 3,
+			"mul": 21.2265625
+		},
+		{
+			"header": "Speed",
+			"unit": "km/h",
+			"offset": 42,
+			"dec": 0
+		},
+		{
+			"header": "Lambda Bank 1",
+			"unit": "",
+			"offset": 26,
+			"length": 2,
+			"mul": 0.0000305176,
+			"max": 1.5,
+			"resetTime": 0
+		},
+		{
+			"header": "Lambda bank 2",
+			"unit": "",
+			"offset": 28,
+			"length": 2,
+			"mul": 0.0000305176,
+			"max": 1.5,
+			"resetTime": 0
+		},
+		{
+			"header": "SAF Voltage",
+			"unit": "V",
+			"offset": 38,
+			"length": 1,
+			"mul": 0.01953,
+			"max": 5.1
+		},
+		{
+			"header": "DMTL Voltage",
+			"unit": "V",
+			"offset": 7,
+			"length": 1,
+			"mul": 0.01953,
+			"max": 5.1
+		},
+		{
+			"header": "EGT - Bank 1",
+			"unit": "*C",
+			"offset": 8,
+			"length": 1,
+			"mul": 4,
+			"max": 1020
+		},
+		{
+			"header": "EGT - Bank 2",
+			"unit": "*C",
+			"offset": 9,
+			"length": 1,
+			"mul": 4,
+			"max": 1020
+		},
+		{
+			"header": "Battery Voltage",
+			"unit": "V",
+			"offset": 4,
+			"mul": 0.101961,
+			"max": 16,
+			"min": 0
+		},
+		{
+			"header": "Gear",
+			"unit": "#",
+			"offset": 13,
+			"max": 6,
+			"min": 0
+		},
+		{
+			"header": "STFT - Bank 1",
+			"unit": "%",
+			"offset": 39,
+			"length": 1,
+			"mul": 0.78125,
+			"add": -100
+		},
+		{
+			"header": "STFT - Bank 2",
+			"unit": "%",
+			"offset": 40,
+			"length": 1,
+			"mul": 0.78125,
+			"add": -100
+		}
+	]
+}

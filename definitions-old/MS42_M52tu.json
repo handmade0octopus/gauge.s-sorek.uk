@@ -1,0 +1,226 @@
+{
+	"canSpeed": 500,
+	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
+//	"baudAddress": ["0x12", "0x08", "0x91", "0x01", "0xE8", "0x48", "0x00", "0x2A"], // Can cause issues, if you need ~25Hz data rate set this
+//	"baudSpeed": 125000,
+	"ecuparam": [
+		{
+			"header": "Economy",
+			"unit": "l/100km",
+			"expr": "clip(100*x/(y+0.1))",
+			"x": "Fuel usage",
+			"y": "Speed"
+		},
+		{
+			"header": "Econ avg 1",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 1\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Econ avg 2",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 2\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Trip 1",
+			"unit": "km",
+			"expr": "trip(\"Trip 1\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Trip 2",
+			"unit": "km",
+			"expr": "trip(\"Trip 2\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Fuel usage",
+			"unit": "l/h",
+			"expr": "(x/60)*(y/1000)*(231/16.6667)*3",  // 231cc/min for injectors 320i/323i/325i/328i, 254cc for 330i
+			"x": "Engine Speed",
+			"y": "Fuel Inj"
+		},
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"offset": 0,
+			"length": 2,
+			"max": 7000,	
+			"dec": 0,
+			"flashPoint": 6500
+		},
+		{
+			"header": "Engine Load",
+			"unit": "mg/str",
+			"offset": 29,
+			"length": 2,
+			"mul": 0.021194781,
+			"dec": 1
+		},
+		{
+			"header": "Mass Airflow",
+			"unit": "kg/h",
+			"offset": 5,
+			"length": 2,
+			"mul": 0.25,
+			"dec": 1
+		},
+		{
+			"header": "Knock 1",
+			"unit": "V",
+			"offset": 31,
+			"mul": 0.01952,
+			"max": 5
+		},
+		{
+			"header": "Knock 2",
+			"unit": "V",
+			"offset": 31,
+			"mul": 0.01952,
+			"max": 5
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"offset": 4,
+			"mul": 0.390625,
+			"max": 100,
+			"min": 0,
+			"dec": 1				// Remember about this comma when editing line below
+		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
+		},
+		{
+			"header": "Ignition Angle",
+			"unit": "°CRK",
+			"offset": 11,
+			"mul": -0.375,
+			"add": 72
+		},
+		{
+			"header": "Fuel Inj",
+			"unit": "ms",
+			"offset": 12,
+			"length": 2,
+			"mul": 0.004
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"offset": 7,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"offset": 8,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+			"header": "Radiator Temp",
+			"unit": "°C",
+			"offset": 10,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+			"header": "Oil Temp",
+			"unit": "°C",
+			"offset": 9,
+			"mul": 0.79607843,
+			"add": -48
+		},
+		{
+			"header": "Speed",
+			"unit": "km/h",
+			"offset": 2,
+			"dec": 0
+		},
+		{
+			"header": "IACV",
+			"unit": "%",
+			"offset": 14,
+			"length": 2,
+			"mul": 0.0015258793
+		},
+		{
+			"header": "Lambda Int 1",
+			"unit": "%",
+			"offset": 21,
+			"length": 2,
+			"mul": 0.0015258789,
+			"add": -50,
+			"max": 32,
+			"min": -32,
+			"resetTime": 0
+		},
+		{
+			"header": "Lambda Int 2",
+			"unit": "%",
+			"offset": 23,
+			"length": 2,
+			"mul": 0.0015258789,
+			"add": -50,
+			"max": 50,
+			"min": -50,
+			"resetTime": 0
+		},
+		{
+			"header": "Rear O2 1",
+			"unit": "V",
+			"offset": 66,
+			"length": 2,
+			"mul": 0.00488,
+			"max": 5.1,
+			"hidden": true
+		},
+		{
+			"header": "Rear O2 2",
+			"unit": "V",
+			"offset": 68,
+			"length": 2,
+			"mul": 0.00488,
+			"max": 5.1,
+			"hidden": true
+		},
+		{
+			"header": "Battery Voltage",
+			"alias": "Battery",
+			"unit": "V",
+			"offset": 25,
+			"mul": 0.095
+		},
+		{
+			"header": "Can button", //clutch is disengaged when value is odd (last bit)
+			"canId": "0x329",
+			"expr": "(x >> 5)",
+			"offset": 3,
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Cruise active",
+			"canId": "0x545",
+			"expr": "(x & 8)",
+			"offset": 0,
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Button press",
+			"unit": "b",
+			"expr": "buttonPress(0, (x == 2) && !y, (x == 1) && !y, (x == 3) && !y)", //use all buttons on steering wheel
+			"x": "Can button", // if != 0 then button is active
+			"y": "Cruise active",
+			"hidden": true,
+			"noLog": true
+		}
+	]
+}
