@@ -180,20 +180,6 @@
             "kwpCan": "0x580D",
             "length": 1,
             "mul": 1
-        },
-        {
-            "header": "Can sleep",
-            "canId": "0x130",
-            "expr": "sleep(x == 192)",
-            "length": 1
-        },
-        {
-            "header": "Can button",
-            "canId": "0x194",
-			"expr": "buttonPress(0, (x) == 0x10, (x) == 0x90, (x) == 0x04)",
-            "offset": 2,
-            "hidden": true,
-            "noLog": true
         }
     ]
 }

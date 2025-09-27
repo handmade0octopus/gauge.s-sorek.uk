@@ -148,12 +148,6 @@
 			"length": 2,
 			"mul": 0.152594,
 			"add": -5000.041963
-		},
-		{
-			"header": "Can sleep",
-			"canId": "0x130",
-			"expr": "sleep(x == 192)",
-			"length": 1
 		}
 	]
 }

@@ -209,20 +209,6 @@
 			"kwpCan": "0x5AAB",
 			"length": 2,
 			"mul": 0.00152587890625
-		},
-		{
-			"header": "Can sleep",
-			"canId": "0x130",
-			"expr": "sleep(x == 192)",
-			"length": 1
-		},
-        {
-            "header": "Can button",
-            "canId": "0x194",
-			"expr": "buttonPress(0, (x) == 0x10, (x) == 0x90, (x) == 0x04)",
-            "offset": 2,
-            "hidden": true,
-            "noLog": true
-        }
+		}
 	]
 }
