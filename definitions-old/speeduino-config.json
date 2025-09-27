@@ -1,0 +1,159 @@
+{
+	"canSpeed": 500,
+	"ecuparam": [{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"canId": 2464,
+			"offset": 2,
+			"length": 1,
+			"max": 7500,
+			"dec": 0
+		},
+		{
+			"header": "Manifold Pressure",
+			"unit": "kpa",
+			"canId": 2464,
+			"offset": 6,
+			"length": 1,
+			"dec": 1
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"canId": 2464,
+			"offset": 3,
+			"length": 1
+		},
+		{
+			"header": "Ignition Angle",
+			"unit": "°CRK",
+			"canId": 2464,
+			"offset": 1,
+			"length": 1
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"canId": 2464,
+			"offset": 5,
+			"length": 1,
+			"mul": 1.8, //This and next line are to convert to F
+			"add": 32.00
+
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"canId": 2464,
+			"offset": 4,
+			"length": 1,
+			"mul": 1.8,  //This and next line are to convert to F
+			"add": 32.00
+		},
+		{
+			"header": "Speed",
+			"unit": "km/h",
+			"canId": 2464,
+			"offset": 7,
+			"length": 1
+		},
+		{
+			"header": "O2 Sensor",
+			"Unit": "λ",
+			"canId": 1952,
+			"offset": 4,
+			"length": 2,
+			"dec": 2,
+			"mul": 0.1
+		},
+		{
+			"header": "Vanos",
+			"Unit": "λ",
+			"canId": 1952,
+			"offset": 0,
+			"length": 1
+		},
+		{
+			"header": "Oil Pressure",
+			"Unit": "kPa",
+			"canId": 1952,
+			"offset": 2,
+			"length": 1,
+			"dec": 1
+		},
+		{
+			"header": "Fuel Pressure",
+			"Unit": "kPa",
+			"canId": 1952,
+			"offset": 1,
+			"length": 1,
+			"dec": 1
+		},
+		{
+			"header": "Battery Voltage",
+			"Unit": "V",
+			"canId": 1952,
+			"offset": 3,
+			"length": 1,
+			"dec": 2
+		},
+		{
+			"header": "Fuel Load",
+			"Unit": "",
+			"canId": 1952,
+			"offset": 6,
+			"length": 1,
+			"dec": 1
+		},
+		{
+			"header": "Ignition Load",
+			"Unit": "°",
+			"canId": 1952,
+			"offset": 7,
+			"length": 1,
+			"dec": 1
+		},
+		{
+			"header": "Boost Target",
+			"Unit": "kPa",
+			"canId": 1696,
+			"offset": 0,
+			"length": 1,
+			"dec": 1
+		},
+		{
+			"header": "Boost Duty",
+			"Unit": "%",
+			"canId": 1696,
+			"offset": 1,
+			"length": 1,
+			"dec": 1
+		},
+		{
+			"header": "Ethanol %",
+			"Unit": "%",
+			"canId": 1696,
+			"offset": 2,
+			"length": 1,
+			"dec": 1
+		},
+		{
+			"header": "AFR Target",
+			"Unit": "",
+			"canId": 1696,
+			"offset": 3,
+			"length": 1,
+			"dec": 2,
+			"mult" : 0.1
+		},
+		{
+			"header": "Barometric Pressure",
+			"Unit": "kPa",
+			"canId": 1696,
+			"offset": 5,
+			"length": 1,
+			"dec": 1
+		}
+
+	]
+}

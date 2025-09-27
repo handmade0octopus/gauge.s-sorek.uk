@@ -83,12 +83,6 @@
 			"mul": 0.1,
 			"offset": 0
 		},
-		{
-			"header": "Gearbox Temp",
-			"unit": "°C",
-			"canId": "0x37D",
-			"offset": -40
-		},
         {
             "header": "Can button",
             "canId": "0x194",

@@ -1,0 +1,362 @@
+{
+    "canSpeed": 500,
+    "ecuparam": [
+        {
+            "header": "Engine RPM",
+            "unit": "RPM",
+            "canId": "0x5F0",
+            "offset": 0,
+            "length": 2,
+            "dec": 0
+        },
+        {
+            "header": "TCU Input RPM",
+            "unit": "RPM",
+            "canId": "0x5F0",
+            "offset": 2,
+            "length": 2,
+            "dec": 0
+        },
+        {
+            "header": "TCU Output RPM",
+            "unit": "RPM",
+            "canId": "0x5F0",
+            "offset": 4,
+            "length": 2,
+            "dec": 0
+        },
+        {
+            "header": "TPS Value",
+            "unit": "%",
+            "canId": "0x5F0",
+            "offset": 6,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Brake Switch",
+            "unit": "Byte",
+            "canId": "0x5F0",
+            "offset": 7,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "not pressed" },
+                { "x":   1 , "y": "pressed" }
+            ]
+        },
+        {
+            "header": "Engine Torque",
+            "unit": "Nm",
+            "canId": "0x5F1",
+            "offset": 0,
+            "length": 2,
+            "dec": 0,
+            "expr": "signed(x,2)"
+        },
+        {
+            "header": "Target Torque",
+            "unit": "Nm",
+            "canId": "0x5F1",
+            "offset": 2,
+            "length": 2,
+            "dec": 0,
+            "expr": "signed(x,2)"
+        },
+        {
+            "header": "Shift In Progress",
+            "unit": "Byte",
+            "canId": "0x5F1",
+            "offset": 4,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "not active" },
+                { "x":   1 , "y": "active" }
+            ]
+        },
+        {
+            "header": "TCU Intervention",
+            "unit": "Byte",
+            "canId": "0x5F1",
+            "offset": 5,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "not active" },
+                { "x":   1 , "y": "blip" },
+                { "x":   2 , "y": "shiftcut" }
+            ]
+        },
+        {
+            "header": "Shiftcut",
+            "unit": "%",
+            "canId": "0x5F1",
+            "offset": 6,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Blip",
+            "unit": "%",
+            "canId": "0x5F1",
+            "offset": 6,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Wheel Speed",
+            "unit": "km/h",
+            "canId": "0x5F2",
+            "offset": 0,
+            "length": 2,
+            "dec": 0
+        },
+        {
+            "header": "Gear",
+            "unit": "Byte",
+            "canId": "0x5F2",
+            "offset": 2,
+            "length": 1,
+            "dec": 0,
+            "expr": "signed(x)",
+            "stringLut": [
+                { "x":   -3.0 , "y": "N" },
+                { "x":   -2.0 , "y": "R" },
+                { "x":   -1.0 , "y": "P" },
+                { "x":    0.0 , "y": ""  }
+            ]
+        },
+        {
+            "header": "Shifter Status", // Various values depending on shifter
+            "unit": "Byte",
+            "canId": "0x5F2",
+            "offset": 3,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Clutch Slip",
+            "unit": "%",
+            "canId": "0x5F2",
+            "offset": 4,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Converter Slip",
+            "unit": "%",
+            "canId": "0x5F2",
+            "offset": 5,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Paddles",
+            "unit": "Byte",
+            "canId": "0x5F2",
+            "offset": 6,
+            "length": 2,
+            "dec": 0,
+            "stringLut": [
+                { "x":   1   , "y": "shift up" },
+                { "x":   256 , "y": "shift down" },
+                { "x":   0   , "y": ""  }
+            ]
+        },
+        {
+            "header": "DIN1",
+            "unit": "Din",
+            "canId": "0x5F3",
+            "offset": 0,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "not active" },
+                { "x":   1 , "y": "active" }
+            ]
+        },
+        {
+            "header": "DIN2",
+            "unit": "Din",
+            "canId": "0x5F3",
+            "offset": 1,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "not active" },
+                { "x":   1 , "y": "active" }
+            ]
+        },
+        {
+            "header": "DIN3",
+            "unit": "Din",
+            "canId": "0x5F3",
+            "offset": 2,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "not active" },
+                { "x":   1 , "y": "active" }
+            ]
+        },
+        {
+            "header": "DIN4",
+            "unit": "Din",
+            "canId": "0x5F3",
+            "offset": 3,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "not active" },
+                { "x":   1 , "y": "active" }
+            ]
+        },
+        {
+            "header": "DOUT1",
+            "unit": "Dout",
+            "canId": "0x5F3",
+            "offset": 4,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "not active" },
+                { "x":   1 , "y": "active" }
+            ]
+        },
+        {
+            "header": "DOUT2",
+            "unit": "Dout",
+            "canId": "0x5F3",
+            "offset": 5,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "not active" },
+                { "x":   1 , "y": "active" }
+            ]
+        },
+        {
+            "header": "DOUT3",
+            "unit": "Dout",
+            "canId": "0x5F3",
+            "offset": 6,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "not active" },
+                { "x":   1 , "y": "active" }
+            ]
+        },
+        {
+            "header": "DOUT4",
+            "unit": "Dout",
+            "canId": "0x5F3",
+            "offset": 7,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "not active" },
+                { "x":   1 , "y": "active" }
+            ]
+        },
+        {
+            "header": "AIN1", // Analog inputs. Modify these based on what is connected.
+            "unit": "V",
+            "canId": "0x5F4",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "AIN2",
+            "unit": "V",
+            "canId": "0x5F4",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "AIN3",
+            "unit": "V",
+            "canId": "0x5F4",
+            "offset": 4,
+            "length": 2,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "AIN4",
+            "unit": "V",
+            "canId": "0x5F4",
+            "offset": 6,
+            "length": 2,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Last Shift Time",
+            "alias": "Shift Time",
+            "unit": "ms",
+            "canId": "0x5F5",
+            "offset": 0,
+            "length": 2,
+            "dec": 0
+        },
+        {
+            "header": "TCU Oil Temp",
+            "unit": "C",
+            "canId": "0x5F5",
+            "offset": 2,
+            "length": 1,
+            "dec": 0,
+            "expr": "signed(x)"
+        },
+        {
+            "header": "TCU Drive Mode",
+            "unit": "Byte",
+            "canId": "0x5F5",
+            "offset": 3,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "Drive" },
+                { "x":   1 , "y": "Sport" },
+                { "x":   2 , "y": "Manual" }
+            ]
+        },
+        {
+            "header": "DL / Car Drive Mode",
+            "unit": "Byte",
+            "canId": "0x5F5",
+            "offset": 4,
+            "length": 1,
+            "dec": 0,
+            "hidden": true
+        },
+        {
+            "header": "Launch Active",
+            "alias": "Launch",
+            "unit": "Byte",
+            "canId": "0x5F5",
+            "offset": 5,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x":   0 , "y": "not active" },
+                { "x":   1 , "y": "active" }
+            ]
+        },
+        {
+            "header": "TCU Supply Voltage",
+            "unit": "V",
+            "canId": "0x5F5",
+            "offset": 6,
+            "length": 2,
+            "mul": 0.001,
+            "dec": 1
+        }
+    ]
+}

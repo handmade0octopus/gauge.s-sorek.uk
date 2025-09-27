@@ -1,0 +1,387 @@
+{
+	"canSpeed": 500,
+	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
+	"ecuparam": [
+		// Start constants
+		{
+			"header": "Rear Tire Width",
+			"unit": "mm",
+			"expr": "255",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Rear Tire Aspect Ratio",
+			"expr": "40",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Rear Wheel Diameter",
+			"unit": "in",
+			"expr": "18",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Final Drive Ratio",
+			"expr": "3.62",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "CAN Raw to KPH Constant",
+			"expr": "0.0000977",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "CAN Raw to MPH Constant",
+			"expr": "0.0000607",
+			"hidden": true,
+			"noLog": true
+		},
+		// End constants
+		{
+			"header": "Trip 1",
+			"unit": "km",
+			"expr": "trip(\"Trip 1\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Trip 2",
+			"unit": "km",
+			"expr": "trip(\"Trip 2\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"offset": 0,
+			"length": 2,
+			"max": 8400,
+			"dec": 0
+		},
+		{
+			"header": "Engine Load",
+			"unit": "mg/str",
+			"offset": 6,
+			"length": 2,
+			"mul": 0.001,
+			"dec": 1
+		},
+		{
+			"header": "Mass Airflow",
+			"unit": "kg/h",
+			"offset": 4,
+			"length": 2,
+			"mul": 0.25,
+			"dec": 1
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"length": 2,
+			"offset": 27,
+			"mul": 0.1,
+			"dec": 0				// Remember about this comma when editing line below
+		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
+		},
+		{
+			"header": "TPS Target",
+			"unit": "%",
+			"length": 2,
+			"offset": 31,
+			"mul": 0.1
+		},
+		{
+			"header": "Ignition Angle",
+			"unit": "°CRK",
+			"offset": 10, //This offset value is incorrect, it is used for Intake Air Temp below
+			"mul": 0.1
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"offset": 10,
+			"mul": 1,
+			"add": -48
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"offset": 11,
+			"mul": 1,
+			"add": -48
+		},
+		{
+			"header": "Oil Temp",
+			"unit": "°C",
+			"offset": 12,
+			"mul": 1,
+			"add": -48
+		},
+		{
+			"header": "Radiator Temp",
+			"unit": "°C",
+			"offset": 13,
+			"mul": 13,
+			"add": -48
+		},
+		{
+			"header": "Exhaust Gas Temp",
+			"unit": "*C",
+			"offset": 14,
+			"max": 1500
+		},
+		{
+			"header": "Ambient Temp",
+			"unit": "*C",
+			"offset": 15,
+			"add": -48,
+			"max": 160
+		},
+		{
+			"header": "Battery Voltage",
+			"alias": "Battery",
+			"unit": "V",
+			"offset": 16,
+			"mul": 0.1
+		},
+		{
+			"header": "Master Power",
+			"unit": "V",
+			"offset": 17,
+			"mul": 0.0391
+		},
+		{
+			"header": "Slave Power",
+			"unit": "V",
+			"offset": 18,
+			"mul": 0.0391
+		},
+		{
+			"header": "Ambient Pressure",
+			"unit": "mbar",
+			"offset": 19,
+			"mul": 3,
+			"add": 500
+		},
+		{
+			"header": "Rel Open Cross Sec",
+			"unit": "%",
+			"offset": 20,
+			"length": 2,
+			"mul": 0.0030518,
+			"max": 120
+		},
+		{
+			"header": "Accel Pos 1",
+			"unit": "%",
+			"length": 2,
+			"offset": 23,
+			"mul": 0.1
+		},
+		{
+			"header": "Accel Pos 2",
+			"unit": "%",
+			"length": 2,
+			"offset": 25,
+			"mul": 0.1
+		},
+		{
+			"header": "Button byte", //clutch is disengaged when value is odd (last bit)
+			"canId": "0x329",
+			"offset": 3,
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Can button",
+			"expr": "(x >> 5)",
+			"x": "Button byte",
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Cruise active",
+			"canId": "0x545",
+			"expr": "(x & 8)",
+			"offset": 0,
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Button press",
+			"unit": "b",
+			"expr": "buttonPress(0, (x == 2) && !y, (x == 1) && !y, (x == 3) && !y)", //use all buttons on steering wheel
+			"x": "Can button", // if != 0 then button is active
+			"y": "Cruise active",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Rear Tire Circumference",
+			"unit": "mm",
+			// "unit": "in", // Change unit if going to mph
+			"x": "Rear Tire Width",
+			"y": "Rear Tire Aspect Ratio",
+			"z": "Rear Wheel Diameter",
+			"expr": "(2 * x * 0.01 * y + z * 25.4) * 3.1415",
+			// "expr": "(2 * (x / 25.4) * 0.01 * y + z) * 3.1415", // Change expr if going to mph
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Drivetrain Ratio",
+			"x": "Rear Tire Circumference",
+			"y": "Final Drive Ratio",
+			"expr": "(x / y) * (60 / 1000000)",
+			// "expr": "(x / y) * (60 / 63360)", // Change expr if going to mph
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Speed CAN Raw",
+			"canId": "0x153",
+			"offset": 1,
+			"length": 2,
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Speed",
+			"unit": "kph",
+			// "unit": "mph", // Change unit if going to mph
+			"x": "Speed CAN Raw",
+			"y": "Rear Tire Circumference",
+			"z": "CAN Raw to KPH Constant",
+			// "z": "CAN Raw to MPH Constant", // Change constant if going to mph
+			"expr": "x * y * z",
+			"dec": 0,
+			"hidden": false,
+			"noLog": false
+		},
+		{
+			"header": "RPM CAN",
+			"canId": "0x316",
+			"offset": 2,
+			"length": 2,
+			"mul": 0.15625,
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Clutch",
+			"x": "Button byte",
+			"expr": "!(x & 1)",
+			"dec": 0,
+			"hidden": false,
+			"noLog": true
+		},
+		{
+			"header": "Calculated Gear Ratio",
+			"x": "RPM CAN",
+			"y": "Drivetrain Ratio",
+			"z": "Speed",
+			"expr": "(x * y) / z",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Gear",
+			"expr": "lutTable(\"Gear\", (x * y))",
+			"x": "Calculated Gear Ratio",
+			"y": "Clutch",
+			"lutTable": [ // Getrag 420G gear ratios
+				{ "x": 0.000	,	"y": 0},
+				{ "x": 0.828	,	"y": 6},
+				{ "x": 1.000	,	"y": 5},
+				{ "x": 1.226	,	"y": 4},
+				{ "x": 1.669	,	"y": 3},
+				{ "x": 2.528	,	"y": 2},
+				{ "x": 4.227	,	"y": 1},
+				{ "x": 5.000	,	"y": 0}
+			],
+			"dec": 0,
+			"hidden": false,
+			"noLog": false
+		},
+		{
+			"header": "Steering Angle",
+			"unit": "deg",
+			"canId": "0x1F5",
+			"offset": 0,
+			"length": 2,
+			"expr": "(x > 32768)*((x-32768)*.044) + (x<32768)*(-.044*x)",
+			"hidden": false,
+			"noLog": false
+		},
+		{
+			// Reference: https://www.ms4x.net/index.php?title=CAN_Bus_ID_0x615_ICL3
+			"header": "Interior Night Lighting",
+			"unit": "bool",
+			"canId": "0x615",
+			"offset": 1,
+			"length": 1,
+			// Bit 2: Interior Night Lighting - 0 off, 1 on
+			"expr": "(x & 4) >> 2",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Brightness",
+			"expr": "setBrightness(lutTable(\"Brightness\", x))",
+			"x": "Interior Night Lighting",
+			"lutTable": [
+					{ "x": 0, "y": 100 },
+					{ "x": 1, "y": 50  }
+			],
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			// Reference: https://www.ms4x.net/index.php?title=CAN_Bus_ID_0x613_ICL2
+			"header": "Fuel Level",
+			"unit": "L",
+			// "unit": "gal", // Change unit if going to gal
+			"canId": "0x613",
+			"offset": 2,
+			"length": 1,
+			// Bits 0-6: Fuel level measured in L
+			// Bit 7: Fuel light status
+			"expr": "(x & 127)",
+			//"expr": "(x & 127) * 0.264172", // Change expr if going to gal
+			"dec": 0,
+			// "dec": 1, // Change dec if going to gal
+			"hidden": false,
+			"noLog": false
+		},
+		{
+			"header": "Lateral G",
+			"alias": "Lat G",
+			"expr": "filter(\"Accel X\", 5)", // Filters for last 5 accelerometer data points to smooth curve. Positive on left turn.
+			"dec": 2
+		},
+		{
+			"header": "Longitudinal G",
+			"alias": "Lon G",
+			"expr": "-filter(\"Accel Z\", 5)",  // Filters for last 5 accelerometer data points to smooth curve. Positive under braking.
+			"dec": 2
+		},
+		{
+			"header": "Total G",
+			"alias": "Tot G",
+			"expr": "sqrt(x*x + z*z)",
+			"x": "Accel X",
+			"z": "Accel Z",
+			"dec": 2
+		},
+		{
+			"header": "Total G Smooth",
+			"alias": "Tot Gs",
+			"expr": "filter(\"Total G\", 5)",  // Filters for last 5 accelerometer data points to smooth curve
+			"dec": 2
+		}
+	]
+}

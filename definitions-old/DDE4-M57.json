@@ -1,0 +1,43 @@
+{
+    "canSpeed": 500,
+	"address": ["0xB8", "0x12", "0xF1", "0x0A", "0x2C", "0x10",
+		"0x0F", "0x60",
+		"0x0F", "0xFC",
+		"0x0F", "0x62",
+		"0x0F", "0x65",
+		"0xF6"],
+    "forceKwp": true,
+    "slowSend": 3,
+    "ecuparam": [
+        {
+            "header": "Pedal pos",
+            "unit":"%",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.01,
+            "add": 0
+        },
+        {
+            "header": "Rail press",
+            "unit": "bar",
+            "offset": 4,
+            "length": 2,
+            "mul": 10.235414
+        },
+        {
+            "header": "Boost press",
+            "unit": "bar",
+            "offset": 6,
+            "length": 2,
+            "mul": 1
+        },
+        {
+            "header": "Battery Voltage",
+            "unit": "V",
+            "offset": 8,
+            "length": 2,
+            "mul": 0.0236197458,
+            "add": 0
+        }
+    ]
+}

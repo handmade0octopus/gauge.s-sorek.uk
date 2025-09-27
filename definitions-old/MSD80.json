@@ -209,7 +209,6 @@
 			"kwpCan": "0x5AAB",
 			"length": 2,
 			"mul": 0.00152587890625
-<<<<<<< HEAD
 		},
 		{
 			"header": "Can sleep",
@@ -225,8 +224,5 @@
             "hidden": true,
             "noLog": true
         }
-=======
-		}
->>>>>>> beta
 	]
 }

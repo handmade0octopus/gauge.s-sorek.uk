@@ -1,0 +1,226 @@
+{
+	"canSpeed": 500,
+	"address": ["0x12", "0x05", "0x0B", "0x00", "0x1C"],
+	"ecuparam": [
+		{
+			"header": "Economy",
+			"unit": "l/100km",
+		//	"expr": "clip(100*x/(y+0.1))",
+			"expr": "clip(282.481*y/100*(x+0.1))", // MPG
+			"x": "Fuel usage",
+			"y": "Speed"
+		},
+		{
+			"header": "Econ avg 1",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 1\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Econ avg 2",
+			"unit": "l/100km",
+			"expr": "avg(\"Econ avg 2\",x, y)",
+			"x": "Economy",
+			"y": "Speed",
+			"avgLen": 20.0
+		},
+		{
+			"header": "Trip 1",
+			"unit": "km",
+			"expr": "trip(\"Trip 1\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Trip 2",
+			"unit": "km",
+			"expr": "trip(\"Trip 2\",x)",
+			"x": "Speed"
+		},
+		{
+			"header": "Fuel usage",
+			"unit": "l/h",
+			"expr": "(x/60)*(y/1000)*(250/16.6667)*3",  // Change 328i 250cc/min to 180cc/min for green injectors 320i/323i/325i, 280cc for 330i
+			"x": "Engine Speed",
+			"y": "Fuel Inj"
+		},
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"address": "0x010000DA2A",
+			"max": 7000,	
+			"dec": 0,
+			"flashPoint": 7000
+		},
+		{
+			"header": "Engine Load",
+			"unit": "mg/str",
+//			"address": "0x010000FAFC",  // for MS41.0
+//			"address": "0x010000FC52",  // for MS41.1
+			"address": "0x010000E8E4",  // for MS41.2
+			"mul": 0.021,
+			"max": 700,
+			"min": 100,
+			"dec": 1
+		},
+		{
+			"header": "Mass Airflow",
+			"unit": "kg/h",
+			"address": "0x010000DA34",
+			"max": 720,
+			"min": 0,
+			"dec": 1,
+			"mul": 0.25
+		},
+		{
+			"header": "MAF Voltage",
+			"unit": "V",
+			"address": "0x0200000006",
+			"max": 5,
+			"min": 0,
+			"dec": 2,
+			"mul": 0.01952,
+			"hidden": true
+		},
+		{
+			"header": "Knock Current",
+			"unit": "°CRK",
+			"address": "0x000000E98D",
+			"max": 0,
+			"min": -12,
+			"mul": 0.375,
+			"add": -48
+		},
+		{
+			"header": "Vanos",
+			"unit": "°CRK",
+			"address": "0x000000E9E6",
+			"max": 60,
+			"min": 0,
+			"dec": 1,
+			"mul": 0.3745
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+//			"address": "0x000000E8D7", // for MS41.0
+			"address": "0x000000E8D0", // for MS41.1/2
+			"max": 100,
+			"min": 0,
+			"dec": 0,
+			"mul": 0.3921569		// Remember about this comma when editing line below
+		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
+		},
+		{
+			"header": "Ignition Angle",
+			"unit": "°CRK",
+			"address": "0x000000E989",
+			"max": 40,
+			"min": -40,
+			"dec": 1,
+			"mul": 0.373,
+			"add": -23.6
+		},
+		{
+			"header": "Fuel Inj",
+			"unit": "ms",
+//			"address": "0x010000ECBC", // for MS41.0
+//			"address": "0x010000EF96", // for MS41.1
+			"address": "0x010000EF7E", // for MS41.2
+			"max": 20,
+			"min": 0,
+			"dec": 2,
+			"mul": 0.00534
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°F",
+			"address": "0x000000DA50",
+			"max": 80,
+			"min": 0,
+			"dec": 1,
+			"mul": 1.3446,
+			"add": -54.4
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°F",
+			"address": "0x000000DA5A",
+			"max": 120,
+			"min": 60,
+			"dec": 1,
+			"mul": 1.3446,
+			"add": -54.4
+		},
+		{
+			"header": "Speed",
+			"unit": "mph",
+			"address": "0x000000DA63",
+			"max": 255,
+			"mul": 0.621371,
+			"min": 0,
+			"dec": 0
+		},
+		{
+			"header": "IACV",
+			"unit": "%",
+			"address": "0x000000DA36",
+			"max": 255,
+			"min": 0,
+			"dec": 0,
+			"mul": 0.153
+		},
+		{
+			"header": "Lambda Int 1",
+			"unit": "%",
+//			"address": "0x010000ED5C", // for MS41.0
+//			"address": "0x010000F036", // for MS41.1
+			"address": "0x010000F01E", // for MS41.2
+			"max": 30,
+			"min": -30,
+			"dec": 1,
+			"mul": 0.00152587890625,
+			"add": -50,
+			"resetTime": 0
+		},
+		{
+			"header": "Lambda Int 2",
+			"unit": "%",
+//			"address": "0x010000ED96", // for MS41.0
+//			"address": "0x010000F0F2", // for MS41.1
+			"address": "0x010000F0CA", // for MS41.2
+			"max": 30,
+			"min": -30,
+			"dec": 1,
+			"mul": 0.00152587890625,
+			"add": -50,
+			"resetTime": 0
+		},
+		{
+			"header": "Lambda 1",
+			"unit": "V",
+			"address": "0x0200000001",
+			"max": 5,
+			"min": 0,
+			"dec": 2,
+			"mul": 0.01952
+		},
+		{
+			"header": "Lambda 2",
+			"unit": "V",
+			"address": "0x0200000002",
+			"max": 5,
+			"min": 0,
+			"dec": 2,
+			"mul": 0.01952
+		},
+		{
+			"header": "Battery Voltage",
+			"alias": "Battery",
+			"unit": "V",
+			"address": ["0x02", "0x00", "0x00", "0x00", "0x07"],
+			"mul": 0.101
+		}
+	]
+}
