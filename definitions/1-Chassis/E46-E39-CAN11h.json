@@ -6,7 +6,6 @@
 			"canId": "0x329",
 			"offset": 3,
 			"expr": "(x >> 5)",
-			"x": "Button byte",
 			"hidden": false,
 			"noLog": true
 		},
