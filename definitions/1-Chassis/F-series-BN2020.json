@@ -1,0 +1,182 @@
+{
+  "canSpeed": 500,
+  "ecuparam": [
+    {
+      "header": "Throttle Position",
+      "unit": "%",
+      "canId": "0xD9",
+      "offset": 2,
+      "length": 2,
+      "expr": "(0.025)*(x & 0x0FFF) + (0)",
+      "dec": 1
+    },
+    {
+      "header": "Engine Speed",
+      "unit": "rpm",
+      "canId": "0xF3",
+      "offset": 1,
+      "length": 2,
+      "expr": "(10)*((x & 0xFFF0) >> 4) + (0)",
+      "dec": 0
+    },
+    {
+      "header": "Brake Light",
+      "unit": "on/off",
+      "canId": "0x173",
+      "offset": 0,
+      "length": 1,
+      "expr": "(0.5)*((x & 0x18) >> 3) + (0)",
+      "dec": 0
+    },
+    {
+      "header": "Brake Position",
+      "unit": "",
+      "canId": "0x173",
+      "offset": 7,
+      "length": 1,
+      "expr": "(1)*(x & 0x3F) + (0)",
+      "dec": 0
+    },
+    {
+      "header": "Indicated Longitudinal Acceleration",
+      "unit": "m/s",
+      "canId": "0x199",
+      "offset": 2,
+      "length": 2,
+      "mul": 0.002,
+      "add": -65,
+      "dec": 2
+    },
+    {
+      "header": "Indicated Lateral Acceleration",
+      "unit": "m/s",
+      "canId": "0x19A",
+      "offset": 2,
+      "length": 2,
+      "mul": 0.002,
+      "add": -65,
+      "dec": 2
+    },
+    {
+      "header": "Indicated Vehicle Speed kph",
+      "unit": "km/h",
+      "canId": "0x1A1",
+      "offset": 2,
+      "length": 2,
+      "mul": 0.015625,
+      "dec": 1
+    },
+    {
+      "header": "Battery Current",
+      "unit": "",
+      "canId": "0x1BA",
+      "offset": 3,
+      "length": 2,
+      "mul": 0.02,
+      "add": -200,
+      "dec": 1
+    },
+    {
+      "header": "Wheel Speed RL kph",
+      "unit": "km/h",
+      "canId": "0x254",
+      "offset": 0,
+      "length": 2,
+      "expr": "signed(x,2)",
+      "dec": 1
+    },
+    {
+      "header": "Wheel Speed RR kph",
+      "unit": "km/h",
+      "canId": "0x254",
+      "offset": 2,
+      "length": 2,
+      "expr": "signed(x,2)",
+      "dec": 1
+    },
+    {
+      "header": "Wheel Speed FL kph",
+      "unit": "km/h",
+      "canId": "0x254",
+      "offset": 4,
+      "length": 2,
+      "expr": "signed(x,2)",
+      "dec": 1
+    },
+    {
+      "header": "Wheel Speed FR kph",
+      "unit": "km/h",
+      "canId": "0x254",
+      "offset": 6,
+      "length": 2,
+      "expr": "signed(x,2)",
+      "dec": 1
+    },
+    {
+      "header": "Battery Voltage",
+      "unit": "mV",
+      "canId": "0x281",
+      "offset": 0,
+      "length": 2,
+      "expr": "(15)*(x & 0x0FFF) + (0)",
+      "dec": 0
+    },
+    {
+      "header": "Air Temp",
+      "unit": "C",
+      "canId": "0x2CA",
+      "offset": 1,
+      "length": 1,
+      "mul": 0.5,
+      "add": -40,
+      "dec": 0
+    },
+    {
+      "header": "Steering Angle",
+      "unit": "",
+      "canId": "0x301",
+      "offset": 2,
+      "length": 2,
+      "mul": 0.04395,
+      "add": -1440.11,
+      "dec": 1
+    },
+    {
+      "header": "Transmission Oil Temp",
+      "unit": "C",
+      "canId": "0x39A",
+      "offset": 1,
+      "length": 1,
+      "add": -48,
+      "dec": 0
+    },
+    {
+      "header": "Oil Temp",
+      "unit": "C",
+      "canId": "0x3F9",
+      "offset": 5,
+      "length": 1,
+      "add": -48,
+      "dec": 0
+    },
+    {
+      "header": "Gear",
+      "unit": "",
+      "canId": "0x3F9",
+      "offset": 6,
+      "length": 1,
+      "expr": "(1)*(x & 0x0F) + (-4)",
+      "dec": 0
+    },
+    {
+      "header": "Air Pressure",
+      "unit": "mbar",
+      "canId": "0x3FB",
+      "offset": 0,
+      "length": 1,
+      "mul": 2,
+      "add": 598,
+      "dec": 0
+    }
+  ]
+}

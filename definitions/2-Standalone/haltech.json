@@ -1,0 +1,198 @@
+{
+    "canSpeed": 500,
+    "ecuparam": [
+        {
+            "header": "Engine Speed",
+            "unit": "RPM",
+            "canId": "0x360",
+            "offset": 0,
+            "length": 2,
+            "dec": 0
+        },
+        {
+            "header": "Map",
+            "unit": "kPa",
+            "canId": "0x360",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "TPS",
+            "unit": "%",
+            "canId": "0x360",
+            "offset": 4,
+            "length": 2,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Coolant Press",
+            "unit": "kPa",
+            "canId": "0x360",
+            "offset": 6,
+            "length": 2,
+            "mul": 0.1,
+            "add": -101.3
+        },
+        {
+            "header": "Fuel Pressure",
+            "unit": "kPa",
+            "canId": "0x361",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.1,
+            "add": -101.3
+        },
+        {
+            "header": "Oil Pressure",
+            "unit": "kPa",
+            "canId": "0x361",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.1,
+            "add": -101.3
+        },
+        {
+            "header": "Engine load",
+            "unit": "%",
+            "canId": "0x361",
+            "offset": 4,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "Wg pressure",
+            "unit": "%",
+            "canId": "0x361",
+            "offset": 6,
+            "length": 2,
+            "mul": 0.1,
+            "add": -101.3
+        },
+        {
+            "header": "Injection 1 duty",
+            "unit": "%",
+            "canId": "0x362",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "Injection 2 duty",
+            "unit": "%",
+            "canId": "0x362",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "Ignition",
+            "unit": "°",
+            "canId": "0x362",
+            "offset": 4,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1"
+        },
+        {
+            "header": "Wheel Slip",
+            "unit": "km/h",
+            "canId": "0x363",
+            "offset": 0,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1"
+        },
+        {
+            "header": "Wheel Diff",
+            "unit": "km/h",
+            "canId": "0x363",
+            "offset": 2,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1"
+        },
+        {
+            "header": "Wideband 1",
+            "unit": "AFR",
+            "canId": "0x368",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.001
+        },
+        {
+            "header": "Wideband 2",
+            "unit": "AFR",
+            "canId": "0x368",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.001
+        },
+        {
+            "header": "Knock 1",
+            "unit": "DB",
+            "canId": "0x36A",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.01
+        },
+        {
+            "header": "Knock 2",
+            "unit": "DB",
+            "canId": "0x36A",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.01
+        },
+        {
+            "header": "Coolant Temp",
+            "unit": "°C",
+            "canId": "0x3E0",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.1,
+            "add": -273.15
+        },
+        {
+            "header": "Air Temp",
+            "unit": "°C",
+            "canId": "0x3E0",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.1,
+            "add": -273.15
+        },
+        {
+            "header": "Fuel Temp",
+            "unit": "°C",
+            "canId": "0x3E0",
+            "offset": 4,
+            "length": 2,
+            "mul": 0.1,
+            "add": -273.15
+        },
+        {
+            "header": "Oil Temp",
+            "unit": "°C",
+            "canId": "0x3E0",
+            "offset": 6,
+            "length": 2,
+            "mul": 0.1,
+            "add": -273.15
+        },
+        {
+            "header": "Fuel Trim 1",
+            "unit": "%",
+            "canId": "0x3E3",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.1
+        },
+        {
+            "header": "Fuel Trim 2",
+            "unit": "%",
+            "canId": "0x3E3",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.1
+        }
+    ]
+}

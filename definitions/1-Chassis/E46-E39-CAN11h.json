@@ -80,6 +80,19 @@
 			"expr": "(x > 32768)*((x-32768)*.044) + (x<32768)*(-.044*x)"
 		},
 		{
+            "header": "Gear",
+            "unit": "Byte",
+            "canId": "0x1D2",
+            "offset": 2,
+            "length": 1,
+            "dec": 0,
+            "expr": "signed(x)",
+            "stringLut": [
+                { "x":    0.0 , "y": "N" },
+                { "x":    0.1 , "y": ""  }
+            ]
+        },
+		{
 			// Reference: https://www.ms4x.net/index.php?title=CAN_Bus_ID_0x615_ICL3
 			"header": "Interior Night Lighting",
 			"unit": "bool",

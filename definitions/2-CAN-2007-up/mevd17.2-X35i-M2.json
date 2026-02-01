@@ -1,0 +1,312 @@
+{
+	"obdRefresh": 100,
+	"canSpeed": 500,
+	"sourceEcu": "0xF1",
+	"kwpMode": "0xF3",
+	"testerAddr": 1,
+	"flowDelay": 0,
+	"ecuparam": [
+	// 0;JA;ID;0x480B;0x5813;0x582C;0x582F;0x480C;0x5812;0x5891;0x580B;0x58DD;0x580F;0x5819;0x4A37;0x58D0;0x4AAC;0x4A3C;0x4A3C;0x4A3C;0x5886
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"kwpCan": "0x4807",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.25
+		},
+		{
+			"header": "Load",
+			"unit": "%",
+			"kwpCan": "0x5804",
+			"mul": 0.390625
+		},
+		{
+			"header": "Torque",
+			"unit": "Nm",
+			"kwpCan": "0x58D0",
+			"mul": 0.0625,
+			"length": 1
+		},
+		{
+			"header": "Req torque",
+			"unit": "Nm",
+			"kwpCan": "0x58CF",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0625
+		},
+		{
+			"header": "Mass airflow",
+			"unit": "kg/h",
+			"kwpCan": "0x5812",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.1
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"kwpCan": "0x4600",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.02441406
+		},
+		{
+			"header": "PVS",
+			"unit": "%",
+			"kwpCan": "0x480B",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0015259
+		},
+		{
+		//	"header": "Boost before",
+			"unit": "Bar",
+			"kwpCan": "0x5A2C",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0000390625
+		},
+		{
+		//	"header": "Boost",
+			"unit": "Bar",
+			"kwpCan": "0x5A2D",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0000390625
+		},
+		{
+			//"header": "Vacuum",
+			"unit": "Bar",
+			"kwpCan": "0x4205",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0000078125
+		},
+		{
+			//"header": "Real boost",
+			"unit": "Bar",
+			"kwpCan": "0x4205",
+			"x": "Boost before",
+			"y": "Vacuum",
+			"expr": "x-y"
+		},
+		{
+			//"header": "Target boost",
+			"unit": "Bar",
+			"kwpCan": "0x4AB0",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0000390625
+		},
+		{
+			//"header": "Low Pressure pump",
+			"unit": "Bar",
+			"kwpCan": "0x58F3",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00001
+		},
+		{
+			//"header": "Rail Pressure",
+			"unit": "Bar",
+			"kwpCan": "0x58EF",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.005
+		},
+		{
+			//"header": "Ignition cylinder 1",
+			"unit": "°CRK",
+			"kwpCan": "0x580E",
+			"length": 1,
+			"mul": 0.75,
+			"add": 0
+		},
+		{
+		//	"header": "Lambda 1",
+			"unit": "AFR",
+			"kwpCan": "0x5889",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00024414
+		},
+		{
+		//	"header": "Lambda 2",
+			"unit": "AFR",
+			"kwpCan": "0x588A",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00024414
+		},
+		{
+		//	"header": "EGT",
+			"unit": "°C",
+			"kwpCan": "0x5896",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0234375,
+			"add": -273.15
+		},
+		{
+		//	"header": "STFT1",
+			"unit": "%",
+			"kwpCan": "0x5806",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00003052
+		},
+		{
+		//	"header": "STFT2",
+			"unit": "%",
+			"kwpCan": "0x5808",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00003052
+		},
+		{
+		//	"header": "LTFT1",
+			"unit": "%",
+			"kwpCan": "0x5807",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00003052
+		},
+		{
+		//	"header": "LTFT2",
+			"unit": "%",
+			"kwpCan": "0x4A85",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00003052
+		},
+		{
+		//	"header": "Intake Temp",
+			"unit": "°C",
+			"kwpCan": "0x581E",
+			"length": 1,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+		//	"header": "Coolant Temp",
+			"unit": "°C",
+			"kwpCan": "0x4300",
+			"length": 1,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+		//	"header": "Oil Temp",
+			"unit": "°C",
+			"kwpCan": "0x4402",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+		//	"header": "Oil level",
+			"unit": "%",
+			"kwpCan": "0x4401",
+			"length": 1,
+			"mul": 1
+		},
+		{
+		//	"header": "Gear",
+			"unit": "G",
+			"kwpCan": "0x5881",
+			"length": 1,
+			"mul": 1
+		},
+		{
+		//	"header": "WG PWM",
+			"unit": "%",
+			"kwpCan": "0x4AAB",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00152588
+		},
+		{
+		//	"header": "Ambient Pressure",
+			"unit": "hPa",
+			"kwpCan": "0x4201",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0390625
+		},
+		{
+		//	"header": "Manifold Pressure",
+			"unit": "hPa",
+			"kwpCan": "0x580B",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0390625
+		},
+		{
+		//	"header": "Battery Voltage",
+			"unit": "V",
+			"kwpCan": "0x460A",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.015
+		},
+		{
+		//	"header": "Vehicle Speed",
+			"unit": "km/h",
+			"kwpCan": "0x4AB1",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0078125
+		},
+		{
+		//	"header": "Idle Speed Target",
+			"unit": "RPM",
+			"kwpCan": "0x4808",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.25
+		},
+		{
+		//	"header": "Throttle Target",
+			"unit": "%",
+			"kwpCan": "0x4601",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.00152588
+		},
+		{
+		//	"header": "VVT Inlet Position",
+			"unit": "°CRK",
+			"kwpCan": "0x4506",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.1
+		},
+		{
+		//	"header": "VVT Outlet Position",
+			"unit": "°CRK",
+			"kwpCan": "0x4507",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.1
+		},
+		{
+		//	"header": "VVT Inlet Target",
+			"unit": "°CRK",
+			"kwpCan": "0x4505",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0078125
+		},
+		{
+		//	"header": "Fuel Rail Pressure Target",
+			"unit": "MPa",
+			"kwpCan": "0x4AC4",
+			"length": 2,
+			"reverseEndianness": false,
+			"mul": 0.0005
+		}
+	]
+}

@@ -1,0 +1,398 @@
+{
+	"canSpeed": 500,
+	"address": ["0x12", "0x05", "0x0B", "0xB0", "0xAC"],
+//	"baudAddress": ["0x12", "0x08", "0x91", "0x01", "0xE8", "0x48", "0x00", "0x2A"], // Can cause issues, if you need ~25Hz data rate set this
+//	"baudSpeed": 125000,
+//	"baudAddress": ["0x12", "0x08", "0x91", "0x00", "0xE1", "0x00", "0x00", "0x6A"],
+//	"baudSpeed": 57600,
+	"ecuparam": [
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"expr": "x&8191",
+			"offset": 4,
+			"length": 2,
+			"max": 7000,	
+			"dec": 0,
+			"reverseEndianness": true
+		},
+		{
+			"header": "Engine Load",
+			"unit": "mg/str",
+			"offset": 18,
+			"length": 2,
+			"mul": 0.04239,
+			"dec": 1,
+			"reverseEndianness": true
+		},
+		{
+			"header": "Engine Load Vanos",
+			"unit": "mg/str",
+			"offset": 20,
+			"length": 2,
+			"mul": 0.04239,
+			"dec": 1,
+			"reverseEndianness": true
+		},
+		{
+			"header": "Engine Load MAF",
+			"unit": "mg/str",
+			"offset": 26,
+			"length": 2,
+			"mul": 0.04239,
+			"dec": 1,
+			"reverseEndianness": true
+		},
+		{
+			"header": "Mass Airflow",
+			"unit": "kg/h",
+			"offset": 28,
+			"length": 2,
+			"mul": 0.25,
+			"dec": 1,
+			"reverseEndianness": true
+		},
+		{
+			"header": "MAP",
+			"unit": "Bar",
+			"offset": 8,
+			"length": 2,
+			"mul": 0.000082921489,
+			"reverseEndianness": true
+		},
+		{
+			"header": "Active VE Table",
+			"unit": "u",
+			"offset": 16,
+			"length": 2,
+			"mul": 0.00390625,
+			"reverseEndianness": true
+		},
+
+		{
+			"header": "Vanos Intake",
+			"unit": "°CRK",
+			"offset": 56,
+			"mul": 0.375,
+			"add": 60
+		},
+		{
+			"header": "Vanos Exhaust",
+			"unit": "°CRK",
+			"offset": 57,
+			"mul": -0.375,
+			"add": -60
+		},
+		{
+			"header": "PVS",
+			"unit": "%",
+			"offset": 42,
+			"mul": 0.46875008,
+			"max": 100,
+			"min": 0,
+			"dec": 0
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"offset": 43,
+			"mul": 0.46875008,
+			"max": 100,
+			"min": 0,
+			"dec": 1
+		},
+		{
+			"header": "Ignition 1",
+			"unit": "°CRK",
+			"offset": 44,
+			"mul": -0.375,
+			"add": 72,
+			"max": 72,
+			"min": -23.625
+		},
+		{
+			"header": "Ignition 2",
+			"unit": "°CRK",
+			"offset": 45,
+			"mul": -0.375,
+			"add": 72,
+			"hidden": true
+		},
+		{
+			"header": "Ignition 3",
+			"unit": "°CRK",
+			"offset": 46,
+			"mul": -0.375,
+			"add": 72,
+			"hidden": true
+		},
+		{
+			"header": "Ignition 4",
+			"unit": "°CRK",
+			"offset": 47,
+			"mul": -0.375,
+			"add": 72,
+			"hidden": true
+		},
+		{
+			"header": "Ignition 5",
+			"unit": "°CRK",
+			"offset": 48,
+			"mul": -0.375,
+			"add": 72,
+			"hidden": true
+		},
+		{
+			"header": "Ignition 6",
+			"unit": "°CRK",
+			"offset": 49,
+			"mul": -0.375,
+			"add": 72,
+			"hidden": true
+		},
+		{
+			"header": "Knock 1",
+			"unit": "°CRK",
+			"offset": 50,
+			"mul": 0.375,
+			"add": -48,
+			"hidden": true
+		},
+		{
+			"header": "Knock 2",
+			"unit": "°CRK",
+			"offset": 51,
+			"mul": 0.375,
+			"add": -48,
+			"hidden": true
+		},
+		{
+			"header": "Knock 3",
+			"unit": "°CRK",
+			"offset": 52,
+			"mul": 0.375,
+			"add": -48,
+			"hidden": true
+		},
+		{
+			"header": "Knock 4",
+			"unit": "°CRK",
+			"offset": 53,
+			"mul": 0.375,
+			"add": -48,
+			"hidden": true
+		},
+		{
+			"header": "Knock 5",
+			"unit": "°CRK",
+			"offset": 54,
+			"mul": 0.375,
+			"add": -48,
+			"hidden": true
+		},
+		{
+			"header": "Knock 6",
+			"unit": "°CRK",
+			"offset": 55,
+			"mul": 0.375,
+			"add": -48,
+			"hidden": true
+		},
+		{
+			"header": "Knock avg",
+			"unit": "°CRK",
+			"expr": "({Knock 1} + {Knock 2} + {Knock 3} + {Knock 4} + {Knock 5} + {Knock 6})/6"
+		},
+		{
+			"header": "Fuel Inj",
+			"unit": "ms",
+			"offset": 38,
+			"length": 2,
+			"mul": 0.0053333333,
+			"reverseEndianness": true
+		},
+		{
+			"header": "Fuel Inj 2",
+			"unit": "ms",
+			"offset": 40,
+			"length": 2,
+			"mul": 0.0053333333,
+			"hidden": true,
+			"reverseEndianness": true
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"offset": 10,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"offset": 11,
+			"mul": 0.75,
+			"add": -48,
+			"min": 80,
+			"max": 120
+		},
+		{
+			"header": "Radiator Temp",
+			"unit": "°C",
+			"offset": 13,
+			"mul": 0.79607843,
+			"add": -48,
+			"min": 60,
+			"max": 100
+		},
+		{
+			"header": "Oil Temp",
+			"unit": "°C",
+			"offset": 12,
+			"mul": 0.79607843,
+			"add": -48,
+			"min": 80,
+			"max": 120
+		},
+		{
+			"header": "RON Adaption",
+			"unit": "%",
+			"offset": 64,
+			"mul": 0.392156863
+		},
+		{
+			"header": "Flex fuel",
+			"unit": "%",
+			"offset": 65,
+			"mul": 0.392156863
+		},
+		{
+			"header": "AFR Target",
+			"unit": "%",
+			"offset": 66,
+			"mul": 0.1
+		},
+		{
+			"header": "Torque",
+			"unit": "Nm",
+			"offset": 14,
+			"length": 2,
+			"reverseEndianness": true
+		},
+		{
+			"header": "Gear",
+			"unit": "#",
+			"offset": 5,
+			"expr": "x >> 5",
+			"max": 6,
+			"min": 0
+		},
+		{
+			"header": "Speed",
+			"unit": "km/h",
+			"offset": 6,
+			"dec": 0
+		},
+		{
+			"header": "IACV PWM",
+			"unit": "%",
+			"offset": 58,
+			"mul": 0.3906251008
+		},
+		{
+			"header": "STFT 1",
+			"unit": "%",
+			"offset": 30,
+			"mul": 0.3906249984,
+			"add": -50,
+			"max": 50,
+			"min": -50,
+			"resetTime": 0
+		},
+		{
+			"header": "STFT 2",
+			"unit": "%",
+			"offset": 31,
+			"mul": 0.3906249984,
+			"add": -50,
+			"max": 50,
+			"min": -50,
+			"resetTime": 0
+		},
+		{
+			"header": "LTFT 1",
+			"unit": "%",
+			"offset": 32,
+			"mul": 0.3906249984,
+			"add": -50
+		},
+		{
+			"header": "LTFT 2",
+			"unit": "%",
+			"offset": 33,
+			"mul": 0.3906249984,
+			"add": -50
+		},
+		{
+			"header": "LTFT 1 add",
+			"unit": "ms",
+			"offset": 34,
+			"length": 2,
+			"mul": 0.004,
+			"add": -131.072,
+			"reverseEndianness": true
+		},
+		{
+			"header": "LTFT 2 add",
+			"unit": "ms",
+			"offset": 34,
+			"length": 2,
+			"mul": 0.004,
+			"add": -131.072,
+			"reverseEndianness": true
+		},
+		{
+			"header": "Boost DC",
+			"unit": "%",
+			"offset": 60,
+			"mul": 0.016
+		},
+		{
+			"header": "Rear O2 1",
+			"unit": "V",
+			"offset": 67,
+			"mul": 0.01953125
+		},
+		{
+			"header": "Rear O2 2",
+			"unit": "V",
+			"offset": 68,
+			"mul": 0.01953125
+		},
+		{
+			"header": "DMTL Input",
+			"unit": "V",
+			"offset": 69,
+			"mul": 0.01953125
+		},
+		{
+			"header": "Fuel Cap Input",
+			"unit": "V",
+			"offset": 70,
+			"mul": 0.01953125
+		},
+		{
+			"header": "DISA",
+			"unit": "B",
+			"offset": 3,
+			"expr": "x & 1"
+		},
+		{
+			"header": "Battery Voltage",
+			"alias": "Battery",
+			"unit": "V",
+			"offset": 63,
+			"mul": 0.10196078
+		}
+	]
+}
