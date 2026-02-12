@@ -1,0 +1,80 @@
+{
+  "maxCustom": 4,
+  "currentDisplay": 0,
+  "paramDisp": [
+    {
+      "rows": 2,
+      "cols": 2,
+      "paramObj": [
+        {
+          "name": "Battery Voltage"
+        },
+        {
+          "displayConfig": 3,
+          "name": "Trip 1"
+        },
+        {
+          "displayConfig": 3,
+          "name": "Econ avg 1"
+        },
+        {
+          "displayConfig": 4,
+          "name": "Economy"
+        }
+      ]
+    },
+    {
+      "rows": 2,
+      "cols": 1,
+      "paramObj": [
+        {
+          "displayConfig": 4,
+          "name": "Coolant Temp"
+        },
+        {
+          "displayConfig": 4,
+          "name": "Oil Temp"
+        }
+      ]
+    },
+    {
+      "rows": 3,
+      "cols": 2,
+      "paramObj": [
+        {
+          "name": "Mass Airflow"
+        },
+        {
+          "name": "Engine Load"
+        },
+        {
+          "displayConfig": 3,
+          "name": "Intake Air Temp"
+        },
+        {
+          "displayConfig": 3,
+          "name": "Radiator Temp"
+        },
+        {
+          "displayConfig": 4,
+          "name": "Coolant Temp"
+        },
+        {
+          "displayConfig": 4,
+          "name": "Oil Temp"
+        }
+      ]
+    },
+    {
+      "histogramObj": [
+        {
+          "name": "Accel X"
+        },
+        {
+          "name": "Accel Z"
+        }
+      ],
+      "type": 1
+    }
+  ]
+}

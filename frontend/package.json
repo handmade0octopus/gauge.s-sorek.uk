@@ -1,0 +1,48 @@
+{
+  "name": "gauge",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && cp-cli ./dist/index.html ../SD/wifi/index.htm",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/plugin-transform-runtime": "^7.25.4",
+    "@babel/preset-env": "^7.25.4",
+    "@sveltejs/vite-plugin-svelte": "^3.1.1",
+    "@tsconfig/svelte": "^5.0.4",
+    "cp-cli": "^2.0.0",
+    "less": "^4.2.0",
+    "svelte": "^4.2.18",
+    "svelte-check": "^3.8.5",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.1",
+    "vite-plugin-babel": "^1.2.0",
+    "vite-plugin-commonjs": "^0.10.1",
+    "vite-plugin-singlefile": "^2.0.2",
+    "vite-plugin-static-copy": "^1.0.6"
+  },
+  "dependencies": {
+    "@codemirror/autocomplete": "^6.18.0",
+    "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/language": "^6.10.2",
+    "@codemirror/lint": "^6.8.1",
+    "@codemirror/state": "^6.4.1",
+    "@ddietr/codemirror-themes": "^1.4.2",
+    "@keenmate/svelte-treeview": "^1.2.11",
+    "@shopify/lang-jsonc": "^1.0.0",
+    "@svelteuidev/core": "^0.15.7",
+    "codemirror": "^6.0.1",
+    "codemirror-themes": "link:@ddietr/codemirror-themes",
+    "extends": "link:@babel/runtime/helpers/extends",
+    "istextorbinary": "^9.5.0",
+    "svelte-codemirror-editor": "^1.4.1",
+    "svelte-hammer": "^0.1.7",
+    "svelte-tree-view": "^1.4.2"
+  }
+}
