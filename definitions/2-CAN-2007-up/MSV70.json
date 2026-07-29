@@ -1,0 +1,153 @@
+{
+    "obdRefresh": 100,
+    "canSpeed": 500,
+    "ecuparam": [
+        
+        {
+			"header": "engine speed",
+            "unit": "RPM",
+            "kwpCan": "0x4807",
+            "length": 2,
+            "reverseEndianness": false,
+            "mul": 1
+		},
+        {
+			"header": "tps",
+			"unit": "%",
+			"kwpCan": "0x5814",
+			"length": 1,
+			"mul": 0.390625
+		},
+        {
+			"header": "coolant temp",
+			"unit": "°C",
+			"kwpCan": "0x4300",
+			"length": 1,
+            "add": -47.9999985694886,
+            "mul": 0.75
+		},
+		{
+			"header": "oil temp",
+			"unit": "°C",
+			"kwpCan": "0x4402",
+			"length": 2,
+            "reverseEndianness": false,
+			"expr":"signed(x, 2)*0.1"
+		},
+        {
+            "header": "load",
+            "unit": "%",
+            "kwpCan": "0x5804",
+            "mul": 0.390625
+        },
+        {
+            "header": "ignition cylinder 1",
+            "unit": "°CRK",
+            "kwpCan": "0x580E",
+            "length": 1,
+            "mul": 0.5,
+            "add": -64
+        },
+        {
+            "header": "lambda 1",
+            "kwpCan": "0x5889",
+            "length": 1,
+            "mul": 0.0078125 //"mul": 0.11484375 for AFR
+        },
+        {
+            "header": "lambda 2",
+            "kwpCan": "0x588A",
+            "length": 1,
+             "mul": 0.0078125 //"mul": 0.11484375 for AFR
+        },
+        {
+            "header": "intake temp",
+            "unit": "°C",
+            "kwpCan": "0x581E",
+            "length": 1,
+            "mul": 0.75,
+            "add": -47.9999985694886
+        },
+        {
+            "header": "ambient pressure",
+            "unit": "hPa",
+            "kwpCan": "0x5801",
+            "length": 1,
+            "mul": 1
+        },
+        {
+            "header": "vanos intake",
+            "unit": "°CRK",
+            "kwpCan": "0x581A",
+            "length": 1,
+            "mul": 0.400000005960464,
+            "add": 50
+        },
+        {
+            "header": "vanos exhaust",
+            "unit": "°CRK",
+            "kwpCan": "0x581C",
+            "length": 1,
+            "mul": -0.375,
+            "add": -39.9999978542329
+        },
+        {
+            "header": "vanos intake setpoint",
+            "unit": "°CRK",
+            "kwpCan": "0x581B",
+            "length": 1,
+            "mul": 0.400000005960464,
+            "add": 50
+        },
+        {
+            "header": "vanos exhaust setpoint",
+            "unit": "°CRK",
+            "kwpCan": "0x581D",
+            "length": 1,
+            "mul": -0.375,
+            "add": -39.9999978542329
+        },
+        {
+            "header": "valvetronic ecc",
+            "unit": "°",
+            "kwpCan": "0x4500",
+            "length": 2,
+            "reverseEndianness": false,
+            "expr":"signed(x, 2)*0.021973192691803"
+        },
+        {
+            "header": "valvetronic ecc setpoint",
+            "unit": "°",
+            "kwpCan": "0x4501",
+            "length": 2,
+            "reverseEndianness": false,
+            "expr":"signed(x, 2)*0.021973192691803"
+        },
+        {
+            "header": "water pump speed",
+            "kwpCan": "0x58EA",
+            "length": 1,
+            "mul": 1
+        },
+        {
+            "header": "battery voltage",
+            "unit": "V",
+            "kwpCan": "0x5815",
+            "length": 1,
+            "mul": 0.256000012159347
+        },
+		{
+            "header": "oil level",
+            "kwpCan": "0x4409",
+            "length": 1,
+            "mul": 0.29296875
+        },
+        {
+            "header": "gear",
+            "kwpCan": "0x5881",
+            "length": 1,
+            "mul": 1
+        }
+        
+    ]
+}
