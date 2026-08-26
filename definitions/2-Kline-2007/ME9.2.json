@@ -1,0 +1,223 @@
+{
+  // KWP ReadDataByIdentifier DID 0x4000 - primary live data block
+  // ECU: ME9.2
+  "canSpeed": 500,
+  "address": ["0xB8", "0x12", "0xF1", "0x3", "0x22", "0x40", "0x0", "0x3A"],
+  "forceKwp": true,
+  "ecuparam": [
+    {
+      "header": "TE_W",
+	  "alias": "Fuel Inj",
+      "unit": "ms",
+      "offset": 3,
+      "length": 2,
+      "mul": 0.008,
+	  "dec": 1
+    },
+    {
+	  "header": "FR_W",
+      "alias": "Lambda Bank 1",
+      "offset": 5,
+      "length": 2,
+      "mul": 0.0000305,
+	  "dec": 2
+    },
+    {
+	  "header": "FR2_W",
+      "alias": "Lambda Bank 2",
+      "offset": 7,
+      "length": 2,
+      "mul": 0.0000305,
+	  "dec": 2
+    },
+    {
+	  "header": "VFZG",
+      "alias": "Speed",
+      "unit": "km/h",
+      "offset": 9,
+      "mul": 1.25,
+      "dec": 0
+    },
+    {
+	  "header": "NMOT_W",
+      "alias": "Engine Speed",
+      "unit": "RPM",
+      "offset": 10,
+      "length": 2,
+      "mul": 0.25,
+      "max": 16000,
+      "dec": 0
+    },
+    {
+	  "header": "NSOL",
+      "alias": "Target RPM",
+      "unit": "RPM",
+      "offset": 12,
+      "mul": 10.0,
+      "dec": 0
+    },
+    {
+	  "header": "WNWKWE_W",
+      "alias": "Vanos Intake",
+      "unit": "°CRK",
+      "offset": 13,
+      "length": 2,
+      "mul": 0.1,
+	  "dec": 2
+    },
+    {
+	  "header": "WNWKWA_W",
+      "alias": "Vanos Exhaust",
+      "unit": "°CRK",
+      "offset": 15,
+      "length": 2,
+      "mul": 0.1,
+	  "dec": 2
+    },
+    {
+	  "header": "TANS",
+      "alias": "Intake Air Temp",
+      "unit": "°C",
+      "offset": 17,
+      "mul": 0.75,
+      "add": -48.0,
+      "dec": 0
+    },
+    {
+	  "header": "TMOT",
+      "alias": "Coolant Temp",
+      "unit": "°C",
+      "offset": 18,
+      "mul": 0.75,
+      "add": -48.0,
+      "dec": 0
+    },
+    {
+	  "header": "ZWOUT",
+      "alias": "Ignition Angle",
+      "unit": "°CRK",
+      "offset": 19,
+      "mul": 0.75,
+	  "dec": 2
+    },
+    {
+	  "header": "WDKBA",
+      "v": "TPS",
+      "unit": "%",
+      "offset": 20,
+      "mul": 0.39216,
+      "max": 120,
+      "min": 0,
+      "dec": 2
+    },
+    {
+	  "header": "MSHFM_W",
+      "alias": "Mass Airflow",
+      "unit": "kg/h",
+      "offset": 21,
+      "length": 2,
+      "mul": 0.1,
+	  "dec": 1
+    },
+    {
+	  "header": "MIIST_W",
+      "alias": "Engine Torque",
+      "unit": "%",
+      "offset": 23,
+      "length": 2,
+      "mul": 0.0015259,
+      "dec": 0
+    },
+    {
+	  "header": "UB",
+      "alias": "Battery Voltage",
+      "unit": "V",
+      "offset": 25,
+      "mul": 0.0942,
+      "max": 16,
+      "min": 0,
+      "dec": 2
+    },
+    {
+	  "header": "UPWG1_W",
+      "alias": "Pedal Voltage",
+      "unit": "V",
+      "offset": 26,
+      "length": 2,
+      "mul": 0.0048828,
+      "dec": 3
+    },
+    {
+	  "header": "TKALIN",
+      "alias": "Radiator Outlet Temp",
+      "unit": "°C",
+      "offset": 28,
+      "mul": 0.75,
+      "add": -48.0
+    },
+    {
+	  "header": "RKRN_W_0",
+      "alias": "Knock Cyl 1",
+      "unit": "V",
+      "offset": 29,
+      "length": 2,
+      "mul": 0.019531
+    },
+    {
+	  "header": "RKRN_W_1",
+      "alias": "Knock Cyl 2",
+      "unit": "V",
+      "offset": 31,
+      "length": 2,
+      "mul": 0.019531
+    },
+    {
+	  "header": "RKRN_W_2",
+      "alias": "Knock Cyl 3",
+      "unit": "V",
+      "offset": 33,
+      "length": 2,
+      "mul": 0.019531
+    },
+    {
+	  "header": "RKRN_W_3",
+      "alias": "Knock Cyl 4",
+      "unit": "V",
+      "offset": 35,
+      "length": 2,
+      "mul": 0.019531
+    },
+    {
+	  "header": "RKRN_W_4",
+      "alias": "Knock Cyl 5",
+      "unit": "V",
+      "offset": 37,
+      "length": 2,
+      "mul": 0.019531
+    },
+    {
+	  "header": "RKRN_W_5",
+      "alias": "Knock Cyl 6",
+      "unit": "V",
+      "offset": 39,
+      "length": 2,
+      "mul": 0.019531
+    },
+    {
+	  "header": "RKRN_W_6",
+      "alias": "Knock Cyl 7",
+      "unit": "V",
+      "offset": 41,
+      "length": 2,
+      "mul": 0.019531
+    },
+    {
+	  "header": "RKRN_W_7",
+      "alias": "Knock Cyl 8",
+      "unit": "V",
+      "offset": 43,
+      "length": 2,
+      "mul": 0.019531
+    }
+  ]
+}
