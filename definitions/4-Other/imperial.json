@@ -1,34 +1,34 @@
 {
-	"ecuparam": [
+    "ecuparam": [
         {
-			"header": "Intake Air Temp IMP",
+            "header": "Intake Air Temp IMP",
             "alias": "IAT",
-			"unit": "°F",
+            "unit": "°F",
             "expr": "{Intake Air Temp} * 1.8 + 32"
-		},
+        },
         {
-			"header": "Coolant Temp IMP",
+            "header": "Coolant Temp IMP",
             "alias": "CTL",
-			"unit": "°F",
+            "unit": "°F",
             "expr": "{Coolant Temp} * 1.8 + 32"
         },
         {
-			"header": "Radiator Temp IMP",
+            "header": "Radiator Temp IMP",
             "alias": "Radiator Temp",
-			"unit": "°F",
+            "unit": "°F",
             "expr": "{Radiator Temp} * 1.8 + 32"
         },
         {
-			"header": "Oil Temp IMP",
+            "header": "Oil Temp IMP",
             "alias": "Oil Temp",
-			"unit": "°F",
+            "unit": "°F",
             "expr": "{Oil Temp} * 1.8 + 32"
         },
         {
             "header": "Speed IMP",
             "alias": "Speed",
             "unit": "mph",
-            "expr": "{Speed} * 0.621371"
+            "expr": "{Vehicle Speed} * 0.621371"
         },
         {
             "header": "Economy IMP",
@@ -47,6 +47,12 @@
             "alias": "MAP",
             "unit": "psi",
             "expr": "14.504 * {MAP}"
+        },
+        {
+            "header": "Oil Pressure IMP",
+            "alias": "Oil Pressure",
+            "unit": "psi",
+            "expr": "14.504 * {Oil Pressure}"
         }
     ]
 }
