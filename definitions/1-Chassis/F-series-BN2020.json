@@ -1,182 +1,305 @@
 {
-  "canSpeed": 500,
-  "ecuparam": [
-    {
-      "header": "Throttle Position",
-      "unit": "%",
-      "canId": "0xD9",
-      "offset": 2,
-      "length": 2,
-      "expr": "(0.025)*(x & 0x0FFF) + (0)",
-      "dec": 1
+    "canSpeed": 500,
+    // Shared F-series baseline (also commonly labelled BN2010).
+    // Message availability depends on the bus/ECU: ../BMW-CHASSIS-NOTES.md
+    "sleep": {
+        // Deep sleep after 60s of no CAN traffic; wake on the 0x130 alive frame.
+        // wakeupCode/wakeupMask = TWAI acceptance filter for ID 0x130 with
+        // data0 = 0xFE/0xFF (alive frame) — proven on E9X/F-series, do not change.
+        "sleepTime": 60,
+        "wakeupCode": "0x2600FFFF",
+        "wakeupMask": "0x2600FEFF"
     },
-    {
-      "header": "Engine Speed",
-      "unit": "rpm",
-      "canId": "0xF3",
-      "offset": 1,
-      "length": 2,
-      "expr": "(10)*((x & 0xFFF0) >> 4) + (0)",
-      "dec": 0
-    },
-    {
-      "header": "Brake Light",
-      "unit": "on/off",
-      "canId": "0x173",
-      "offset": 0,
-      "length": 1,
-      "expr": "(0.5)*((x & 0x18) >> 3) + (0)",
-      "dec": 0
-    },
-    {
-      "header": "Brake Position",
-      "unit": "",
-      "canId": "0x173",
-      "offset": 7,
-      "length": 1,
-      "expr": "(1)*(x & 0x3F) + (0)",
-      "dec": 0
-    },
-    {
-      "header": "Indicated Longitudinal Acceleration",
-      "unit": "m/s",
-      "canId": "0x199",
-      "offset": 2,
-      "length": 2,
-      "mul": 0.002,
-      "add": -65,
-      "dec": 2
-    },
-    {
-      "header": "Indicated Lateral Acceleration",
-      "unit": "m/s",
-      "canId": "0x19A",
-      "offset": 2,
-      "length": 2,
-      "mul": 0.002,
-      "add": -65,
-      "dec": 2
-    },
-    {
-      "header": "Indicated Vehicle Speed kph",
-      "unit": "km/h",
-      "canId": "0x1A1",
-      "offset": 2,
-      "length": 2,
-      "mul": 0.015625,
-      "dec": 1
-    },
-    {
-      "header": "Battery Current",
-      "unit": "",
-      "canId": "0x1BA",
-      "offset": 3,
-      "length": 2,
-      "mul": 0.02,
-      "add": -200,
-      "dec": 1
-    },
-    {
-      "header": "Wheel Speed RL kph",
-      "unit": "km/h",
-      "canId": "0x254",
-      "offset": 0,
-      "length": 2,
-      "expr": "signed(x,2)",
-      "dec": 1
-    },
-    {
-      "header": "Wheel Speed RR kph",
-      "unit": "km/h",
-      "canId": "0x254",
-      "offset": 2,
-      "length": 2,
-      "expr": "signed(x,2)",
-      "dec": 1
-    },
-    {
-      "header": "Wheel Speed FL kph",
-      "unit": "km/h",
-      "canId": "0x254",
-      "offset": 4,
-      "length": 2,
-      "expr": "signed(x,2)",
-      "dec": 1
-    },
-    {
-      "header": "Wheel Speed FR kph",
-      "unit": "km/h",
-      "canId": "0x254",
-      "offset": 6,
-      "length": 2,
-      "expr": "signed(x,2)",
-      "dec": 1
-    },
-    {
-      "header": "Battery Voltage",
-      "unit": "mV",
-      "canId": "0x281",
-      "offset": 0,
-      "length": 2,
-      "expr": "(15)*(x & 0x0FFF) + (0)",
-      "dec": 0
-    },
-    {
-      "header": "Air Temp",
-      "unit": "C",
-      "canId": "0x2CA",
-      "offset": 1,
-      "length": 1,
-      "mul": 0.5,
-      "add": -40,
-      "dec": 0
-    },
-    {
-      "header": "Steering Angle",
-      "unit": "",
-      "canId": "0x301",
-      "offset": 2,
-      "length": 2,
-      "mul": 0.04395,
-      "add": -1440.11,
-      "dec": 1
-    },
-    {
-      "header": "Transmission Oil Temp",
-      "unit": "C",
-      "canId": "0x39A",
-      "offset": 1,
-      "length": 1,
-      "add": -48,
-      "dec": 0
-    },
-    {
-      "header": "Oil Temp",
-      "unit": "C",
-      "canId": "0x3F9",
-      "offset": 5,
-      "length": 1,
-      "add": -48,
-      "dec": 0
-    },
-    {
-      "header": "Gear",
-      "unit": "",
-      "canId": "0x3F9",
-      "offset": 6,
-      "length": 1,
-      "expr": "(1)*(x & 0x0F) + (-4)",
-      "dec": 0
-    },
-    {
-      "header": "Air Pressure",
-      "unit": "mbar",
-      "canId": "0x3FB",
-      "offset": 0,
-      "length": 1,
-      "mul": 2,
-      "add": 598,
-      "dec": 0
-    }
-  ]
+    "ecuparam": [
+        {
+            "header": "Can sleep", "canId": "0x130",
+            "expr": "sleep((x & 1) == 0)", "length": 1,
+            "hidden": true, "noLog": true
+        },
+        {
+            "header": "Indicated Engine Speed", "unit": "RPM", "canId": "0xF3",
+            "offset": 1, "length": 2, "expr": "(x >> 4)*10", "dec": 0
+        },
+        {
+            "header": "Brake Light", "unit": "on/off", "canId": "0x173",
+            "offset": 0, "length": 1,
+            "expr": "(0.5)*((x & 0x18) >> 3) + (0)", "dec": 0
+        },
+        {
+            "header": "Brake Position", "unit": "", "canId": "0x173",
+            "offset": 7, "length": 1, "expr": "(1)*(x & 0x3F) + (0)", "dec": 0
+        },
+        {
+            "header": "Indicated Longitudinal Acceleration", "unit": "g", "canId": "0x199",
+            "offset": 2, "length": 2, "expr": "(-1)*(x) / 5000 + 6.6259", "dec": 3
+        },
+        {
+            "header": "Indicated Lateral Acceleration", "unit": "g", "canId": "0x19A",
+            "offset": 2, "length": 2, "expr": "(-1)*(x) / 5000 + 6.6259", "dec": 3
+        },
+        {
+            "header": "Vehicle Speed", "unit": "km/h", "canId": "0x1A1",
+            "offset": 2, "length": 2, "mul": 0.015625, "dec": 1
+        },
+        {
+            "header": "Battery Current", "unit": "", "canId": "0x1BA",
+            "offset": 3, "length": 2, "mul": 0.02, "add": -200, "dec": 1
+        },
+        {
+            "header": "Wheel Angular Speed RL", "unit": "rad/s", "canId": "0x254",
+            "offset": 0, "length": 2, "mul": 0.015625, "add": -511.984375, "dec": 2
+        },
+        {
+            "header": "Wheel Angular Speed RR", "unit": "rad/s", "canId": "0x254",
+            "offset": 2, "length": 2, "mul": 0.015625, "add": -511.984375, "dec": 2
+        },
+        {
+            "header": "Wheel Angular Speed FL", "unit": "rad/s", "canId": "0x254",
+            "offset": 4, "length": 2, "mul": 0.015625, "add": -511.984375, "dec": 2
+        },
+        {
+            "header": "Wheel Angular Speed FR", "unit": "rad/s", "canId": "0x254",
+            "offset": 6, "length": 2, "mul": 0.015625, "add": -511.984375, "dec": 2
+        },
+        {
+            // Mask before scaling; retains the existing intended 15 mV/bit calibration.
+            "header": "Battery Voltage", "unit": "V", "canId": "0x281",
+            "offset": 0, "length": 2, "expr": "(x & 0x0FFF)*0.015", "dec": 2
+        },
+        {
+            "header": "Air Temp", "unit": "°C", "canId": "0x2CA",
+            "offset": 1, "length": 1, "mul": 0.5, "add": -40, "dec": 0
+        },
+        {
+            "header": "Steering Angle", "unit": "", "canId": "0x301",
+            "offset": 2, "length": 2, "mul": 0.04395, "add": -1440.11, "dec": 1
+        },
+        {
+            // EGS variant; absent in the examined F11 captures.
+            "header": "Transmission Oil Temp", "unit": "°C", "canId": "0x39A",
+            "offset": 1, "length": 1, "add": -40, "dec": 0
+        },
+        {
+            "header": "Oil Temp", "unit": "°C", "canId": "0x3F9",
+            "offset": 5, "length": 1, "add": -48, "dec": 0
+        },
+        {
+            "header": "Current Gear", "unit": "", "canId": "0x3F9",
+            "offset": 6, "length": 1, "expr": "x & 15", "dec": 0,
+            "stringLut": [
+                { "x": 1, "y": "N" }, { "x": 2, "y": "R" }, { "x": 3, "y": "P" },
+                { "x": 5, "y": "1" }, { "x": 6, "y": "2" }, { "x": 7, "y": "3" },
+                { "x": 8, "y": "4" }, { "x": 9, "y": "5" }, { "x": 10, "y": "6" },
+                { "x": 11, "y": "7" }, { "x": 12, "y": "8" }, { "x": 15, "y": "Unavailable" }
+            ]
+        },
+        {
+            "header": "Ambient Pressure", "unit": "Bar", "canId": "0x3FB",
+            "offset": 0, "length": 1, "mul": 0.002, "add": 0.598, "dec": 3
+        },
+        {
+            "header": "Coolant Temp", "unit": "°C", "canId": "0x3F9",
+            "offset": 4, "length": 1, "add": -48, "dec": 0
+        },
+        {
+            "header": "Park Brake", "unit": "", "canId": "0x36F",
+            "offset": 4, "length": 1, "dec": 0,
+            "stringLut": [ { "x": 21, "y": "ON" }, { "x": 20, "y": "OFF" } ]
+        },
+        {
+            "header": "Trans Mode", "unit": "", "canId": "0x3FD",
+            "offset": 2, "length": 1, "dec": 0,
+            "stringLut": [
+                { "x": 32, "y": "P" }, { "x": 64, "y": "R" }, { "x": 96, "y": "N" },
+                { "x": 128, "y": "D" }, { "x": 129, "y": "DS/M" }
+            ]
+        },
+        {
+            "header": "Terminal State", "unit": "", "canId": "0x12F",
+            "offset": 2, "length": 1, "expr": "x & 15", "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "Init" }, { "x": 1, "y": "Reserved" },
+                { "x": 2, "y": "KL30" }, { "x": 3, "y": "KL30F transition" },
+                { "x": 4, "y": "KL30F on" }, { "x": 5, "y": "KL30B transition" },
+                { "x": 6, "y": "KL30B on" }, { "x": 7, "y": "KLR transition" },
+                { "x": 8, "y": "KLR on" }, { "x": 9, "y": "KL15 transition" },
+                { "x": 10, "y": "KL15 on" }, { "x": 11, "y": "KL50 delay" },
+                { "x": 12, "y": "KL50 transition" }, { "x": 13, "y": "KL50 on" },
+                { "x": 14, "y": "Error" }, { "x": 15, "y": "Unavailable" }
+            ]
+        },
+        {
+            "header": "Fuel", "unit": "L", "canId": "0x349",
+            "offset": 2, "length": 2, "mul": 1, "dec": 0, "reverseEndianess": true
+        },
+        {
+            "header": "High Beam", "unit": "", "canId": "0x21A",
+            "offset": 0, "length": 1, "expr": "(x & 0x02) >> 1", "dec": 0
+        },
+        {
+            "header": "Main Lights", "unit": "", "canId": "0x21A",
+            "offset": 0, "length": 1, "expr": "(x & 0x04) >> 2", "dec": 0
+        },
+        {
+            "header": "Front Fog", "unit": "", "canId": "0x21A",
+            "offset": 0, "length": 1, "expr": "(x & 0x20) >> 5", "dec": 0
+        },
+        {
+            "header": "Rear Fog", "unit": "", "canId": "0x21A",
+            "offset": 0, "length": 1, "expr": "(x & 0x40) >> 6", "dec": 0
+        },
+        {
+            "header": "Left Blinker", "unit": "", "canId": "0x1F6",
+            "offset": 0, "length": 1, "expr": "(x & 0x10) >> 4", "dec": 0
+        },
+        {
+            "header": "Right Blinker", "unit": "", "canId": "0x1F6",
+            "offset": 0, "length": 1, "expr": "(x & 0x20) >> 5", "dec": 0
+        },
+        {
+            "header": "Backlight Brightness", "unit": "%", "canId": "0x202",
+            "offset": 0, "length": 1, "mul": 0.3953, "dec": 0,
+            "hidden": true, "noLog": true
+        },
+        {
+            "header": "Brightness", "expr": "setBrightness(x)", "x": "Backlight Brightness",
+            "hidden": true, "noLog": true
+        },
+        {
+            "header": "Drive Mode", "unit": "", "canId": "0x3A7",
+            "offset": 4, "length": 1, "dec": 0,
+            "stringLut": [
+                { "x": 1, "y": "Traction" }, { "x": 2, "y": "Comfort" },
+                { "x": 4, "y": "Sport" }, { "x": 5, "y": "Sport+" },
+                { "x": 6, "y": "DSC off" }, { "x": 7, "y": "Eco pro" }
+            ]
+        },
+        {
+            "header": "Steering Wheel Button", "canId": "0x1EE",
+            "offset": 0, "length": 1, "expr": "buttonPress(0, 0, (x) == 76, 0)",
+            "hidden": true, "noLog": true
+        },
+        {
+            "header": "Engine Speed", "unit": "RPM", "canId": "0xA5",
+            "offset": 5, "length": 2, "mul": 0.25, "dec": 0
+        },
+        {
+            "header": "Torque", "unit": "Nm", "canId": "0xA5",
+            "offset": 2, "length": 2, "expr": "(x & 0x0FFF)*0.5-1023.5", "dec": 1
+        },
+        {
+            "header": "Torque Without EGS Intervention", "unit": "Nm", "canId": "0xA5",
+            "offset": 3, "length": 2, "expr": "(x >> 4)*0.5-1023.5", "dec": 1
+        },
+        {
+            "header": "Accelerator Pedal", "unit": "%", "canId": "0xD9",
+            "offset": 2, "length": 2, "expr": "(x & 0x0FFF)*0.025", "dec": 1
+        },
+        {
+            "header": "Virtual Accelerator Pedal", "unit": "%", "canId": "0xD9",
+            "offset": 4, "length": 2, "expr": "(x & 0x0FFF)*0.025", "dec": 1
+        },
+        {
+            "header": "Brake Pressure - Front", "unit": "Bar", "canId": "0xEF",
+            "offset": 2, "length": 2, "expr": "(-3)*(x) / 200 + 480", "dec": 1
+        },
+        {
+            "header": "Brake", "unit": "%", "canId": "0xEF",
+            "offset": 3, "length": 1, "expr": "(-2)*(x) + 250", "dec": 0
+        },
+        {
+            "header": "Brake Pressure - Rear", "unit": "Bar", "canId": "0xEF",
+            "offset": 5, "length": 2, "expr": "(-3)*(x) / 200 + 480", "dec": 1
+        },
+        {
+            "header": "ABS", "unit": "#", "canId": "0x173",
+            "offset": 3, "length": 2, "expr": "(1)*(x & 0x0FFF) + (0)", "dec": 0
+        },
+        {
+            "header": "ASC", "unit": "#", "canId": "0x173",
+            "offset": 5, "length": 2, "expr": "(1)*(x & 0x0FFF) + (0)", "dec": 0
+        },
+        {
+            "header": "Vehicle Yaw Rate", "unit": "deg/s", "canId": "0x19F",
+            "offset": 2, "length": 2, "expr": "(-1)*(x) / 200 + 163.84", "dec": 2
+        },
+        {
+            "header": "High Beam Lamp ALT", "unit": "", "canId": "0x1EE",
+            "offset": 0, "length": 1, "expr": "(1)*(x & 0x01) + (0)", "dec": 0
+        },
+        {
+            "header": "Fuel Volume Counter", "unit": "µl", "canId": "0x2C4",
+            "offset": 0, "length": 2, "dec": 0
+        },
+        {
+            "header": "Ambient Temp ALT", "unit": "°C", "canId": "0x2CA",
+            "offset": 0, "length": 1, "expr": "(1)*(x) / 2 + (-40)", "dec": 0
+        },
+        {
+            "header": "Fuel Used", "unit": "liters", "canId": "0x330",
+            "offset": 4, "length": 1, "expr": "(1)*(x) + (0)", "dec": 0
+        },
+        {
+            "header": "Fuel Indicator Lamp", "unit": "", "canId": "0x330",
+            "offset": 5, "length": 1, "expr": "(1)*(x & 0x01) + (0)", "dec": 0
+        },
+        {
+            "header": "Fuel Range", "unit": "km", "canId": "0x330",
+            "offset": 6, "length": 2, "expr": "(1)*(x & 0x0FFF) / 16 + (0)", "dec": 1
+        },
+        {
+            // Variant-dependent byte; some MEVD software reserves it.
+            "header": "Maximum RPM", "unit": "RPM", "canId": "0x3F9",
+            "offset": 7, "length": 1, "mul": 50, "dec": 0
+        },
+        {
+            "header": "Engine State", "canId": "0x3F9", "bit": 24, "bitLen": 2, "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "Off" }, { "x": 1, "y": "Starting" },
+                { "x": 2, "y": "Running" }, { "x": 3, "y": "Unavailable" }
+            ]
+        },
+        {
+            "header": "Clutch State", "canId": "0x3F9", "bit": 26, "bitLen": 2, "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "Released" }, { "x": 1, "y": "Pressed" },
+                { "x": 3, "y": "Unavailable" }
+            ]
+        },
+        {
+            "header": "Idle State", "canId": "0x3F9", "bit": 30, "bitLen": 2, "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "Idle" }, { "x": 1, "y": "Not idle" },
+                { "x": 3, "y": "Unavailable" }
+            ]
+        },
+        {
+            "header": "Engine Warmup State", "canId": "0x3FB", "bit": 16, "bitLen": 2, "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "Warming" }, { "x": 1, "y": "Warm" },
+                { "x": 2, "y": "Overtemperature" }, { "x": 3, "y": "Unavailable" }
+            ]
+        },
+        {
+            "header": "Suggested Gear", "canId": "0xF3", "bit": 24, "bitLen": 4, "dec": 0,
+            "stringLut": [ { "x": 0, "y": "Off" }, { "x": 1, "y": "" }, { "x": 15, "y": "Unavailable" } ]
+        },
+        {
+            "header": "Shift Advice", "canId": "0xF3", "bit": 28, "bitLen": 2, "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "Off" }, { "x": 1, "y": "Downshift" },
+                { "x": 2, "y": "Upshift" }, { "x": 3, "y": "Unavailable" }
+            ]
+        },
+        { "header": "Fuel Counter Previous", "value": -1, "hidden": true, "noLog": true },
+        { "header": "Fuel Counter Time", "value": -1, "hidden": true, "noLog": true },
+        {
+            // MEVD pp.1533–1534,5124–5125: cumulative microlitres, FFFF invalid.
+            // 0x2C4 is absent on K-CAN2 in the examined F11 logs; use PT-CAN there.
+            "header": "Fuel usage", "unit": "l/h", "canId": "0x2C4",
+            "offset": 0, "length": 2,
+            "expr": "y={Seconds}-{Fuel Counter Time}, z=(x==65535 || {Engine Speed}<=0 || {Fuel Counter Previous}<0 || y<0 || y>0.75 ? 0 : (y>0 ? ((x-{Fuel Counter Previous}+65536)%65536)*0.0036/y : {Fuel usage})), {Fuel Counter Previous}=(x==65535 || {Engine Speed}<=0 ? -1 : (y!=0 || {Fuel Counter Previous}<0 ? x : {Fuel Counter Previous})), {Fuel Counter Time}={Seconds}, z<=300 ? z : 0",
+            "dec": 2
+        }
+    ]
 }

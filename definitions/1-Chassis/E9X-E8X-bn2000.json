@@ -1,109 +1,208 @@
 {
-	"canSpeed": 500,
-	"ecuparam": [
-		{
-			"header": "Torque",
-			"unit": "Nm",
-			"canId": "0x0AA",
-			"expr": "(signed(x & 0xFFF0, 2)) / 32",
-			"offset": 1,
-			"length": 2,
-			"reverseEndianess": true
-		},
-		{
-			"header": "PVS",
-			"unit": "%",
-			"canId": "0x0AA",
-			"offset": 3,
-			"length": 1,
-			"mul": 0.39063
-		},
-		{
-			"header": "Engine Speed",
-			"unit": "RPM",
-			"canId": "0x0AA",
-			"offset": 4,
-			"length": 2,
-			"mul": 0.25
-		},
-		{
-			"header": "Fuel usage",
-			"unit": "l/h",
-			"canId": "0x0AA",
-			"offset": 7,
-			"length": 1,
-			"mul": 1
-		},
-		{
-			"header": "Coolant Temp",
-			"unit": "°C",
-			"canId": "0x1D0",
-			"offset": 0,
-			"length": 1,
-			"add": -48
-		},
-		{
-			"header": "Oil Temp",
-			"unit": "°C",
-			"canId": "0x1D0",
-			"offset": 1,
-			"length": 1,
-			"add": -48
-		},
-		{
-			"header": "Speed",
-			"unit": "km/h",
-			"canId": "0x1A0",
-			"expr": "(x & 0xFFF) * 0.1",
-			"offset": 0,
-			"length": 2,
-			"reverseEndianess": true
-		},
-		{
-			"header": "Yaw",
-			"unit": "°/s",
-			"canId": "0x1A0",
-			"expr": "(x & 0xFFF) * 0.05",
-			"offset": 5,
-			"length": 2,
-			"reverseEndianess": true
-		},
-		{
-			"header": "Steering angle",
-			"unit": "°",
-			"canId": "0x0C4",
-			"expr": "signed(x, 2)*0.01",
-			"offset": 0,
-			"length": 2
-		},
-		{
-			"header": "Brake Pressure",
-			"unit": "bar",
-			"canId": "0x2B2",
-			"mul": 0.1,
-			"offset": 0
-		},
-		{
-			"header": "Gearbox Temp",
-			"unit": "°C",
-			"canId": "0x37D",
-			"offset": -40
-		},
+    "canSpeed": 500,
+    // Signal sources and economy state contract: ../BMW-CHASSIS-NOTES.md
+    "sleep": {
+        // Deep sleep after 60s of no CAN traffic; wake on the 0x130 alive frame.
+        // wakeupCode/wakeupMask = TWAI acceptance filter for ID 0x130 with
+        // data0 = 0xFE/0xFF (alive frame) — proven on E9X/F-series, do not change.
+        "sleepTime": 60,
+        "wakeupCode": "0x2600FFFF",
+        "wakeupMask": "0x2600FEFF"
+    },
+    "ecuparam": [
+        {
+            "header": "Driver Requested Torque",
+            "unit": "Nm",
+            "canId": "0x0AA",
+            "bit": 12,
+            "bitLen": 12,
+            "signed": true,
+            "mul": 0.5,
+            "dec": 1
+        },
+        {
+            "header": "Torque",
+            "unit": "Nm",
+            "canId": "0x0A8",
+            "bit": 12,
+            "bitLen": 12,
+            "signed": true,
+            "mul": 0.5,
+            "dec": 1
+        },
+        {
+            "header": "Accelerator Pedal",
+            "unit": "%",
+            "canId": "0x0AA",
+            "offset": 3,
+            "length": 1,
+            "mul": 0.39063
+        },
+        {
+            "header": "Engine Speed",
+            "unit": "RPM",
+            "canId": "0x0AA",
+            "offset": 4,
+            "length": 2,
+            "mul": 0.25
+        },
+        {
+            // Includes pump priming/venturi demand; not engine consumption.
+            "header": "Fuel Pump Delivery Request",
+            "unit": "l/h",
+            "canId": "0x0AA",
+            "offset": 7,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Coolant Temp",
+            "unit": "°C",
+            "canId": "0x1D0",
+            "offset": 0,
+            "length": 1,
+            "add": -48
+        },
+        {
+            "header": "Oil Temp",
+            "unit": "°C",
+            "canId": "0x1D0",
+            "offset": 1,
+            "length": 1,
+            "add": -48
+        },
+        {
+            "header": "Vehicle Speed",
+            "unit": "km/h",
+            "canId": "0x1A0",
+            "expr": "(x & 0xFFF) * 0.1",
+            "offset": 0,
+            "length": 2
+        },
+        {
+            "header": "Yaw",
+            "unit": "°/s",
+            "canId": "0x1A0",
+            "expr": "(x & 0xFFF) * 0.05",
+            "offset": 5,
+            "length": 2,
+            "reverseEndianess": true
+        },
+        {
+            // Existing SZL calibration; ME9's 0.04395 scale is variant-dependent.
+            "header": "Steering Angle",
+            "unit": "°",
+            "canId": "0x0C4",
+            "expr": "signed(x, 2)*0.01",
+            "offset": 0,
+            "length": 2
+        },
+        {
+            "header": "Brake Pressure",
+            "unit": "Bar",
+            "canId": "0x2B2",
+            "mul": 0.1,
+            "offset": 0
+        },
+        {
+            // Conventional EGS only (ME9 pp.1806–1807), not DKG 0x37D.
+            "header": "EGS Gearbox Temp",
+            "unit": "°C",
+            "canId": "0x0B5",
+            "offset": 7,
+            "add": -40,
+            "dec": 0
+        },
         {
             "header": "Can button",
             "canId": "0x194",
-			"expr": "buttonPress(0, (x) == 0x10, (x) == 0x90, (x) == 0x04)",
+            "expr": "buttonPress(0, (x) == 0x10, (x) == 0x90, (x) == 0x04)",
             "offset": 2,
             "hidden": true,
             "noLog": true
         },
-		{
-			"header": "Can sleep",
-			"canId": "0x130",
-		  	"expr": "sleep((x & 1) == 0)",
-			"length": 1,
+        {
+            "header": "Can sleep",
+            "canId": "0x130",
+            "expr": "sleep((x & 1) == 0)",
+            "length": 1,
             "hidden": true,
             "noLog": true
-		}
-	]
+        },
+        {
+            "header": "Gear",
+            "unit": "",
+            "canId": "0x1D2",
+            "offset": 0,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x": 120, "y": "D/M" },
+                { "x": 135, "y": "N" },
+                { "x": 210, "y": "R" },
+                { "x": 225, "y": "P" }
+            ]
+        },
+        {
+            "header": "Handbrake",
+            "unit": "",
+            "canId": "0x34F",
+            "offset": 0,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x": 254, "y": "ON" },
+                { "x": 253, "y": "OFF" }
+            ]
+        },
+        {
+            "header": "W Spd FL", "unit": "km/h", "canId": "0x0CE",
+            "offset": 0, "length": 2, "signed": true, "mul": 0.0625
+        },
+        {
+            "header": "W Spd FR", "unit": "km/h", "canId": "0x0CE",
+            "offset": 2, "length": 2, "signed": true, "mul": 0.0625
+        },
+        {
+            "header": "W Spd RL", "unit": "km/h", "canId": "0x0CE",
+            "offset": 4, "length": 2, "signed": true, "mul": 0.0625
+        },
+        {
+            "header": "W Spd RR", "unit": "km/h", "canId": "0x0CE",
+            "offset": 6, "length": 2, "signed": true, "mul": 0.0625
+        },
+        {
+            "header": "Ambient Pressure", "unit": "Bar",
+            "canId": "0x1D0", "offset": 3, "mul": 0.002, "add": 0.598, "dec": 3
+        },
+        {
+            "header": "Engine State", "canId": "0x1D0", "bit": 20, "bitLen": 2, "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "Off" }, { "x": 1, "y": "Starting" },
+                { "x": 2, "y": "Running" }, { "x": 3, "y": "Unavailable" }
+            ]
+        },
+        {
+            "header": "Engine Warmup State", "canId": "0x1D0", "bit": 22, "bitLen": 2, "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "Warming" }, { "x": 1, "y": "Warm" },
+                { "x": 2, "y": "Temperature shift request" }, { "x": 3, "y": "Unavailable" }
+            ]
+        },
+        { "header": "Terminal R", "canId": "0x130", "bit": 0, "bitLen": 2, "dec": 0 },
+        { "header": "Terminal 15", "canId": "0x130", "bit": 2, "bitLen": 2, "dec": 0 },
+        { "header": "Terminal 50", "canId": "0x130", "bit": 4, "bitLen": 2, "dec": 0 },
+        { "header": "Fuel Counter Previous", "value": -1, "hidden": true, "noLog": true },
+        { "header": "Fuel Counter Time", "value": -1, "hidden": true, "noLog": true },
+        {
+            // IJV_FU cumulative microlitres (ME9 pp.1511,1793–1794; MS45 p.1096).
+            "header": "Fuel usage",
+            "unit": "l/h",
+            "canId": "0x1D0",
+            "offset": 4,
+            "length": 2,
+            "expr": "y={Seconds}-{Fuel Counter Time}, z=(x==65535 || {Engine Speed}<=0 || {Fuel Counter Previous}<0 || y<0 || y>0.75 ? 0 : (y>0 ? ((x-{Fuel Counter Previous}+65536)%65536)*0.0036/y : {Fuel usage})), {Fuel Counter Previous}=(x==65535 || {Engine Speed}<=0 ? -1 : (y!=0 || {Fuel Counter Previous}<0 ? x : {Fuel Counter Previous})), {Fuel Counter Time}={Seconds}, z<=300 ? z : 0",
+            "dec": 2
+        }
+    ]
 }
