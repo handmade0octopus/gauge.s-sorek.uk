@@ -218,7 +218,9 @@
       }
       
       function restart() {
-          fetch('/restart').then(response => console.log(response));
+          if (!window.confirm('Restart the device now?')) return;
+          fetch('/restart', { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(response => console.log(response));
       }
       
       function goToEditor() {
