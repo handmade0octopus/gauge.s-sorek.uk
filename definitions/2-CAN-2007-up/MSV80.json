@@ -147,11 +147,10 @@
         },
         {
             "header": "Knock cylinder 1",
-            "unit": "°CRK",
             "kwpCan": "0x5A3E",
             "length": 2,
             "reverseEndianness": false,
-            "mul":  1
+            "mul":  1.52587890625E-5
         },
         {
             "header": "Oil Temp",

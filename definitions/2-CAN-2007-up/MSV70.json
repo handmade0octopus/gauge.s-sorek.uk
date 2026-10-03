@@ -68,18 +68,18 @@
         },
         {
             "header": "Ambient Pressure",
-            "unit": "hPa",
+            "unit": "Bar",
             "kwpCan": "0x5801",
             "length": 1,
-            "mul": 1
+            "mul": 0.01
         },
         {
             "header": "Vanos Intake",
             "unit": "°CRK",
             "kwpCan": "0x581A",
             "length": 1,
-            "mul": 0.4,
-            "add": 50
+            "mul": 0.375,
+            "add": 60
         },
         {
             "header": "Vanos Exhaust",
@@ -94,8 +94,8 @@
             "unit": "°CRK",
             "kwpCan": "0x581B",
             "length": 1,
-            "mul": 0.4,
-            "add": 50
+            "mul": 0.375,
+            "add": 60
         },
         {
             "header": "Vanos Exhaust Setpoint",
@@ -111,7 +111,7 @@
             "kwpCan": "0x4500",
             "length": 2,
             "reverseEndianness": false,
-            "expr": "signed(x, 2)*0.021973192691803"
+            "expr": "x*0.021973192691803"
         },
         {
             "header": "Valvetronic ECC Setpoint",
@@ -119,7 +119,7 @@
             "kwpCan": "0x4501",
             "length": 2,
             "reverseEndianness": false,
-            "expr": "signed(x, 2)*0.021973192691803"
+            "expr": "x*0.021973192691803"
         },
         {
             "header": "Water Pump Speed",
