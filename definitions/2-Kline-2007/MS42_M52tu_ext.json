@@ -1,0 +1,557 @@
+{
+	"canSpeed": 500,
+	"address": ["0x12", "0x05", "0x0B", "0xB0", "0xAC"],
+	"baudAddress": ["0x12", "0x08", "0x91", "0x01", "0xE8", "0x48", "0x00", "0x2A"],
+	"baudSpeed": 125000,
+	"ecuparam": [
+		{
+			"header": "Engine Start State",
+			"offset": 1,
+			"expr": "(x & 8) >> 3"
+		},
+		{
+			"header": "Idle",
+			"offset": 0,
+			"expr": "(x & 3) >> 0"
+		},
+		{
+			"header": "Part Load",
+			"offset": 0,
+			"expr": "(x & 3) >> 0"
+		},
+		{
+			"header": "Full Load",
+			"offset": 0,
+			"expr": "(x & 3) >> 0"
+		},
+		{
+			"header": "Trailing Throttle",
+			"offset": 1,
+			"expr": "(x & 16) >> 4"
+		},
+		{
+			"header": "Overrun Fuel Cut",
+			"offset": 1,
+			"expr": "(x & 32) >> 5"
+		},
+		{
+			"header": "Brake Light Test Switch",
+			"offset": 0,
+			"expr": "(x & 4) >> 2"
+		},
+		{
+			"header": "Brake Light Switch",
+			"offset": 0,
+			"expr": "(x & 8) >> 3"
+		},
+		{
+			"header": "Clutch Switch",
+			"offset": 0,
+			"expr": "(x & 16) >> 4"
+		},
+		{
+			"header": "Cruise Control Active",
+			"offset": 0,
+			"expr": "(x & 32) >> 5"
+		},
+		{
+			"header": "Air Conditioner Switch",
+			"offset": 0,
+			"expr": "(x & 64) >> 6"
+		},
+		{
+			"header": "Air Conditioner Compressor",
+			"offset": 0,
+			"expr": "(x & 128) >> 7"
+		},
+		{
+			"header": "Air Conditioner State",
+			"offset": 2,
+			"expr": "(x & 2) >> 1"
+		},
+		{
+			"header": "CAN Communication",
+			"offset": 1,
+			"expr": "(x & 1) >> 0"
+		},
+		{
+			"header": "AT Torque Request",
+			"offset": 1,
+			"expr": "(x & 2) >> 1"
+		},
+		{
+			"header": "AT at Drive or Reverse",
+			"offset": 1,
+			"expr": "(x & 4) >> 2"
+		},
+		{
+			"header": "ASC/DSC Torque Intervention",
+			"offset": 3,
+			"expr": "(x & 2) >> 1"
+		},
+		{
+			"header": "Fuel Pump Relay",
+			"offset": 2,
+			"expr": "(x & 1) >> 0"
+		},
+		{
+			"header": "Exhaust Flap",
+			"offset": 2,
+			"expr": "(x & 8) >> 3"
+		},
+		{
+			"header": "DISA",
+			"offset": 3,
+			"expr": "(x & 4) >> 2"
+		},
+		{
+			"header": "Secondary Air Pump",
+			"offset": 2,
+			"expr": "(x & 64) >> 6"
+		},
+		{
+			"header": "Secondary Air Valve",
+			"offset": 2,
+			"expr": "(x & 128) >> 7"
+		},
+		{
+			"header": "Evap Solenoid",
+			"offset": 3,
+			"expr": "(x & 8) >> 3"
+		},
+		{
+			"header": "Overheating Light",
+			"offset": 3,
+			"expr": "(x & 1) >> 0"
+		},
+		{
+			"header": "Check Engine Light",
+			"offset": 3,
+			"expr": "(x & 16) >> 4"
+		},
+		{
+			"header": "EML Light",
+			"offset": 3,
+			"expr": "(x & 32) >> 5"
+		},
+		{
+			"header": "DMTL Pump",
+			"offset": 2,
+			"expr": "(x & 4) >> 2"
+		},
+		{
+			"header": "DMTL Solenoid Valve",
+			"offset": 3,
+			"expr": "(x & 64) >> 6"
+		},
+		{
+			"header": "Catalyst Heating",
+			"offset": 3,
+			"expr": "(x & 128) >> 7"
+		},
+		{
+			"header": "MSW",
+			"offset": 4,
+			"expr": "(x & 126) >> 1" // 1 = CC activate, 2 = CC inc, 4 = CC dec, 8 = CC Inc held, 16 = CC Dec held, 32 = CC Set
+		},
+		{
+			"header": "Button press",
+			"unit": "b",
+			"expr": "buttonPress(0, (x == 16) && !y, (x == 2) && !y, (x == 4) && !y)",
+			"x": "MSW",
+			"y": "Cruise Control Active",
+			"hidden": true,
+			"noLog": true
+		},
+		{
+			"header": "Lambda Control 1",
+			"offset": 1,
+			"expr": "(x & 64) >> 6"
+		},
+		{
+			"header": "Lambda Control 2",
+			"offset": 1,
+			"expr": "(x & 128) >> 7"
+		},
+		{
+			"header": "Upstream Lambda Sensor Heater - Bank 1",
+			"offset": 5,
+			"expr": "(x & 1) >> 0"
+		},
+		{
+			"header": "Upstream Lambda Sensor Heater - Bank 2",
+			"offset": 5,
+			"expr": "(x & 2) >> 1"
+		},
+		{
+			"header": "Downstream Lambda Sensor Heater - Bank 1",
+			"offset": 5,
+			"expr": "(x & 4) >> 2"
+		},
+		{
+			"header": "Downstream Lambda Sensor Heater - Bank 2",
+			"offset": 5,
+			"expr": "(x & 8) >> 3"
+		},
+		{
+			"header": "Irregular Running Adaptation",
+			"offset": 5,
+			"expr": "(x & 16) >> 4"
+		},
+		{
+			"header": "Vanos Passive",
+			"offset": 5,
+			"expr": "(x & 32) >> 5"
+		},
+		{
+			"header": "Vanos Ready",
+			"offset": 5,
+			"expr": "(x & 64) >> 6"
+		},
+		{
+			"header": "Vanos Active",
+			"offset": 5,
+			"expr": "(x & 128) >> 7"
+		},
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"offset": 6,
+			"length": 2,
+			"max": 7200,
+			"dec": 0,
+			"flashPoint": 6500
+		},
+		{
+			"header": "Speed",
+			"unit": "km/h",
+			"offset": 8,
+			"dec": 0
+		},
+		{
+			"header": "Throttle Pedal Position",
+			"unit": "%",
+			"offset": 9,
+			"length": 2,
+			"mul": 0.001831055,
+			"dec": 0
+		},
+		{
+			"header": "Engine Load MMV",
+			"unit": "mg/stk",
+			"offset": 11,
+			"length": 2,
+			"mul": 0.021194781,
+			"dec": 0,
+			"min": 0,
+			"max": 1399
+		},
+		{
+			"header": "TPS",
+			"unit": "%",
+			"offset": 13,
+			"length": 2,
+			"mul": 0.001831055,
+			"max": 120,
+			"min": 0,
+			"dec": 0
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"offset": 15,
+			"mul": 0.75,
+			"add": -48
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"offset": 16,
+			"mul": 0.75,
+			"add": -48,
+			"min": 80,
+			"max": 120
+		},
+
+		{
+			"header": "Oil Temp",
+			"unit": "°C",
+			"offset": 17,
+			"mul": 0.79607843,
+			"add": -48,
+			"min": 80,
+			"max": 120
+		},
+		{
+			"header": "Radiator Temp",
+			"unit": "°C",
+			"offset": 18,
+			"mul": 0.79607843,
+			"add": -48,
+			"min": 60,
+			"max": 100
+		},
+		{
+			"header": "Mass Airflow",
+			"unit": "kg/h",
+			"offset": 19,
+			"length": 2,
+			"mul": 0.25,
+			"dec": 1
+		},
+		{
+			"header": "Engine Load",
+			"unit": "mg/str",
+			"offset": 21,
+			"length": 2,
+			"mul": 0.021194781,
+			"dec": 1
+		},
+		{
+			"header": "Engine Load Ignition",
+			"unit": "mg/str",
+			"offset": 23,
+			"length": 2,
+			"mul": 0.021194781,
+			"dec": 1
+		},
+		{
+			"header": "Knock Retard Cyl 1",
+			"unit": "*CRK",
+			"offset": 25,
+			"mul": 0.375,
+			"add": -48
+		},
+		{
+			"header": "Ignition Angle - Cyl 1",
+			"unit": "*CRK",
+			"offset": 26,
+			"mul": -0.375,
+			"add": 72,
+			"max": 72,
+			"min": -23.625
+		},
+		{
+			"header": "Ignition Angle - Cyl 2",
+			"unit": "*CRK",
+			"offset": 27,
+			"mul": -0.375,
+			"add": 72,
+			"hidden": true
+		},
+		{
+			"header": "Ignition Angle - Cyl 3",
+			"unit": "*CRK",
+			"offset": 28,
+			"mul": -0.375,
+			"add": 72,
+			"hidden": true
+		},
+		{
+			"header": "Ignition Angle - Cyl 4",
+			"unit": "*CRK",
+			"offset": 29,
+			"mul": -0.375,
+			"add": 72,
+			"hidden": true
+		},
+		{
+			"header": "Ignition Angle - Cyl 5",
+			"unit": "*CRK",
+			"offset": 30,
+			"mul": -0.375,
+			"add": 72,
+			"hidden": true
+		},
+		{
+			"header": "Ignition Angle - Cyl 6",
+			"unit": "*CRK",
+			"offset": 31,
+			"mul": -0.375,
+			"add": 72,
+			"hidden": true
+		},
+		{
+			"header": "MAP",
+			"unit": "Bar",
+			"offset": 32,
+			"length": 2,
+			"mul": 0.000082921489
+		},
+		{
+			"header": "Engine Load Injection",
+			"unit": "mg/str",
+			"offset": 36,
+			"length": 2,
+			"mul": 0.021194781,
+			"dec": 1
+		},
+		{
+			"header": "Fuel Inj",
+			"unit": "ms",
+			"offset": 38,
+			"length": 2,
+			"mul": 0.0053333333
+		},
+		{
+			"header": "Lambda Int 1",
+			"unit": "%",
+			"offset": 40,
+			"length": 2,
+			"mul": 0.0015258789,
+			"add": -50,
+			"max": 50,
+			"min": -50,
+			"resetTime": 0
+		},
+		{
+			"header": "Injection Bank 2",
+			"unit": "ms",
+			"offset": 42,
+			"length": 2,
+			"mul": 0.0053333333
+		},
+
+		{
+			"header": "Lambda Int 2",
+			"unit": "%",
+			"offset": 44,
+			"length": 2,
+			"mul": 0.0015258789,
+			"add": -50,
+			"max": 50,
+			"min": -50,
+			"resetTime": 0
+		},
+		{
+			"header": "Engine Load VANOS",
+			"unit": "mg/str",
+			"offset": 46,
+			"length": 2,
+			"mul": 0.021194781,
+			"dec": 1
+		},
+		{
+			"header": "Vanos Intake",
+			"unit": "°CRK",
+			"offset": 48,
+			"max": 126,
+			"min": 80,
+			"mul": 0.375,
+			"add": 60
+		},
+		{
+			"header": "Vanos Exhaust",
+			"unit": "°CRK",
+			"offset": 49,
+			"max": -105,
+			"min": -86,
+			"mul": -0.375,
+			"add": -60
+		},
+		{
+			"header": "Idle PWM",
+			"unit": "%",
+			"offset": 50,
+			"length": 2,
+			"mul": 0.0015258793
+		},
+		{
+			"header": "IACV PWM",
+			"unit": "%",
+			"offset": 52,
+			"length": 2,
+			"mul": 0.0015258793
+		},
+		{
+			"header": "Knock Retard Cyl 3",
+			"unit": "*CRK",
+			"offset": 54,
+			"mul": 0.375,
+			"add": -48
+		},
+		{
+			"header": "Knock Retard Cyl 6",
+			"unit": "*CRK",
+			"offset": 55,
+			"mul": 0.375,
+			"add": -48
+		},
+		{
+			"header": "Knock Retard Cyl 2",
+			"unit": "*CRK",
+			"offset": 56,
+			"mul": 0.375,
+			"add": -48
+		},
+		{
+			"header": "Knock Retard Cyl 4",
+			"unit": "*CRK",
+			"offset": 57,
+			"mul": 0.375,
+			"add": -48
+		},
+		{
+			"header": "Fan PWM",
+			"unit": "%",
+			"offset": 58,
+			"mul": 0.390625
+		},
+		{
+			"header": "Battery Voltage",
+			"alias": "Battery",
+			"unit": "V",
+			"offset": 59,
+			"mul": 0.10196078
+		},
+		{
+			"header": "Knock Retard Cyl 5",
+			"unit": "*CRK",
+			"offset": 60,
+			"mul": -0.375,
+			"add": -48
+		},
+		{
+			"header": "Aptmospheric Pressure",
+			"unit": "hPa",
+			"offset": 61,
+			"length": 2,
+			"mul": 0.082921489,
+			"dec": 1,
+			"max": 5434.259766
+		},
+		{
+			"header": "RON Adaption",
+			"unit": "%",
+			"offset": 63,
+			"mul": 0.392156863,
+			"max": 100,
+			"min": 0
+		},
+		{
+			"header": "Calculated Torque",
+			"unit": "Nm",
+			"offset": 64,
+			"length": 2,
+			"max": 1024
+		},
+		{
+			"header": "Rear O2 1",
+			"unit": "V",
+			"offset": 66,
+			"length": 2,
+			"mul": 0.00488,
+			"max": 5.1,
+			"hidden": true
+		},
+		{
+			"header": "Rear O2 2",
+			"unit": "V",
+			"offset": 68,
+			"length": 2,
+			"mul": 0.00488,
+			"max": 5.1,
+			"hidden": true
+		}
+	]
+}

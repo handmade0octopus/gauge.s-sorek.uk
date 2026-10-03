@@ -104,7 +104,8 @@
             "unit": "°C",
             "kwpCan": "0x581E",
             "length": 1,
-            "mul": 0.390625
+            "mul": 0.75,
+            "add": -47
         },
         {
             "header": "Coolant Temp",
