@@ -10,7 +10,7 @@
             "mul": 1
         },
         {
-            "header": "Throttle Position",
+            "header": "Accelerator Pedal",
             "unit": "%",
             "kwpCan": "0x5814",
             "length": 1,
