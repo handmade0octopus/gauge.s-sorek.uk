@@ -105,7 +105,7 @@
             "kwpCan": "0x581E",
             "length": 1,
             "mul": 0.75,
-            "add": -47
+            "add": -48
         },
         {
             "header": "Coolant Temp",
@@ -113,7 +113,7 @@
             "kwpCan": "0x4300",
             "length": 1,
             "mul": 0.75,
-            "add": -47
+            "add": -48
         },
         {
             "header": "Vanos Intake",
@@ -122,7 +122,7 @@
             "length": 2,
             "reverseEndianness": false,
             "mul": 0.375,
-            "add": -95.9999971389771
+            "add": -96
         },
         {
             "header": "Vanos Exhaust",
@@ -131,7 +131,7 @@
             "length": 2,
             "reverseEndianness": false,
             "mul": 0.375,
-            "add": -95.9999971389771
+            "add": -96
         },
         {
             "header": "VVT Actual",

@@ -1,47 +1,45 @@
 {
-    "obdRefresh": 100,
     "canSpeed": 500,
     "ecuparam": [
-        
         {
-			"header": "engine speed",
+            "header": "Engine Speed",
             "unit": "RPM",
             "kwpCan": "0x4807",
             "length": 2,
             "reverseEndianness": false,
             "mul": 1
-		},
+        },
         {
-			"header": "tps",
-			"unit": "%",
-			"kwpCan": "0x5814",
-			"length": 1,
-			"mul": 0.390625
-		},
+            "header": "Throttle Position",
+            "unit": "%",
+            "kwpCan": "0x5814",
+            "length": 1,
+            "mul": 0.390625
+        },
         {
-			"header": "coolant temp",
-			"unit": "°C",
-			"kwpCan": "0x4300",
-			"length": 1,
-            "add": -47.9999985694886,
-            "mul": 0.75
-		},
-		{
-			"header": "oil temp",
-			"unit": "°C",
-			"kwpCan": "0x4402",
-			"length": 2,
+            "header": "Coolant Temp",
+            "unit": "°C",
+            "kwpCan": "0x4300",
+            "length": 1,
+            "mul": 0.75,
+            "add": -48
+        },
+        {
+            "header": "Oil Temp",
+            "unit": "°C",
+            "kwpCan": "0x4402",
+            "length": 2,
             "reverseEndianness": false,
-			"expr":"signed(x, 2)*0.1"
-		},
+            "expr": "signed(x, 2)*0.1"
+        },
         {
-            "header": "load",
+            "header": "Engine Load",
             "unit": "%",
             "kwpCan": "0x5804",
             "mul": 0.390625
         },
         {
-            "header": "ignition cylinder 1",
+            "header": "Ignition Cyl 1",
             "unit": "°CRK",
             "kwpCan": "0x580E",
             "length": 1,
@@ -49,105 +47,104 @@
             "add": -64
         },
         {
-            "header": "lambda 1",
+            "header": "Lambda 1",
             "kwpCan": "0x5889",
             "length": 1,
             "mul": 0.0078125 //"mul": 0.11484375 for AFR
         },
         {
-            "header": "lambda 2",
+            "header": "Lambda 2",
             "kwpCan": "0x588A",
             "length": 1,
-             "mul": 0.0078125 //"mul": 0.11484375 for AFR
+            "mul": 0.0078125 //"mul": 0.11484375 for AFR
         },
         {
-            "header": "intake temp",
+            "header": "Intake Air Temp",
             "unit": "°C",
             "kwpCan": "0x581E",
             "length": 1,
             "mul": 0.75,
-            "add": -47.9999985694886
+            "add": -48
         },
         {
-            "header": "ambient pressure",
+            "header": "Ambient Pressure",
             "unit": "hPa",
             "kwpCan": "0x5801",
             "length": 1,
             "mul": 1
         },
         {
-            "header": "vanos intake",
+            "header": "Vanos Intake",
             "unit": "°CRK",
             "kwpCan": "0x581A",
             "length": 1,
-            "mul": 0.400000005960464,
+            "mul": 0.4,
             "add": 50
         },
         {
-            "header": "vanos exhaust",
+            "header": "Vanos Exhaust",
             "unit": "°CRK",
             "kwpCan": "0x581C",
             "length": 1,
             "mul": -0.375,
-            "add": -39.9999978542329
+            "add": -40
         },
         {
-            "header": "vanos intake setpoint",
+            "header": "Vanos Intake Setpoint",
             "unit": "°CRK",
             "kwpCan": "0x581B",
             "length": 1,
-            "mul": 0.400000005960464,
+            "mul": 0.4,
             "add": 50
         },
         {
-            "header": "vanos exhaust setpoint",
+            "header": "Vanos Exhaust Setpoint",
             "unit": "°CRK",
             "kwpCan": "0x581D",
             "length": 1,
             "mul": -0.375,
-            "add": -39.9999978542329
+            "add": -40
         },
         {
-            "header": "valvetronic ecc",
+            "header": "Valvetronic ECC",
             "unit": "°",
             "kwpCan": "0x4500",
             "length": 2,
             "reverseEndianness": false,
-            "expr":"signed(x, 2)*0.021973192691803"
+            "expr": "signed(x, 2)*0.021973192691803"
         },
         {
-            "header": "valvetronic ecc setpoint",
+            "header": "Valvetronic ECC Setpoint",
             "unit": "°",
             "kwpCan": "0x4501",
             "length": 2,
             "reverseEndianness": false,
-            "expr":"signed(x, 2)*0.021973192691803"
+            "expr": "signed(x, 2)*0.021973192691803"
         },
         {
-            "header": "water pump speed",
+            "header": "Water Pump Speed",
             "kwpCan": "0x58EA",
             "length": 1,
             "mul": 1
         },
         {
-            "header": "battery voltage",
+            "header": "Battery Voltage",
             "unit": "V",
             "kwpCan": "0x5815",
             "length": 1,
-            "mul": 0.256000012159347
+            "mul": 0.256
         },
-		{
-            "header": "oil level",
+        {
+            "header": "Oil Level",
             "kwpCan": "0x4409",
             "length": 1,
             "mul": 0.29296875
         },
         {
-            "header": "gear",
+            "header": "Gear",
             "kwpCan": "0x5881",
             "length": 1,
             "mul": 1
         }
-        
     ]
 }
