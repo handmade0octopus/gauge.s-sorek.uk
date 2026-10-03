@@ -1,12 +1,18 @@
 {
-	// BMW MEVD17.2 (N55 — M235i/M2, F-series) — UDS-over-CAN dynamic DID.
-	// Protocol (captured from live mevd172y sessions):
+	// BMW MG1 (B58 / S58, G-series) — UDS-over-CAN dynamic DID.
+	// Protocol (captured from live B58 session):
 	//   1. 10 03              — extended diagnostic session (kwpInit)
 	//   2. 2C 03 F3 00        — clear dynamic DID 0xF300 (firmware BOSCH init)
 	//   3. 2C 01 F3 00 ...    — define dynamic DID: records [DID hi/lo][01][len]
 	//   4. 22 F3 00           — poll; response 62 F3 00 <data in define order>
-	// DID list captured from live car; scaling from EDIABAS PRG mevd172y.csv
-	// and B58-family DID table; verified against live log records.
+	// DME at 0x612 / tester 0x6F1. Names + scaling verified against the
+	// tool's decoded export (fschl.csv).
+	// didsPerBlock: DIDs are split into dynDID blocks of 29 (0xF300, 0xF301...)
+	// defined once at init and polled round-robin (ECU per-block ceiling).
+	// skipIfExists: when bn2020 (passive PT-CAN) is loaded first, those DIDs
+	// are dropped from the request telegram (tighter pack). Offsets follow
+	// the remaining list; Bosch init must 2C 03-clear + re-define so the
+	// DME does not keep a longer leftover F300.
 	"obdRefresh": 20,
 	"canSpeed": 500,
 	"sourceEcu": "0xF1",
@@ -14,20 +20,21 @@
 	"kwpMode": "0xF3",
 	"kwpInit": ["1003"],
 	"dynDid": "0xF300",
+	"didsPerBlock": 29,
 	"pollMs": 20,
 	"flowDelay": 0,
 	"ecuparam": [
-		{ "header": "Engine Speed",   "unit": "RPM",  "kwpCan": "0x4807", "length": 2, "reverseEndianness": false, "mul": 0.25 },
+		{ "header": "Engine Speed",   "unit": "RPM",  "kwpCan": "0x4807", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.5, "skipIfExists": true },
 		{ "header": "Intake Air Temp",    "unit": "°C",   "kwpCan": "0x581E", "length": 1, "mul": 0.75, "add": -48 },
 		{ "header": "MAP", "unit": "Bar", "kwpCan": "0x4A2D", "length": 2, "reverseEndianness": false, "mul": 7.8125e-05 },
 		{ "header": "Lambda 1",       "unit": "λ",    "kwpCan": "0x582C", "length": 2, "reverseEndianness": false, "mul": 0.000244140625 },
 		{ "header": "Ambient Pressure", "unit": "Bar", "kwpCan": "0x4201", "length": 2, "reverseEndianness": false, "mul": 3.90625e-05 },
 		{ "header": "Target MAP", "unit": "Bar", "kwpCan": "0x4AB0", "length": 2, "reverseEndianness": false, "mul": 3.90625e-05 },
-		{ "header": "EGT",            "unit": "°C",   "kwpCan": "0x582F", "length": 1, "mul": 5, "add": -50 },
-		{ "header": "Fuel Pressure",  "unit": "MPa",  "kwpCan": "0x58EF", "length": 2, "reverseEndianness": false, "mul": 0.0005 },
-		{ "header": "Fuel Pressure Target", "unit": "MPa", "kwpCan": "0x5837", "length": 2, "reverseEndianness": false, "mul": 0.0005 },
+		{ "header": "EGT",            "unit": "°C",   "kwpCan": "0x582F", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.1, "add": -273.14 },
+		{ "header": "Fuel Pressure", "unit": "Bar", "kwpCan": "0x5658", "length": 2, "reverseEndianness": false, "mul": 0.02 },
+		{ "header": "Fuel Pressure Target", "unit": "Bar", "kwpCan": "0x56C1", "length": 2, "reverseEndianness": false, "mul": 0.02 },
 		{ "header": "Fuel Low Pressure", "unit": "Bar", "kwpCan": "0x58F3", "length": 2, "reverseEndianness": false, "mul": 0.001 },
-		{ "header": "Accelerator Pedal",            "unit": "%",    "kwpCan": "0x480B", "length": 2, "reverseEndianness": false, "mul": 0.00152588 },
+		{ "header": "Accelerator Pedal",            "unit": "%",    "kwpCan": "0x480B", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.01220703 },
 		{ "header": "Gear",           "unit": "G",    "kwpCan": "0x5881", "length": 1, "mul": 1 },
 		{ "header": "Ignition Cyl 1", "unit": "°CRK", "kwpCan": "0x4A49", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.1 },
 		{ "header": "Ignition Cyl 2", "unit": "°CRK", "kwpCan": "0x4A4A", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.1 },
@@ -35,20 +42,20 @@
 		{ "header": "Ignition Cyl 4", "unit": "°CRK", "kwpCan": "0x4A4D", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.1 },
 		{ "header": "Ignition Cyl 5", "unit": "°CRK", "kwpCan": "0x4A4E", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.1 },
 		{ "header": "Ignition Cyl 6", "unit": "°CRK", "kwpCan": "0x4A4F", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.1 },
-		// 0x4A36 — 1 byte, always 0x00 in captures; unknown, hidden until identified.
-		{ "header": "Unknown 4A36",   "unit": "-",    "kwpCan": "0x4A36", "length": 1, "mul": 1, "hidden": true },
+		{ "header": "Knock detected", "unit": "-",    "kwpCan": "0x4A36", "length": 1, "mul": 1 },
 		{ "header": "Load",           "unit": "%",    "kwpCan": "0x5813", "length": 1, "mul": 0.75 },
 		{ "header": "Target Load",    "unit": "%",    "kwpCan": "0x480C", "length": 2, "reverseEndianness": false, "mul": 0.0234375 },
-		// 0x4A85 — lambda adaptation factor bank 2 (tracks 0x5807 identically on I6).
-		{ "header": "Lambda Adaption B2", "unit": "-", "kwpCan": "0x4A85", "length": 2, "reverseEndianness": false, "mul": 0.000030517578125 },
+		{ "header": "LTFT 1",           "unit": "%",    "kwpCan": "0x4A85", "length": 2, "reverseEndianness": false, "mul": 0.003051758, "add": -100 },
 		{ "header": "Mass Airflow",   "unit": "kg/h", "kwpCan": "0x5818", "length": 1, "mul": 4 },
-		{ "header": "Lambda Adaption B1", "unit": "-", "kwpCan": "0x5807", "length": 2, "reverseEndianness": false, "mul": 0.000030517578125 },
-		{ "header": "Vehicle Speed",  "unit": "km/h", "kwpCan": "0x4AB1", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.01 },
-		// 0x4651 — always 0xFFFF in captures (unsupported on this variant). Hidden.
-		{ "header": "Unknown 4651",   "unit": "-",    "kwpCan": "0x4651", "length": 2, "reverseEndianness": false, "signed": true, "hidden": true },
-		{ "header": "Clutch Torque",  "unit": "Nm",   "kwpCan": "0x5891", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.5 },
+		{ "header": "STFT 1",           "unit": "%",    "kwpCan": "0x5807", "length": 2, "reverseEndianness": false, "mul": 0.003051758, "add": -100 },
+		{ "header": "Vehicle Speed",  "unit": "km/h", "kwpCan": "0x4AB1", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.01, "skipIfExists": true },
+		{ "header": "Wastegate Duty", "unit": "%",    "kwpCan": "0x4651", "length": 2, "reverseEndianness": false, "mul": 0.00152588 },
+		{ "header": "Torque",  "unit": "Nm",   "kwpCan": "0x4617", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.1 },
 		{ "header": "Lambda Setpoint", "unit": "λ",   "kwpCan": "0x5816", "length": 2, "reverseEndianness": false, "mul": 0.000244140625 },
-		{ "header": "Throttle Position",            "unit": "%",    "kwpCan": "0x4600", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.0078125 },
+		{ "header": "Throttle Position",            "unit": "%",    "kwpCan": "0x4600", "length": 2, "reverseEndianness": false, "signed": true, "mul": 0.0078125, "skipIfExists": "Throttle Position" },
+		{ "header": "Coolant Temp",   "unit": "°C",   "kwpCan": "0x4300", "length": 1, "mul": 0.75, "add": -48, "skipIfExists": "Coolant Temp" },
+		{ "header": "Oil Temp",       "unit": "°C",   "kwpCan": "0x4402", "length": 2, "reverseEndianness": false, "mul": 0.75, "add": -48 },
+		{ "header": "MAP Sensor",   "unit": "Bar",  "kwpCan": "0x4205", "length": 2, "reverseEndianness": false, "mul": 7.8125e-05 },
 		{ "header": "Boost",          "unit": "Bar",  "x": "MAP", "y": "Ambient Pressure", "expr": "x-y" },
 		{ "header": "AFR 1",          "unit": "AFR",  "x": "Lambda 1", "expr": "x*14.7" }
 	]

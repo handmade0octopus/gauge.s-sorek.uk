@@ -74,10 +74,10 @@
         },
 		{
             "header": "Fuel Pressure",
-            "unit": "psi",
+            "unit": "Bar",
             "offset": 12,
             "length": 1,
-            "mul": 3
+            "mul": 0.2068428
         },
 		{
 			"header": "Mass Airflow",
@@ -88,10 +88,11 @@
 			"dec": 1
 		},
 		{
-			"header": "MAP - calculated",
-			"unit": "hPa",
+			"header": "MAP",
+			"unit": "Bar",
 			"offset": 31,
-            "length": 1
+            "length": 1,
+			"mul": 0.001
 		},
 		{
 			"header": "MAF V",
@@ -161,7 +162,7 @@
 			"add": -60
 		},
 		{
-			"header": "TPS",
+			"header": "Throttle Position",
 			"unit": "%",
 			"offset": 41,
 			"mul": 1.8671875,
@@ -169,7 +170,7 @@
 		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
 		},
 		{
-			"header": "Ignition Angle - Cyl 1",
+			"header": "Ignition Cyl 1",
 			"unit": "*CRK",
 			"offset": 14,
 			"length": 2,
@@ -205,19 +206,19 @@
 			"add": -40
 		},
 		{
-			"header": "Atmospheric Pressure",
-			"unit": "hPa",
+			"header": "Ambient Pressure",
+			"unit": "Bar",
 			"offset": 3,
-			"mul": 21.2265625
+			"mul": 0.0212265625
 		},
 		{
-			"header": "Speed",
+			"header": "Vehicle Speed",
 			"unit": "km/h",
 			"offset": 42,
 			"dec": 0
 		},
 		{
-			"header": "Lambda Bank 1",
+			"header": "Lambda 1",
 			"unit": "",
 			"offset": 26,
 			"length": 2,
@@ -226,7 +227,7 @@
 			"resetTime": 0
 		},
 		{
-			"header": "Lambda bank 2",
+			"header": "Lambda 2",
 			"unit": "",
 			"offset": 28,
 			"length": 2,
@@ -252,7 +253,7 @@
 		},
 		{
 			"header": "EGT - Bank 1",
-			"unit": "*C",
+			"unit": "°C",
 			"offset": 8,
 			"length": 1,
 			"mul": 4,
@@ -260,7 +261,7 @@
 		},
 		{
 			"header": "EGT - Bank 2",
-			"unit": "*C",
+			"unit": "°C",
 			"offset": 9,
 			"length": 1,
 			"mul": 4,
@@ -282,7 +283,7 @@
 			"min": 0
 		},
 		{
-			"header": "STFT - Bank 1",
+			"header": "STFT 1",
 			"unit": "%",
 			"offset": 39,
 			"length": 1,
@@ -290,12 +291,13 @@
 			"add": -100
 		},
 		{
-			"header": "STFT - Bank 2",
+			"header": "STFT 2",
 			"unit": "%",
 			"offset": 40,
 			"length": 1,
 			"mul": 0.78125,
 			"add": -100
-		}
+		},
+		{ "header": "Boost", "unit": "Bar", "x": "MAP", "y": "Ambient Pressure", "expr": "x-y" }
 	]
 }

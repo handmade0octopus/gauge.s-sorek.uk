@@ -10,15 +10,16 @@
 			"dec": 0
 		},
 		{
-			"header": "Manifold Pressure",
-			"unit": "kpa",
+			"header": "MAP",
+			"unit": "Bar",
 			"canId": 2464,
 			"offset": 6,
 			"length": 1,
-			"dec": 1
+			"dec": 1,
+			"mul": 0.01
 		},
 		{
-			"header": "TPS",
+			"header": "Throttle Position",
 			"unit": "%",
 			"canId": 2464,
 			"offset": 3,
@@ -51,7 +52,7 @@
 			"add": 32.00
 		},
 		{
-			"header": "Speed",
+			"header": "Vehicle Speed",
 			"unit": "km/h",
 			"canId": 2464,
 			"offset": 7,
@@ -114,7 +115,7 @@
 			"dec": 1
 		},
 		{
-			"header": "Boost Target",
+			"header": "Target MAP",
 			"Unit": "kPa",
 			"canId": 1696,
 			"offset": 0,
@@ -147,13 +148,13 @@
 			"mult" : 0.1
 		},
 		{
-			"header": "Barometric Pressure",
+			"header": "Ambient Pressure",
 			"Unit": "kPa",
 			"canId": 1696,
 			"offset": 5,
 			"length": 1,
 			"dec": 1
-		}
-
+		},
+		{ "header": "Boost", "unit": "Bar", "x": "MAP", "y": "Ambient Pressure", "expr": "x-y" }
 	]
 }

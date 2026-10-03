@@ -19,7 +19,7 @@
                 "1429373",
                 "1429861"
             ],
-            "ecuPath": "/definitions/MS41_E36.json"
+            "ecuPath": "/definitions/2-Kline-2007/MS41_E36.json"
         },
         {
             "ecuIds": [
@@ -27,14 +27,14 @@
                 "1437806",
                 "1440176"
             ],
-            "ecuPath": "/definitions/MS41.1_E36.json"
+            "ecuPath": "/definitions/2-Kline-2007/MS41.1_E36.json"
         },
         {
             "ecuIds": [
                 "1406464",
                 "SHINDE1"
             ],
-            "ecuPath": "/definitions/MS41.2_E36.json"
+            "ecuPath": "/definitions/2-Kline-2007/MS41.2_E36.json"
         },
         {
             "ecuIds": [
@@ -49,7 +49,7 @@
                 "7526753",
                 "7500255"
             ],
-            "ecuPath": "/definitions/MS42_M52tu.json"
+            "ecuPath": "/definitions/2-Kline-2007/MS42_M52tu.json"
         },
         {
             "ecuIds": [
@@ -78,31 +78,35 @@
                 "7519308",
                 "7545150"
             ],
-            "ecuPath": "/definitions/MS43_std.json"
+            "ecuPath": "/definitions/2-Kline-2007/MS43_std.json"
         },
         {
             "ecuIds": [
                 "7551615"
             ],
-            "ecuPath": "/definitions/MS43_ext.json"
+            "ecuPath": "/definitions/2-Kline-2007/MS43_ext.json"
         },
         {
             "ecuIds": [
-                "7562334", "7506366", "7532675"
+                "7562334",
+                "7506366",
+                "7532675"
             ],
-            "ecuPath": "/definitions/MS45.json"
+            "ecuPath": "/definitions/2-Kline-2007/MS45.json"
         },
         {
             "ecuIds": [
-                "7522800", "7506366", "7532675"
+                "7522800",
+                "7506366",
+                "7532675"
             ],
-            "ecuPath": "/definitions/ME7.2.json"
+            "ecuPath": "/definitions/2-Kline-2007/ME7.2.json"
         },
         {
             "ecuIds": [
                 "7501733"
             ],
-            "ecuPath": "/definitions/ME5.2_V8.json"
+            "ecuPath": "/definitions/2-Kline-2007/ME5.2_V8.json"
         }
     ]
 }

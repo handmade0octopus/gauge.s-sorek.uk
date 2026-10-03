@@ -4,7 +4,7 @@
     "ecuparam": [
         {
             "header": "Boost",
-            "unit": "bar",
+            "unit": "Bar",
             "expr": "x*0.01-1",
             "x": "MAP",
             "dec": 1
@@ -58,7 +58,7 @@
             "reverseEndianness": true
         },
         {
-            "header": "TPS",
+            "header": "Throttle Position",
             "unit": "%",
             "canId": 1523,
             "offset": 0,
@@ -109,7 +109,7 @@
             "reverseEndianness": true
         },
         {
-            "header": "Speed",
+            "header": "Vehicle Speed",
             "unit": "km/h",
             "canId": 1562,
             "offset": 0,

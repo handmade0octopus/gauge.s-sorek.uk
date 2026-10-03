@@ -18,14 +18,14 @@
 		},
 		{
 			"header": "MAP",
-			"unit": "kPa",
+			"unit": "Bar",
 			"canId": 1536,
 			"offset": 4,
 			"length": 2,
-			"mul": 0.01
+			"mul": 0.0001
 		},
 		{
-			"header": "TPS",
+			"header": "Throttle Position",
 			"unit": "%",
 			"canId": 1536,
 			"offset": 4,
@@ -66,7 +66,7 @@
 			"length": 1
 		},
 		{
-			"header": "Speed",
+			"header": "Vehicle Speed",
 			"unit": "km/h",
 			"canId": 1538,
 			"offset": 0,
@@ -82,7 +82,7 @@
 			"mul": 1
 		},
 		{
-			"header": "Oil Temperature",
+			"header": "Oil Temp",
 			"unit": "°C",
 			"canId": 1538,
 			"offset": 3,
@@ -125,7 +125,7 @@
 			"x": "Lambda"
 		},
 		{
-			"header": "EGT 1",
+			"header": "EGT",
 			"unit": "°C",
 			"canId": 1539,
 			"offset": 4,
@@ -140,6 +140,7 @@
 			"offset": 2,
 			"length": 2,
 			"mul": 0.027
-		}
+		},
+		{ "header": "Boost", "unit": "Bar", "x": "MAP", "expr": "x-1" }
 	]
 }

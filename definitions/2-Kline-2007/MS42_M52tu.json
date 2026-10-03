@@ -44,7 +44,7 @@
 			"max": 5
 		},
 		{
-			"header": "TPS",
+			"header": "Throttle Position",
 			"unit": "%",
 			"offset": 4,
 			"mul": 0.390625,
@@ -96,7 +96,7 @@
 			"add": -48
 		},
 		{
-			"header": "Speed",
+			"header": "Vehicle Speed",
 			"unit": "km/h",
 			"offset": 2,
 			"dec": 0

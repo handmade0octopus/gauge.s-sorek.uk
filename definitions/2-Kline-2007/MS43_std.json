@@ -36,7 +36,7 @@
 			"min": 0.0
 		},
 		{
-			"header": "TPS", // Throttle Position
+			"header": "Throttle Position", // Throttle Position
 			"unit": "%",
 			"offset": 5,
 			"length": 2,
@@ -269,10 +269,10 @@
 		},
 		{
 			"header": "Ambient Pressure",
-			"unit": "mbar",
+			"unit": "Bar",
 			"offset": 38,
 			"length": 2,
-			"mul": 0.001202675,
+			"mul": 1.202675e-06,
 			"max": 2500.0,
 			"min": 0.0,
 			"dec": 1

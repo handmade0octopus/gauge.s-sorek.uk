@@ -25,7 +25,7 @@
 		  },
 		  {
 			"header": "Mass Airflow",
-			"unit":" Kg/h",
+			"unit":"kg/h",
 			"offset": 4,
 			"length": 2,
 			"mul": 0.048829,
@@ -40,7 +40,7 @@
 			"add": -2500.060084
 		  },
 		  {
-			"header": "Boost Pressure",
+			"header": "MAP",
 			"unit":" hPa",
 			"offset": 8,
 			"length": 2,
@@ -64,7 +64,7 @@
 			"add": -50.13844
 		  },
 		  {
-			"header": "Charge Air Temp",
+			"header": "Intake Air Temp",
 			"unit":" deg C",
 			"offset": 14,
 			"length": 2,
@@ -73,15 +73,15 @@
 		  },
 		  {
 			"header": "Maximum rail press 10ms",
-			"unit":" bar",
+			"unit":"Bar",
 			"offset": 16,
 			"length": 2,
 			"mul": 0.030518,
 			"add": 0
 		  },
 		  {
-			"header": "Rail Pressure setpoint",
-			"unit":" bar",
+			"header": "Fuel Pressure Target",
+			"unit":"Bar",
 			"offset": 18,
 			"length": 2,
 			"mul": 0.030518,
@@ -94,6 +94,7 @@
 			"length": 2,
 			"mul": 0.003052,
 			"add": -99.998993
-		  }
+		  },
+		{ "header": "Boost", "unit": "Bar", "x": "MAP", "expr": "x-1" }
 	]
 }

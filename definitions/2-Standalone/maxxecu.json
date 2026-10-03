@@ -10,7 +10,7 @@
             "dec": 0
         },
         {
-            "header": "TPS",
+            "header": "Throttle Position",
             "unit": "%",
             "canId": "0x520",
             "offset": 2,
@@ -19,12 +19,12 @@
             "dec": 1
         },
         {
-            "header": "Map",
-            "unit": "kPa",
+            "header": "MAP",
+            "unit": "Bar",
             "canId": "0x520",
             "offset": 4,
             "length": 2,
-            "mul": 0.1
+            "mul": 0.001
         },
         {
             "header": "Lambda",
@@ -51,7 +51,7 @@
             "mul": 0.001
         },
         {
-            "header": "Ignition angle",
+            "header": "Ignition Angle",
             "unit": "BTDC",
             "canId": "0x521",
             "offset": 4,
@@ -108,7 +108,7 @@
             "mul": 0.1
         },
         {
-            "header": "Battery voltage",
+            "header": "Battery Voltage",
             "unit": "V",
             "canId": "0x530",
             "offset": 0,
@@ -149,19 +149,20 @@
         },
         {
             "header": "Oil Pressure",
-            "unit": "kPa",
+            "unit": "Bar",
             "canId": "0x536",
             "offset": 4,
             "length": 2,
-            "mul": 0.1
+            "mul": 0.001
         },
         {
             "header": "Fuel Pressure",
-            "unit": "kPa",
+            "unit": "Bar",
             "canId": "0x537",
             "offset": 0,
             "length": 2,
-            "mul": 0.1
-        }
-    ]
+            "mul": 0.001
+        },
+		{ "header": "Boost", "unit": "Bar", "x": "MAP", "expr": "x-1" }
+	]
 }

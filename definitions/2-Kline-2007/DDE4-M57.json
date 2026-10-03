@@ -10,7 +10,7 @@
     "slowSend": 3,
     "ecuparam": [
         {
-            "header": "Pedal pos",
+            "header": "Accelerator Pedal",
             "unit":"%",
             "offset": 2,
             "length": 2,
@@ -18,15 +18,15 @@
             "add": 0
         },
         {
-            "header": "Rail press",
-            "unit": "bar",
+            "header": "Fuel Pressure",
+            "unit": "Bar",
             "offset": 4,
             "length": 2,
             "mul": 10.235414
         },
         {
-            "header": "Boost press",
-            "unit": "bar",
+            "header": "MAP",
+            "unit": "Bar",
             "offset": 6,
             "length": 2,
             "mul": 1
@@ -38,6 +38,7 @@
             "length": 2,
             "mul": 0.0236197458,
             "add": 0
-        }
-    ]
+        },
+		{ "header": "Boost", "unit": "Bar", "x": "MAP", "expr": "x-1" }
+	]
 }

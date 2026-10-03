@@ -1,0 +1,39 @@
+{
+	// BMW DDE 7.3 (EDC17, N57 — E60/E65/E70/E9x, KWP2000).
+	// Protocol (verified live on bench ECU, ident variant "WD" = D73N57B0):
+	//   define: 2C 10 <2-byte DIDs...>   — aggregate block, ECU replies 6C 10 <data>
+	//   poll:   2C 10                  — returns the same block (DDDI persists)
+	//   NO session, NO security access needed.
+	//   This is the firmware's kwpMode 0x10 (SHORT_TELE) — same as DDE6.
+	// DIDs + scaling from EDIABAS PRG d73n57b0.csv; verified on bench.
+	"obdRefresh": 20,
+	"canSpeed": 500,
+	"kwpMode": "0x10",
+	"pollMs": 20,
+	"flowDelay": 0,
+	"ecuparam": [
+		{ "header": "Engine Speed",   "unit": "RPM",   "kwpCan": "0x1881", "length": 2, "reverseEndianness": false, "mul": 0.5 },
+		{ "header": "Torque",         "unit": "Nm",    "kwpCan": "0x07D1", "length": 2, "reverseEndianness": false, "mul": 0.114443, "add": -2500 },
+		{ "header": "Mass Airflow",   "unit": "kg/h",  "kwpCan": "0x0708", "length": 2, "reverseEndianness": false, "mul": 0.1 },
+		{ "header": "Air Mass per cyl", "unit": "mg/st", "kwpCan": "0x0709", "length": 2, "reverseEndianness": false, "mul": 0.024414 },
+		{ "header": "Vehicle Speed",  "unit": "km/h",  "kwpCan": "0x0B40", "length": 2, "reverseEndianness": false, "mul": 0.004578 },
+		{ "header": "Accelerator Pedal",            "unit": "%",     "kwpCan": "0x0162", "length": 2, "reverseEndianness": false, "mul": 0.012207 },
+		{ "header": "Coolant Temp",   "unit": "°C",    "kwpCan": "0x0547", "length": 2, "reverseEndianness": false, "mul": 0.01, "add": -100 },
+		{ "header": "Oil Temp",       "unit": "°C",    "kwpCan": "0x0458", "length": 2, "reverseEndianness": false, "mul": 0.01, "add": -100 },
+		{ "header": "Engine Temp",    "unit": "°C",    "kwpCan": "0x0AF1", "length": 2, "reverseEndianness": false, "mul": 0.1, "add": -273.14 },
+		{ "header": "Intake Air Temp",    "unit": "°C",    "kwpCan": "0x0772", "length": 2, "reverseEndianness": false, "mul": 0.1, "add": -273.14 },
+		{ "header": "MAP", "unit": "Bar",   "kwpCan": "0x076D", "length": 2, "reverseEndianness": false, "mul": 9.1554e-05 },
+		{ "header": "Target MAP", "unit": "Bar", "kwpCan": "0x01F4", "length": 2, "reverseEndianness": false, "mul": 9.1554e-05 },
+		{ "header": "Ambient Pressure", "unit": "Bar", "kwpCan": "0x0C1E", "length": 1, "mul": 0.002352941, "add": 600 },
+		{ "header": "Fuel Pressure",  "unit": "Bar",   "kwpCan": "0x0676", "length": 1, "mul": 7.843137 },
+		{ "header": "Fuel Pressure Target", "unit": "Bar", "kwpCan": "0x0641", "length": 2, "reverseEndianness": false, "mul": 0.045777 },
+		{ "header": "EGT Pre-Cat",    "unit": "°C",    "kwpCan": "0x041E", "length": 2, "reverseEndianness": false, "mul": 0.031281, "add": -50 },
+		{ "header": "EGT Pre-DPF",    "unit": "°C",    "kwpCan": "0x041B", "length": 2, "reverseEndianness": false, "mul": 0.031281, "add": -50 },
+		{ "header": "Fuel Inj", "unit": "mg/st", "kwpCan": "0x083C", "length": 2, "reverseEndianness": false, "mul": 0.003891 },
+		{ "header": "Injection Quantity current", "unit": "mg/st", "kwpCan": "0x0500", "length": 2, "reverseEndianness": false, "mul": 0.003052, "add": -100 },
+		{ "header": "Battery Voltage", "unit": "V",    "kwpCan": "0x012E", "length": 1, "mul": 0.1 },
+		{ "header": "Wastegate Duty",       "unit": "%",     "kwpCan": "0x0BED", "length": 1, "mul": 0.392157 },
+		{ "header": "EGR valve duty", "unit": "%",     "kwpCan": "0x0BBB", "length": 2, "reverseEndianness": false, "mul": 0.003052 },
+		{ "header": "Boost",          "unit": "Bar",   "x": "MAP", "y": "Ambient Pressure", "expr": "x-y" }
+	]
+}

@@ -69,7 +69,7 @@
 			"add": -60
 		},
 		{
-			"header": "TPS",
+			"header": "Throttle Position",
 			"unit": "%",
 			"offset": 13,
 			"length": 2,
@@ -80,7 +80,7 @@
 		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
 		},
 		{
-			"header": "Ignition Angle - Cyl 1",
+			"header": "Ignition Cyl 1",
 			"unit": "*CRK",
 			"offset": 26,
 			"mul": -0.375,
@@ -89,7 +89,7 @@
 			"min": -23.625
 		},
 		{
-			"header": "Ignition Angle - Cyl 2",
+			"header": "Ignition Cyl 2",
 			"unit": "*CRK",
 			"offset": 27,
 			"mul": -0.375,
@@ -97,7 +97,7 @@
 			"hidden": true
 		},
 		{
-			"header": "Ignition Angle - Cyl 3",
+			"header": "Ignition Cyl 3",
 			"unit": "*CRK",
 			"offset": 28,
 			"mul": -0.375,
@@ -105,7 +105,7 @@
 			"hidden": true
 		},
 		{
-			"header": "Ignition Angle - Cyl 4",
+			"header": "Ignition Cyl 4",
 			"unit": "*CRK",
 			"offset": 29,
 			"mul": -0.375,
@@ -113,7 +113,7 @@
 			"hidden": true
 		},
 		{
-			"header": "Ignition Angle - Cyl 5",
+			"header": "Ignition Cyl 5",
 			"unit": "*CRK",
 			"offset": 30,
 			"mul": -0.375,
@@ -121,7 +121,7 @@
 			"hidden": true
 		},
 		{
-			"header": "Ignition Angle - Cyl 6",
+			"header": "Ignition Cyl 6",
 			"unit": "*CRK",
 			"offset": 31,
 			"mul": -0.375,
@@ -185,7 +185,7 @@
 			"min": 0
 		},
 		{
-			"header": "Calculated Torque",
+			"header": "Torque",
 			"unit": "Nm",
 			"offset": 64,
 			"length": 2,
@@ -199,7 +199,7 @@
 			"min": 0
 		},
 		{
-			"header": "Speed",
+			"header": "Vehicle Speed",
 			"unit": "km/h",
 			"offset": 8,
 			"dec": 0
@@ -265,6 +265,7 @@
 			"unit": "V",
 			"offset": 59,
 			"mul": 0.10196078
-		}
+		},
+		{ "header": "Boost", "unit": "Bar", "x": "MAP", "expr": "x-1" }
 	]
 }

@@ -1,4 +1,10 @@
 {
+	// BMW E39 M5 (S62B50, MSS52) — K-line DS2.
+	// Based on M3_E46.json (MSS54); layout + scaling verified against
+	// EDIABAS PRG MSS52DS1.csv (telegram 12 05 0B 03, "BetriebswTab").
+	// Differences vs M3_E46: Radiator Temp mul fixed (1, not 13), wrong
+	// Ignition Angle entry removed (on MSS52 ignition angles live in a
+	// separate telegram 12 05 0B 13), Idle Target + Rel Filling added.
 	"canSpeed": 500,
 	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
 	"ecuparam": [
@@ -7,16 +13,23 @@
 			"unit": "RPM",
 			"offset": 0,
 			"length": 2,
-			"max": 8400,
+			"max": 8000,
+			"dec": 0
+		},
+		{
+			"header": "Idle Target",
+			"unit": "RPM",
+			"offset": 2,
+			"length": 2,
 			"dec": 0
 		},
 		{
 			"header": "Engine Load",
-			"unit": "mg/str",
+			"unit": "ms",
 			"offset": 6,
 			"length": 2,
 			"mul": 0.001,
-			"dec": 1
+			"dec": 2
 		},
 		{
 			"header": "Mass Airflow",
@@ -27,12 +40,20 @@
 			"dec": 1
 		},
 		{
+			"header": "Rel Filling",
+			"unit": "%",
+			"offset": 8,
+			"length": 2,
+			"mul": 0.1,
+			"dec": 1
+		},
+		{
 			"header": "Throttle Position",
 			"unit": "%",
 			"length": 2,
 			"offset": 27,
 			"mul": 0.1,
-			"dec": 0				// Remember about this comma when editing line below
+			"dec": 0			// Remember about this comma when editing line below
 		//	"autoLogPoint": 60.0	// You can comment out or delete if you don't want to log on WOT.
 		},
 		{
@@ -40,12 +61,6 @@
 			"unit": "%",
 			"length": 2,
 			"offset": 31,
-			"mul": 0.1
-		},
-		{
-			"header": "Ignition Angle",
-			"unit": "°CRK",
-			"offset": 10, //This offset value is incorrect, it is used for Intake Air Temp below
 			"mul": 0.1
 		},
 		{

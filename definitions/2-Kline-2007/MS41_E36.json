@@ -59,7 +59,7 @@
 			"mul": 0.3745
 		},
 		{
-			"header": "TPS",
+			"header": "Throttle Position",
 			"unit": "%",
 			"address": "0x000000E8D7", // for MS41.0
 //			"address": "0x000000E8D0", // for MS41.1/2
@@ -111,7 +111,7 @@
 			"add": -48
 		},
 		{
-			"header": "Speed",
+			"header": "Vehicle Speed",
 			"unit": "km/h",
 			"address": "0x000000DA63",
 			"max": 255,

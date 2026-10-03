@@ -1,6 +1,7 @@
 {
 	"obdRefresh": 100,
 	"canSpeed": 500,
+	"forceKwp": true,
 	"address": ["0xB8", "0x12", "0xF1", "0x16", "0x2C", "0x10",
 				"0x00", "0xB5",
 				"0x00", "0xEF",
@@ -12,11 +13,11 @@
 				"0x00", "0xAD",
 				"0x18", "0x1A",
 				"0x00", "0x80",
-				"0x40" ],
+				"0xF4" ],
 	"ecuparam": [
         {
-			"header": "Injection time",	// STAT_EINSPRITZMENGE_AKTUELL_WERT
-			"unit": "mg/cyl",
+			"header": "Fuel Inj",	// STAT_EINSPRITZMENGE_AKTUELL_WERT
+			"unit": "mg/st",
 			"offset": 2,
 			"length": 2,
 			"mul": 0.003052,
@@ -24,14 +25,14 @@
 		},
 		{
 			"header": "Injection time request",	// STAT_EINSPRITZMENGE_SOLL_WERT
-			"unit": "mg/cyl",
+			"unit": "mg/st",
 			"offset": 4,
 			"length": 2,
 			"mul": 0.003052,
 			"add": -99.998993
 		},
 		{
-			"header": "Accel Ped. Pos.",	// STAT_FAHRERWUNSCH_PEDAL_WERT
+			"header": "Accelerator Pedal",	// STAT_FAHRERWUNSCH_PEDAL_WERT
 			"unit": "%",
 			"offset": 6,
 			"length": 2,
@@ -45,7 +46,7 @@
 			"mul": 0.01
 		},
 		{
-			"header": "Boost setpoint",	//  STAT_LADEDRUCK_SOLL_WERT
+			"header": "Target MAP",	//  STAT_LADEDRUCK_SOLL_WERT
 			"unit": "Bar",
 			"offset": 10,
 			"length": 2,
@@ -59,7 +60,7 @@
 			"mul": 0.000125002
 		},
 		{
-			"header": "Charge Temp",	//  STAT_LADELUFTTEMPERATUR_WERT
+			"header": "Intake Air Temp",	//  STAT_LADELUFTTEMPERATUR_WERT
 			"unit": "°C",
 			"offset": 14,
 			"length": 2,
@@ -67,7 +68,7 @@
 			"add": -50.13844
 		},
 		{
-			"header": "Intake Temp", // STAT_ANSAUGLUFTTEMPERATUR_WERT
+			"header": "Intake Air Temp", // STAT_ANSAUGLUFTTEMPERATUR_WERT
 			"unit": "°C",
 			"offset": 16,
 			"length": 2,
@@ -82,7 +83,7 @@
 			"mul": 0.000610
 		},
 		{
-			"header": "Mass airflow", // STAT_LUFTMASSE_PRO_HUB_WERT
+			"header": "Mass Airflow", // STAT_LUFTMASSE_PRO_HUB_WERT
 			"unit": "kg/h",
 			"offset": 20,
 			"length": 2,
@@ -91,7 +92,7 @@
 		},
 		{
 			"header": "Mass airflow per cylinder", // STAT_LUFTMASSE_PRO_HUB_WERT
-			"unit": "mg/cyl",
+			"unit": "mg/st",
 			"offset": 22,
 			"length": 2,
 			"mul": 0.048829,
@@ -123,14 +124,14 @@
 			"add": -2500.058653
 		},
 		{
-			"header": "Rail Pressure",	// STAT_RAILDRUCK_WERT
+			"header": "Fuel Pressure",	// STAT_RAILDRUCK_WERT
 			"unit": "Bar",
 			"offset": 30,
 			"length": 2,
 			"mul": 0.030518
 		},
 		{
-			"header": "Req rail Pressure",	// STAT_RAILDRUCK_SOLL_WERT
+			"header": "Fuel Pressure Target",	// STAT_RAILDRUCK_SOLL_WERT
 			"unit": "Bar",
 			"offset": 32,
 			"length": 2,

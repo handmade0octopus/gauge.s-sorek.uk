@@ -3,7 +3,7 @@
 	"canSpeed": 500,
 	"ecuparam": [
 		{
-			"header": "Engine speed",
+			"header": "Engine Speed",
 			"unit": "RPM",
 			"kwpCan": "0x5800",
 			"length": 2,
@@ -33,7 +33,7 @@
 			"expr": "signed(x, 2)*0.1"
 		},
 		{
-			"header": "Mass airflow",
+			"header": "Mass Airflow",
 			"unit": "kg/h",
 			"kwpCan": "0x5804",
 			"length": 2,
@@ -41,7 +41,7 @@
 			"expr": "signed(x, 2)*0.1"
 		},
 		{
-			"header": "PVS",
+			"header": "Accelerator Pedal",
 			"unit": "%",
 			"kwpCan": "0x5818",
 			"length": 2,
@@ -66,7 +66,7 @@
 		},
 
 		{
-			"header": "Coolant temp",
+			"header": "Coolant Temp",
 			"unit": "°C",
 			"kwpCan": "0x5802",
 			"length": 2,
@@ -75,7 +75,7 @@
 			"add": -273.2
 		},
 		{
-			"header": "Oil temp",
+			"header": "Oil Temp",
 			"unit": "°C",
 			"kwpCan": "0x581C",
 			"length": 2,
@@ -101,7 +101,7 @@
 			"mul": 1
 		},
 		{
-			"header": "Speed",
+			"header": "Vehicle Speed",
 			"unit": "km/h",
 			"kwpCan": "0x581A",
 			"length": 2,

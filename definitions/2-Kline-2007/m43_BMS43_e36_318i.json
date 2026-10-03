@@ -1,0 +1,162 @@
+{
+	// BMW E36 318i M43 — Bosch BMS 43 (BMS43DS0, 1998).
+	// DS2 group 0x0B arg 0x03, same telegram as MS42/ME5.2.
+	// Offsets are payload bytes after the 3-byte DS2 header (PRG S2 index − 3).
+	"canSpeed": 500,
+	"address": ["0x12", "0x05", "0x0B", "0x03", "0x1F"],
+//	"baudAddress": ["0x12", "0x08", "0x91", "0x01", "0xE8", "0x48", "0x00", "0x2A"],
+//	"baudSpeed": 125000,
+	"ecuparam": [
+		{
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"offset": 0,
+			"length": 2,
+			"mul": 0.15625,
+			"max": 7000,
+			"min": 0,
+			"dec": 0,
+			"flashPoint": 6200
+		},
+		{
+			"header": "Coolant Temp",
+			"unit": "°C",
+			"offset": 2,
+			"mul": 0.75,
+			"add": -48,
+			"max": 120,
+			"min": 60,
+			"dec": 1
+		},
+		{
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"offset": 3,
+			"mul": 0.75,
+			"add": -48,
+			"max": 80,
+			"min": 0,
+			"dec": 1
+		},
+		{
+			"header": "Engine Load",
+			"unit": "ms",
+			"offset": 4,
+			"mul": 0.06390625,
+			"dec": 2
+		},
+		{
+			"header": "Battery Voltage",
+			"alias": "Battery",
+			"unit": "V",
+			"offset": 5,
+			"mul": 0.1,
+			"dec": 1
+		},
+		{
+			"header": "Vehicle Speed",
+			"unit": "km/h",
+			"offset": 6,
+			"dec": 0,
+			"max": 255
+		},
+		{
+			"header": "Throttle Position",
+			"unit": "%",
+			"offset": 7,
+			"mul": 0.390625,
+			"max": 100,
+			"min": 0,
+			"dec": 0
+		},
+		{
+			"header": "TPS Voltage",
+			"unit": "V",
+			"offset": 7,
+			"mul": 0.01953125,
+			"max": 5,
+			"dec": 2,
+			"hidden": true
+		},
+		{
+			"header": "Ignition Angle",
+			"unit": "°CRK",
+			"offset": 9,
+			"mul": 0.75,
+			"add": -22.5,
+			"max": 40,
+			"min": -30,
+			"dec": 1
+		},
+		{
+			"header": "Lambda Int 1",
+			"unit": "",
+			"offset": 10,
+			"add": -128,
+			"resetTime": 0
+		},
+		{
+			"header": "TEV Duty",
+			"unit": "%",
+			"offset": 11,
+			"mul": 0.390625,
+			"dec": 0
+		},
+		{
+			"header": "Fuel Inj",
+			"unit": "ms",
+			"offset": 12,
+			"length": 2,
+			"mul": 0.004001617,
+			"max": 20,
+			"dec": 2
+		},
+		{
+			"header": "Mass Airflow",
+			"unit": "m³/h",
+			"offset": 14,
+			"length": 2,
+			"mul": 0.015258789,
+			"dec": 1
+		},
+		{
+			"header": "IACV",
+			"unit": "m³/h",
+			"offset": 18,
+			"length": 2,
+			"expr": "signed(x, 2) / 1280",
+			"dec": 2
+		},
+		{
+			"header": "LTFT 1",
+			"unit": "",
+			"offset": 22,
+			"add": -128,
+			"resetTime": 0
+		},
+		{
+			"header": "Lambda ADD",
+			"unit": "ms",
+			"offset": 25,
+			"expr": "signed(x)",
+			"dec": 2,
+			"resetTime": 0
+		},
+		{
+			"header": "Idle RPM Target",
+			"unit": "RPM",
+			"offset": 26,
+			"length": 2,
+			"mul": 0.15625,
+			"dec": 0
+		},
+		{
+			"header": "Lambda 1",
+			"unit": "V",
+			"offset": 31,
+			"mul": 0.00488,
+			"max": 1.25,
+			"dec": 2
+		}
+	]
+}

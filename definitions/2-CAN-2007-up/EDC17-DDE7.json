@@ -1,0 +1,39 @@
+{
+	// BMW EDC17 (DDE7.01/7.41 — N47, N57, B47; F15/F20/F30/F45/F56) — UDS-over-CAN dynamic DID.
+	// Protocol (captured from live d70bx7a0 session):
+	//   1. 10 03              — extended diagnostic session (kwpInit)
+	//   2. 2C 03 F3 03        — clear dynamic DID 0xF303 (firmware BOSCH init)
+	//   3. 2C 01 F3 03 ...    — define dynamic DID: records [DID hi/lo][01][len]
+	//   4. 22 F3 03           — poll; response 62 F3 03 <data in define order>
+	// NOTE: dynDid is 0xF303 on EDC17 (0xF300 on MG1/MEVD17).
+	// DID names/scaling from EDIABAS PRG d70bx7a0.csv; verified against live log records.
+	"obdRefresh": 20,
+	"canSpeed": 500,
+	"sourceEcu": "0xF1",
+	"targetEcu": "0x12",
+	"kwpMode": "0xF3",
+	"kwpInit": ["1003"],
+	"dynDid": "0xF303",
+	"pollMs": 20,
+	"flowDelay": 0,
+	"ecuparam": [
+		{ "header": "Engine Speed",   "unit": "RPM",   "kwpCan": "0x5955", "length": 2, "reverseEndianness": false, "mul": 0.5 },
+		{ "header": "Torque",         "unit": "Nm",    "kwpCan": "0x48A5", "length": 2, "reverseEndianness": false, "mul": 0.114443, "add": -2500 },
+		{ "header": "MAP", "unit": "Bar",   "kwpCan": "0x4841", "length": 2, "reverseEndianness": false, "mul": 0.00015259 },
+		{ "header": "Target MAP", "unit": "Bar", "kwpCan": "0x42C8", "length": 2, "reverseEndianness": false, "mul": 9.1554e-05 },
+		{ "header": "Ambient Pressure", "unit": "Bar", "kwpCan": "0x4CF0", "length": 2, "reverseEndianness": false, "mul": 3.0518e-05 },
+		{ "header": "Intake Air Temp",    "unit": "°C",    "kwpCan": "0x4846", "length": 2, "reverseEndianness": false, "mul": 0.1, "add": -273.14 },
+		{ "header": "EGT Pre-DPF",    "unit": "°C",    "kwpCan": "0x44EF", "length": 2, "reverseEndianness": false, "mul": 0.031281, "add": -50 },
+		{ "header": "Fuel Pressure",  "unit": "Bar",   "kwpCan": "0x4746", "length": 2, "reverseEndianness": false, "mul": 0.076295 },
+		{ "header": "Fuel Pressure Target", "unit": "Bar", "kwpCan": "0x4715", "length": 2, "reverseEndianness": false, "mul": 0.045777 },
+		{ "header": "Accelerator Pedal",            "unit": "%",     "kwpCan": "0x4232", "length": 2, "reverseEndianness": false, "mul": 0.001526 },
+		{ "header": "NOx Sensor O2",  "unit": "-",     "kwpCan": "0x46BF", "length": 2, "reverseEndianness": false, "mul": 0.0001, "add": -3.2678 },
+		{ "header": "Mass Airflow",   "unit": "kg/h",  "kwpCan": "0x47DF", "length": 2, "reverseEndianness": false, "mul": 0.1 },
+		{ "header": "Target Air Mass", "unit": "mg/st", "kwpCan": "0x4872", "length": 2, "reverseEndianness": false, "mul": 0.030518 },
+		{ "header": "Vehicle Speed",  "unit": "km/h",  "kwpCan": "0x4C14", "length": 2, "reverseEndianness": false, "mul": 0.004578 },
+		{ "header": "Air Mass per cyl", "unit": "mg/st", "kwpCan": "0x47DD", "length": 2, "reverseEndianness": false, "mul": 0.038911 },
+		{ "header": "Fuel Inj", "unit": "mg/st", "kwpCan": "0x5274", "length": 2, "reverseEndianness": false, "mul": 0.003891 },
+		{ "header": "Coolant Temp",   "unit": "°C",    "kwpCan": "0x5205", "length": 1, "mul": 1, "add": -40 },
+		{ "header": "Boost",          "unit": "Bar",   "x": "MAP", "y": "Ambient Pressure", "expr": "x-y" }
+	]
+}

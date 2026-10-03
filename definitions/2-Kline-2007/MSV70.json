@@ -43,7 +43,7 @@
 	"forceKwp": true,
 	"ecuparam": [
 		{
-			"header": "Accelerator pedal value",
+			"header": "Accelerator Pedal",
 			"unit":"%",
 			"offset": 2,
 			"length": 2,
@@ -52,14 +52,14 @@
 		}, 
 		{
 			"header": "Ambient Pressure",
-			"unit":"hPa",
+			"unit":"Bar",
 			"offset": 3,
 			"length": 2,
-			"mul": 0.829175263643265,
+			"mul": 0.000829175264,
 			"add": 0
 		}, 
 		{
-			"header": "Battery voltage",
+			"header": "Battery Voltage",
 			"unit":"V",
 			"offset": 5,
 			"length": 2,
@@ -76,7 +76,7 @@
 		}, 
 		{
 			"header": "Engine temperature",
-			"unit":"C",
+			"unit":"°C",
 			"offset": 7,
 			"length": 2,
 			"mul": 0.75,
@@ -91,7 +91,7 @@
 			"add": 0
 		}, 
 		{
-			"header": "Water Temp",
+			"header": "Coolant Temp",
 			"unit":"°C",
 			"offset": 10,
 			"length": 2,
@@ -124,10 +124,10 @@
 		}, 
 		{
 			"header": "Fuel Pressure",
-			"unit":"kPa",
+			"unit":"Bar",
 			"offset": 16,
 			"length": 2,
-			"mul": 3,
+			"mul": 0.03,
 			"add": 0
 		}, 
 		{
@@ -139,7 +139,7 @@
 			"add": 0
 		}, 
 		{
-			"header": "Ignition 1",
+			"header": "Ignition Cyl 1",
 			"unit":"°KW",
 			"offset": 18,
 			"length": 2,
@@ -243,15 +243,15 @@
 			"add": 0
 		}, 
 		{
-			"header": "Intake manifold Pressure",
-			"unit":"hPa",
+			"header": "MAP",
+			"unit":"Bar",
 			"offset": 39,
 			"length": 2,
-			"mul": 0.829175263643265,
+			"mul": 0.000829175264,
 			"add": 0
 		}, 
 		{
-			"header": "MAF",
+			"header": "Mass Airflow",
 			"unit":"kg/h",
 			"offset": 41,
 			"length": 2,
@@ -267,7 +267,7 @@
 			"add": 0
 		}, 
 		{
-			"header": "Oil temperature",
+			"header": "Oil Temp",
 			"unit":"°C",
 			"offset": 43,
 			"length": 2,
@@ -299,7 +299,7 @@
 			"add": -100.2235174
 		}, 
 		{
-			"header": "STFT2",
+			"header": "STFT 2",
 			"unit":"%",
 			"offset": 48,
 			"length": 2,
@@ -307,7 +307,7 @@
 			"add": -100.2235174
 		}, 
 		{
-			"header": "TPS",
+			"header": "Throttle Position",
 			"unit":"°DK",
 			"offset": 49,
 			"length": 2,
@@ -315,8 +315,8 @@
 			"add": 0
 		}, 
 		{
-			"header": "Speed",
-			"unit":"kmh",
+			"header": "Vehicle Speed",
+			"unit":"km/h",
 			"offset": 50,
 			"length": 2,
 			"mul": 1,
@@ -344,6 +344,7 @@
             "x": "Can button",
             "hidden": true,
             "noLog": true
-        }
+        },
+		{ "header": "Boost", "unit": "Bar", "x": "MAP", "y": "Ambient Pressure", "expr": "x-y" }
 	]
 }

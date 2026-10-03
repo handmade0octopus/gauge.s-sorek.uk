@@ -17,29 +17,29 @@
 	"ecuparam": [
 		{
 			"header": "Avg Boost",
-			"unit":"hPa",
+			"unit":"Bar",
 			"offset": 2,
 			"length": 2,
-			"mul": 10.002401,
+			"mul": 0.010002401,
 			"add": 0
 		},
 		{
-			"header": "Boost press",
+			"header": "MAP",
 			"unit": "mA",
 			"offset": 4,
 			"length": 2,
 			"mul": 0.228891
 		},
 		{
-			"header": "Rail press set",
-			"unit": "bar",
+			"header": "Fuel Pressure Target",
+			"unit": "Bar",
 			"offset": 6,
 			"length": 2,
 			"mul": 0.030518
 		},
 		{
 			"header": "Max rail press",
-			"unit": "bar",
+			"unit": "Bar",
 			"offset": 8,
 			"length": 2,
 			"mul": 0.030518,
@@ -77,7 +77,7 @@
 			"add": -50.138440
 		},
 		{
-			"header": "Charge Air Temp",
+			"header": "Intake Air Temp",
 			"unit": "°C",
 			"offset": 18,
 			"length": 2,
@@ -85,11 +85,12 @@
 			"add": -50.138440
 		},
 		{
-			"header": "Boost set press",
-			"unit": "hPa",
+			"header": "Target MAP",
+			"unit": "Bar",
 			"offset": 20,
 			"length": 2,
-			"mul": 0.125002
-		}
+			"mul": 0.000125002
+		},
+		{ "header": "Boost", "unit": "Bar", "x": "MAP", "expr": "x-1" }
 	]
 }

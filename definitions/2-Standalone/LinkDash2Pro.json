@@ -2,7 +2,7 @@
   "canSpeed": 500,
   "ecuparam": [
     {
-      "header": "Engine_Speed",
+      "header": "Engine Speed",
       "unit": "",
       "canId": "0x3E8",
       "offset": 0,
@@ -21,8 +21,8 @@
       "reverseEndianess": false
     },
     {
-      "header": "ECT",
-      "unit": "C",
+      "header": "Coolant Temp",
+      "unit": "°C",
       "canId": "0x3E8",
       "offset": 4,
       "length": 1,
@@ -30,8 +30,8 @@
       "dec": 0
     },
     {
-      "header": "IAT",
-      "unit": "C",
+      "header": "Intake Air Temp",
+      "unit": "°C",
       "canId": "0x3E8",
       "offset": 5,
       "length": 1,
@@ -39,7 +39,7 @@
       "dec": 0
     },
     {
-      "header": "Batt_Volts",
+      "header": "Battery Voltage",
       "unit": "V",
       "canId": "0x3E8",
       "offset": 6,
@@ -47,8 +47,8 @@
       "dec": 0
     },
     {
-      "header": "Oil_Temp",
-      "unit": "C",
+      "header": "Oil Temp",
+      "unit": "°C",
       "canId": "0x3E8",
       "offset": 7,
       "length": 1,
@@ -56,7 +56,7 @@
       "dec": 0
     },
     {
-      "header": "TPS",
+      "header": "Throttle Position",
       "unit": "%",
       "canId": "0x3E9",
       "offset": 0,
@@ -67,7 +67,7 @@
     },
     {
       "header": "Non_Driven_Wheel_Speed",
-      "unit": "kmh",
+      "unit": "km/h",
       "canId": "0x3E9",
       "offset": 4,
       "length": 1,
@@ -75,25 +75,25 @@
     },
     {
       "header": "Oil_Press",
-      "unit": "kpa",
+      "unit": "Bar",
       "canId": "0x3E9",
       "offset": 5,
       "length": 1,
-      "mul": 10,
+      "mul": 0.1,
       "dec": 0
     },
     {
-      "header": "Fuel_Press",
-      "unit": "kpa",
+      "header": "Fuel Pressure",
+      "unit": "Bar",
       "canId": "0x3E9",
       "offset": 6,
       "length": 1,
-      "mul": 10,
+      "mul": 0.1,
       "dec": 0
     },
     {
-      "header": "Lambda_1",
-      "unit": "Lambda",
+      "header": "Lambda 1",
+      "unit": "λ",
       "canId": "0x3EA",
       "offset": 0,
       "length": 2,
@@ -102,8 +102,8 @@
       "reverseEndianess": false
     },
     {
-      "header": "Lambda_2",
-      "unit": "Lambda",
+      "header": "Lambda 2",
+      "unit": "λ",
       "canId": "0x3EA",
       "offset": 2,
       "length": 2,
@@ -113,11 +113,11 @@
     },
     {
       "header": "BAP",
-      "unit": "kpa",
+      "unit": "Bar",
       "canId": "0x3EA",
       "offset": 6,
       "length": 2,
-      "mul": 0.1,
+      "mul": 0.001,
       "dec": 1,
       "reverseEndianess": false
     },

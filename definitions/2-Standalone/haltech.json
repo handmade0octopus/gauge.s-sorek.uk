@@ -1,5 +1,13 @@
 {
-    "canSpeed": 500,
+    "_description": "Haltech Nexus/Elite ECU Broadcast CAN Protocol v2.0 - core dash channels",
+    "_notes": [
+        "Haltech Broadcast CAN Protocol v2.0 (requires Nexus 1.25+ / Elite 3.11+), formerly Haltech CAN Dash Protocol",
+        "Bus: 1 Mbit/s, 11-bit IDs, big-endian data (reverseEndianness set on all multi-byte params)",
+        "Pressures broadcast absolute in kPa, converted to Bar; relative channels subtract 101.3 kPa (add -1.013)",
+        "Temperatures broadcast in Kelvin (x/10), converted to degC (add -273.15)",
+        "Full channel set incl. diagnostics, TPMS and motorsport channels: haltech-full.json"
+    ],
+    "canSpeed": 1000,
     "ecuparam": [
         {
             "header": "Engine Speed",
@@ -7,92 +15,107 @@
             "canId": "0x360",
             "offset": 0,
             "length": 2,
+            "reverseEndianness": true,
             "dec": 0
         },
         {
-            "header": "Map",
-            "unit": "kPa",
+            "header": "MAP",
+            "unit": "Bar",
             "canId": "0x360",
             "offset": 2,
             "length": 2,
-            "mul": 0.1
+            "reverseEndianness": true,
+            "mul": 0.001
         },
         {
-            "header": "TPS",
+            "header": "Throttle Position",
             "unit": "%",
             "canId": "0x360",
             "offset": 4,
             "length": 2,
+            "reverseEndianness": true,
             "mul": 0.1,
             "dec": 1
         },
         {
-            "header": "Coolant Press",
-            "unit": "kPa",
+            "header": "Coolant Pressure",
+            "unit": "Bar",
             "canId": "0x360",
             "offset": 6,
             "length": 2,
-            "mul": 0.1,
-            "add": -101.3
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
         },
         {
             "header": "Fuel Pressure",
-            "unit": "kPa",
+            "unit": "Bar",
             "canId": "0x361",
             "offset": 0,
             "length": 2,
-            "mul": 0.1,
-            "add": -101.3
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
         },
         {
             "header": "Oil Pressure",
-            "unit": "kPa",
+            "unit": "Bar",
             "canId": "0x361",
             "offset": 2,
             "length": 2,
-            "mul": 0.1,
-            "add": -101.3
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
         },
         {
-            "header": "Engine load",
+            "header": "Engine Demand",
             "unit": "%",
             "canId": "0x361",
             "offset": 4,
             "length": 2,
-            "mul": 0.1
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
         },
         {
-            "header": "Wg pressure",
-            "unit": "%",
+            "header": "Wastegate Pressure",
+            "unit": "Bar",
             "canId": "0x361",
             "offset": 6,
             "length": 2,
-            "mul": 0.1,
-            "add": -101.3
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
         },
         {
-            "header": "Injection 1 duty",
+            "header": "Injection Duty 1",
             "unit": "%",
             "canId": "0x362",
             "offset": 0,
             "length": 2,
-            "mul": 0.1
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
         },
         {
-            "header": "Injection 2 duty",
+            "header": "Injection Duty 2",
             "unit": "%",
             "canId": "0x362",
             "offset": 2,
             "length": 2,
-            "mul": 0.1
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
         },
         {
-            "header": "Ignition",
-            "unit": "°",
+            "header": "Ignition Angle",
+            "unit": "°CRK",
             "canId": "0x362",
             "offset": 4,
             "length": 2,
-            "expr": "signed(x, 2) * 0.1"
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
         },
         {
             "header": "Wheel Slip",
@@ -100,7 +123,9 @@
             "canId": "0x363",
             "offset": 0,
             "length": 2,
-            "expr": "signed(x, 2) * 0.1"
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
         },
         {
             "header": "Wheel Diff",
@@ -108,39 +133,140 @@
             "canId": "0x363",
             "offset": 2,
             "length": 2,
-            "expr": "signed(x, 2) * 0.1"
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
         },
         {
-            "header": "Wideband 1",
-            "unit": "AFR",
-            "canId": "0x368",
+            "header": "Fuel Inj",
+            "unit": "ms",
+            "canId": "0x364",
             "offset": 0,
             "length": 2,
+            "reverseEndianness": true,
             "mul": 0.001
         },
         {
-            "header": "Wideband 2",
-            "unit": "AFR",
+            "header": "Lambda 1",
+            "unit": "λ",
+            "canId": "0x368",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda 2",
+            "unit": "λ",
             "canId": "0x368",
             "offset": 2,
             "length": 2,
-            "mul": 0.001
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
         },
         {
-            "header": "Knock 1",
-            "unit": "DB",
+            "header": "Knock Level 1",
+            "unit": "dB",
             "canId": "0x36A",
             "offset": 0,
             "length": 2,
-            "mul": 0.01
+            "reverseEndianness": true,
+            "mul": 0.01,
+            "dec": 1
         },
         {
-            "header": "Knock 2",
-            "unit": "DB",
+            "header": "Knock Level 2",
+            "unit": "dB",
             "canId": "0x36A",
             "offset": 2,
             "length": 2,
-            "mul": 0.01
+            "reverseEndianness": true,
+            "mul": 0.01,
+            "dec": 1
+        },
+        {
+            "_comment": "1 G = 9.81 m/s2",
+            "header": "Lateral G",
+            "unit": "m/s2",
+            "canId": "0x36B",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "_comment": "1 G = 9.81 m/s2",
+            "header": "Longitudinal G",
+            "unit": "m/s2",
+            "canId": "0x36E",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Wastegate Duty",
+            "unit": "%",
+            "canId": "0x36F",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Vehicle Speed",
+            "unit": "km/h",
+            "canId": "0x370",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Battery Voltage",
+            "unit": "V",
+            "canId": "0x372",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "_comment": "Absolute pressure",
+            "header": "Target Boost",
+            "unit": "Bar",
+            "canId": "0x372",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "header": "Ambient Pressure",
+            "unit": "Bar",
+            "canId": "0x372",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "header": "EGT",
+            "unit": "°C",
+            "canId": "0x373",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
         },
         {
             "header": "Coolant Temp",
@@ -148,17 +274,21 @@
             "canId": "0x3E0",
             "offset": 0,
             "length": 2,
+            "reverseEndianness": true,
             "mul": 0.1,
-            "add": -273.15
+            "add": -273.15,
+            "dec": 1
         },
         {
-            "header": "Air Temp",
+            "header": "Intake Air Temp",
             "unit": "°C",
             "canId": "0x3E0",
             "offset": 2,
             "length": 2,
+            "reverseEndianness": true,
             "mul": 0.1,
-            "add": -273.15
+            "add": -273.15,
+            "dec": 1
         },
         {
             "header": "Fuel Temp",
@@ -166,8 +296,10 @@
             "canId": "0x3E0",
             "offset": 4,
             "length": 2,
+            "reverseEndianness": true,
             "mul": 0.1,
-            "add": -273.15
+            "add": -273.15,
+            "dec": 1
         },
         {
             "header": "Oil Temp",
@@ -175,24 +307,152 @@
             "canId": "0x3E0",
             "offset": 6,
             "length": 2,
+            "reverseEndianness": true,
             "mul": 0.1,
-            "add": -273.15
+            "add": -273.15,
+            "dec": 1
         },
         {
-            "header": "Fuel Trim 1",
+            "_comment": "Ethanol content",
+            "header": "Fuel Composition",
+            "unit": "%",
+            "canId": "0x3E1",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Fuel Level",
+            "unit": "L",
+            "canId": "0x3E2",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "STFT 1",
             "unit": "%",
             "canId": "0x3E3",
             "offset": 0,
             "length": 2,
-            "mul": 0.1
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
         },
         {
-            "header": "Fuel Trim 2",
+            "header": "STFT 2",
             "unit": "%",
             "canId": "0x3E3",
             "offset": 2,
             "length": 2,
-            "mul": 0.1
-        }
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "LTFT 1",
+            "unit": "%",
+            "canId": "0x3E3",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "LTFT 2",
+            "unit": "%",
+            "canId": "0x3E3",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Oil Pressure Light",
+            "canId": "0x3E4",
+            "offset": 1,
+            "expr": "x & 1",
+            "dec": 0
+        },
+        {
+            "header": "Check Engine Light",
+            "canId": "0x3E4",
+            "offset": 7,
+            "expr": "(x >> 7) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Battery Light",
+            "canId": "0x3E4",
+            "offset": 7,
+            "expr": "(x >> 6) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Hand Brake",
+            "canId": "0x3E4",
+            "offset": 7,
+            "expr": "(x >> 1) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Lambda Setpoint",
+            "unit": "λ",
+            "canId": "0x3E9",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Gear",
+            "canId": "0x470",
+            "offset": 7,
+            "expr": "signed(x, 1)",
+            "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "N" },
+                { "x": -1, "y": "R" },
+                { "x": -2, "y": "P" },
+                { "x": -3, "y": "?" },
+                { "x": -4, "y": "D" },
+                { "x": -5, "y": "S" },
+                { "x": -6, "y": "M" },
+                { "x": -7, "y": "L" },
+                { "x": -8, "y": "OD" }
+            ]
+        },
+        {
+            "header": "Accelerator Pedal",
+            "unit": "%",
+            "canId": "0x471",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Engine State",
+            "canId": "0x6F4",
+            "offset": 1,
+            "expr": "x & 15",
+            "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "Stopped" },
+                { "x": 1, "y": "Cranking" },
+                { "x": 2, "y": "Idling" },
+                { "x": 3, "y": "Running" },
+                { "x": 4, "y": "Limiting" }
+            ]
+        },
+        { "header": "Boost", "unit": "Bar", "x": "MAP", "y": "Ambient Pressure", "expr": "x - y" }
     ]
 }

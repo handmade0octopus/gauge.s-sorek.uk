@@ -1,0 +1,2545 @@
+{
+    "_description": "Haltech Nexus/Elite ECU Broadcast CAN Protocol v2.0 - full channel set",
+    "_notes": [
+        "Haltech Broadcast CAN Protocol v2.0 (requires Nexus 1.25+ / Elite 3.11+), formerly Haltech CAN Dash Protocol",
+        "Bus: 1 Mbit/s, 11-bit IDs, big-endian data (reverseEndianness set on all multi-byte params)",
+        "Pressures broadcast absolute in kPa, converted to Bar; relative channels subtract 101.3 kPa (add -1.013)",
+        "Temperatures broadcast in Kelvin (x/10), converted to degC (add -273.15)",
+        "Tyre, ride height and 0x6FF pressure channels report raw 0 on sensor error (no signal / calibrating / timeout)",
+        "0x701 Fuel Mileage Instant position overlaps AC Temp in the PDF (4-5 vs 5-6); assumed bytes 6-7",
+        "0x6FF Transfer Case / AC / Power Steering pressures use y = x/100 - 101.3 kPa as printed (max ~2.2 Bar - verify on a real ECU; x/10 may be correct)",
+        "Omitted from the PDF: Combined Gear (0x370, same data as Gear/Gear Selector Position on 0x470), Cruise Input State bitfield (0x472), Generic Output Values/States (0x380/0x6F7, mode-dependent raw), Generic Sensors 1-10 (0x3E7-0x3E9, scaling depends on user-configured sensor type: V=x/1000, kPa=x/10-101.3, kPa abs=x/10, K=x/10, %=x/10), Nitrous Enable/Override switch banks (0x473 bytes 5-6), internal PDM frame (0x700, see Haltech Multiplexed CAN protocol)",
+        "Engine Limiter/RPM Limiter/Cut Percentage Functions are enums per the Haltech 'Engine Limiting Functions' table (table not printed in doc v2.0, values shown raw)",
+        "Core dash channel subset: haltech.json"
+    ],
+    "canSpeed": 1000,
+    "ecuparam": [
+        {
+            "header": "Engine Speed",
+            "unit": "RPM",
+            "canId": "0x360",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 0
+        },
+        {
+            "header": "MAP",
+            "unit": "Bar",
+            "canId": "0x360",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "header": "Throttle Position",
+            "unit": "%",
+            "canId": "0x360",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Coolant Pressure",
+            "unit": "Bar",
+            "canId": "0x360",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
+        },
+        {
+            "header": "Fuel Pressure",
+            "unit": "Bar",
+            "canId": "0x361",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
+        },
+        {
+            "header": "Oil Pressure",
+            "unit": "Bar",
+            "canId": "0x361",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
+        },
+        {
+            "header": "Engine Demand",
+            "unit": "%",
+            "canId": "0x361",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Wastegate Pressure",
+            "unit": "Bar",
+            "canId": "0x361",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
+        },
+        {
+            "header": "Injection Duty 1",
+            "unit": "%",
+            "canId": "0x362",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Injection Duty 2",
+            "unit": "%",
+            "canId": "0x362",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Ignition Angle",
+            "unit": "°CRK",
+            "canId": "0x362",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Wheel Slip",
+            "unit": "km/h",
+            "canId": "0x363",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Wheel Diff",
+            "unit": "km/h",
+            "canId": "0x363",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Launch RPM",
+            "unit": "RPM",
+            "canId": "0x363",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 0
+        },
+        {
+            "header": "Fuel Inj",
+            "unit": "ms",
+            "canId": "0x364",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "header": "Fuel Inj 2",
+            "unit": "ms",
+            "canId": "0x364",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "header": "Fuel Inj 3",
+            "unit": "ms",
+            "canId": "0x364",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "header": "Fuel Inj 4",
+            "unit": "ms",
+            "canId": "0x364",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "header": "Lambda 1",
+            "unit": "λ",
+            "canId": "0x368",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda 2",
+            "unit": "λ",
+            "canId": "0x368",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda 3",
+            "unit": "λ",
+            "canId": "0x368",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda 4",
+            "unit": "λ",
+            "canId": "0x368",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Trigger Error Count",
+            "canId": "0x369",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 0
+        },
+        {
+            "header": "Trigger Counter",
+            "canId": "0x369",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 0
+        },
+        {
+            "header": "Trigger Sync Level",
+            "canId": "0x369",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 0
+        },
+        {
+            "header": "Knock Level 1",
+            "unit": "dB",
+            "canId": "0x36A",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.01,
+            "dec": 1
+        },
+        {
+            "header": "Knock Level 2",
+            "unit": "dB",
+            "canId": "0x36A",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.01,
+            "dec": 1
+        },
+        {
+            "header": "Brake Pressure Front",
+            "unit": "Bar",
+            "canId": "0x36B",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.01,
+            "add": -1.013
+        },
+        {
+            "_comment": "Saturates at 143.164 Bar (2076 psi)",
+            "header": "NOS Pressure 1",
+            "unit": "Bar",
+            "canId": "0x36B",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.0022,
+            "add": -1.013
+        },
+        {
+            "header": "Turbo Speed 1",
+            "unit": "RPM",
+            "canId": "0x36B",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 10,
+            "dec": 0
+        },
+        {
+            "_comment": "1 G = 9.81 m/s2",
+            "header": "Lateral G",
+            "unit": "m/s2",
+            "canId": "0x36B",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Wheel Speed FL",
+            "unit": "km/h",
+            "canId": "0x36C",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Wheel Speed FR",
+            "unit": "km/h",
+            "canId": "0x36C",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Wheel Speed RL",
+            "unit": "km/h",
+            "canId": "0x36C",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Wheel Speed RR",
+            "unit": "km/h",
+            "canId": "0x36C",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Exhaust Cam Angle 1",
+            "unit": "°",
+            "canId": "0x36D",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Exhaust Cam Angle 2",
+            "unit": "°",
+            "canId": "0x36D",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Engine Limiting Active",
+            "canId": "0x36E",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 0
+        },
+        {
+            "header": "Launch Ignition Retard",
+            "unit": "°",
+            "canId": "0x36E",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Launch Fuel Enrich",
+            "unit": "%",
+            "canId": "0x36E",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "_comment": "1 G = 9.81 m/s2",
+            "header": "Longitudinal G",
+            "unit": "m/s2",
+            "canId": "0x36E",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Generic Output 1 Duty",
+            "unit": "%",
+            "canId": "0x36F",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Wastegate Duty",
+            "unit": "%",
+            "canId": "0x36F",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Vehicle Speed",
+            "unit": "km/h",
+            "canId": "0x370",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Intake Cam Angle 1",
+            "unit": "°",
+            "canId": "0x370",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Intake Cam Angle 2",
+            "unit": "°",
+            "canId": "0x370",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Fuel Flow",
+            "unit": "cc/min",
+            "canId": "0x371",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 0
+        },
+        {
+            "header": "Fuel Flow Return",
+            "unit": "cc/min",
+            "canId": "0x371",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 0
+        },
+        {
+            "header": "Battery Voltage",
+            "unit": "V",
+            "canId": "0x372",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "_comment": "Absolute pressure",
+            "header": "Target Boost",
+            "unit": "Bar",
+            "canId": "0x372",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "header": "Ambient Pressure",
+            "unit": "Bar",
+            "canId": "0x372",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "header": "EGT",
+            "unit": "°C",
+            "canId": "0x373",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
+        },
+        {
+            "header": "EGT 2",
+            "unit": "°C",
+            "canId": "0x373",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
+        },
+        {
+            "header": "EGT 3",
+            "unit": "°C",
+            "canId": "0x373",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
+        },
+        {
+            "header": "EGT 4",
+            "unit": "°C",
+            "canId": "0x373",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
+        },
+        {
+            "header": "EGT 5",
+            "unit": "°C",
+            "canId": "0x374",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
+        },
+        {
+            "header": "EGT 6",
+            "unit": "°C",
+            "canId": "0x374",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
+        },
+        {
+            "header": "EGT 7",
+            "unit": "°C",
+            "canId": "0x374",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
+        },
+        {
+            "header": "EGT 8",
+            "unit": "°C",
+            "canId": "0x374",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
+        },
+        {
+            "header": "EGT 9",
+            "unit": "°C",
+            "canId": "0x375",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
+        },
+        {
+            "header": "EGT 10",
+            "unit": "°C",
+            "canId": "0x375",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
+        },
+        {
+            "header": "EGT 11",
+            "unit": "°C",
+            "canId": "0x375",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
+        },
+        {
+            "header": "EGT 12",
+            "unit": "°C",
+            "canId": "0x375",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 0
+        },
+        {
+            "header": "Ambient Temp",
+            "unit": "°C",
+            "canId": "0x376",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "header": "Relative Humidity",
+            "unit": "%",
+            "canId": "0x376",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Specific Humidity",
+            "unit": "ppm",
+            "canId": "0x376",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 100,
+            "dec": 0
+        },
+        {
+            "header": "Absolute Humidity",
+            "unit": "g/m3",
+            "canId": "0x376",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "_comment": "Absolute pressure",
+            "header": "Boost Pre Intercooler",
+            "unit": "Bar",
+            "canId": "0x377",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "header": "Coolant Temp",
+            "unit": "°C",
+            "canId": "0x3E0",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "header": "Intake Air Temp",
+            "unit": "°C",
+            "canId": "0x3E0",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "header": "Fuel Temp",
+            "unit": "°C",
+            "canId": "0x3E0",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "header": "Oil Temp",
+            "unit": "°C",
+            "canId": "0x3E0",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "header": "Gearbox Oil Temp",
+            "unit": "°C",
+            "canId": "0x3E1",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "header": "Diff Oil Temp",
+            "unit": "°C",
+            "canId": "0x3E1",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "_comment": "Ethanol content",
+            "header": "Fuel Composition",
+            "unit": "%",
+            "canId": "0x3E1",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Air Temp Pre Intercooler",
+            "unit": "°C",
+            "canId": "0x3E1",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "header": "Fuel Level",
+            "unit": "L",
+            "canId": "0x3E2",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Fuel Flow Estimated",
+            "unit": "cc/min",
+            "canId": "0x3E2",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 0
+        },
+        {
+            "header": "Fuel Mileage Average",
+            "unit": "km/L",
+            "canId": "0x3E2",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Fuel Level 2",
+            "unit": "L",
+            "canId": "0x3E2",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "STFT 1",
+            "unit": "%",
+            "canId": "0x3E3",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "STFT 2",
+            "unit": "%",
+            "canId": "0x3E3",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "LTFT 1",
+            "unit": "%",
+            "canId": "0x3E3",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "LTFT 2",
+            "unit": "%",
+            "canId": "0x3E3",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Neutral Switch",
+            "canId": "0x3E4",
+            "offset": 1,
+            "expr": "(x >> 7) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Reverse Switch",
+            "canId": "0x3E4",
+            "offset": 1,
+            "expr": "(x >> 6) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Gear Switch",
+            "canId": "0x3E4",
+            "offset": 1,
+            "expr": "(x >> 5) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Decel Cut Active",
+            "canId": "0x3E4",
+            "offset": 1,
+            "expr": "(x >> 4) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Transient Throttle Active",
+            "canId": "0x3E4",
+            "offset": 1,
+            "expr": "(x >> 3) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Brake Pedal Switch",
+            "canId": "0x3E4",
+            "offset": 1,
+            "expr": "(x >> 2) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Clutch Switch",
+            "canId": "0x3E4",
+            "offset": 1,
+            "expr": "(x >> 1) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Oil Pressure Light",
+            "canId": "0x3E4",
+            "offset": 1,
+            "expr": "x & 1",
+            "dec": 0
+        },
+        {
+            "header": "Launch Control Active",
+            "canId": "0x3E4",
+            "offset": 2,
+            "expr": "(x >> 7) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Launch Control Switch",
+            "canId": "0x3E4",
+            "offset": 2,
+            "expr": "(x >> 6) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Aux RPM Limiter Active",
+            "canId": "0x3E4",
+            "offset": 2,
+            "expr": "(x >> 5) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Brake Fluid Level",
+            "canId": "0x3E4",
+            "offset": 2,
+            "expr": "(x >> 4) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Flat Shift Switch",
+            "canId": "0x3E4",
+            "offset": 2,
+            "expr": "(x >> 3) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Clutch Pressure Switch",
+            "canId": "0x3E4",
+            "offset": 2,
+            "expr": "(x >> 2) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Torque Reduction Active",
+            "canId": "0x3E4",
+            "offset": 2,
+            "expr": "(x >> 1) & 1",
+            "dec": 0
+        },
+        {
+            "_comment": "State = Enabled + Active bits + Light, see Traction Control States table in Haltech doc",
+            "header": "Traction Control Enabled",
+            "canId": "0x3E4",
+            "offset": 3,
+            "expr": "(x >> 7) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Traction Control Active",
+            "canId": "0x3E4",
+            "offset": 3,
+            "expr": "(x >> 6) & 1",
+            "dec": 0
+        },
+        {
+            "header": "AC Request",
+            "canId": "0x3E4",
+            "offset": 3,
+            "expr": "(x >> 5) & 1",
+            "dec": 0
+        },
+        {
+            "header": "AC Output",
+            "canId": "0x3E4",
+            "offset": 3,
+            "expr": "(x >> 4) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Thermo Fan 4",
+            "canId": "0x3E4",
+            "offset": 3,
+            "expr": "(x >> 3) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Thermo Fan 3",
+            "canId": "0x3E4",
+            "offset": 3,
+            "expr": "(x >> 2) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Thermo Fan 2",
+            "canId": "0x3E4",
+            "offset": 3,
+            "expr": "(x >> 1) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Thermo Fan 1",
+            "canId": "0x3E4",
+            "offset": 3,
+            "expr": "x & 1",
+            "dec": 0
+        },
+        {
+            "header": "Rotary Trim 1",
+            "canId": "0x3E4",
+            "offset": 4,
+            "expr": "signed(x, 1)",
+            "dec": 0
+        },
+        {
+            "header": "Rotary Trim 2",
+            "canId": "0x3E4",
+            "offset": 5,
+            "expr": "signed(x, 1)",
+            "dec": 0
+        },
+        {
+            "header": "Rotary Trim 3",
+            "canId": "0x3E4",
+            "offset": 6,
+            "expr": "signed(x, 1)",
+            "dec": 0
+        },
+        {
+            "header": "Check Engine Light",
+            "canId": "0x3E4",
+            "offset": 7,
+            "expr": "(x >> 7) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Battery Light",
+            "canId": "0x3E4",
+            "offset": 7,
+            "expr": "(x >> 6) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Hand Brake",
+            "canId": "0x3E4",
+            "offset": 7,
+            "expr": "(x >> 1) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Traction Control Light",
+            "canId": "0x3E4",
+            "offset": 7,
+            "expr": "x & 1",
+            "dec": 0
+        },
+        {
+            "header": "Ignition Switch",
+            "canId": "0x3E5",
+            "offset": 0,
+            "expr": "x & 1",
+            "dec": 0
+        },
+        {
+            "header": "Turbo Timer Remaining",
+            "unit": "s",
+            "canId": "0x3E5",
+            "offset": 1,
+            "dec": 0
+        },
+        {
+            "header": "Turbo Timer Engine Remaining",
+            "unit": "s",
+            "canId": "0x3E5",
+            "offset": 2,
+            "dec": 0
+        },
+        {
+            "header": "Pit Limiter Error",
+            "canId": "0x3E5",
+            "offset": 3,
+            "expr": "(x >> 6) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Pit Limiter Active",
+            "canId": "0x3E5",
+            "offset": 3,
+            "expr": "(x >> 5) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Pit Limiter Switch",
+            "canId": "0x3E5",
+            "offset": 3,
+            "expr": "(x >> 4) & 1",
+            "dec": 0
+        },
+        {
+            "header": "ABS Error",
+            "canId": "0x3E5",
+            "offset": 3,
+            "expr": "(x >> 2) & 1",
+            "dec": 0
+        },
+        {
+            "header": "ABS Active",
+            "canId": "0x3E5",
+            "offset": 3,
+            "expr": "(x >> 1) & 1",
+            "dec": 0
+        },
+        {
+            "header": "ABS Armed",
+            "canId": "0x3E5",
+            "offset": 3,
+            "expr": "x & 1",
+            "dec": 0
+        },
+        {
+            "header": "Steering Angle",
+            "unit": "deg",
+            "canId": "0x3E5",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Driveshaft RPM",
+            "unit": "RPM",
+            "canId": "0x3E5",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 0
+        },
+        {
+            "_comment": "Saturates at 143.164 Bar (2076 psi)",
+            "header": "NOS Pressure 2",
+            "unit": "Bar",
+            "canId": "0x3E6",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.0022,
+            "add": -1.013
+        },
+        {
+            "_comment": "Saturates at 143.164 Bar (2076 psi)",
+            "header": "NOS Pressure 3",
+            "unit": "Bar",
+            "canId": "0x3E6",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.0022,
+            "add": -1.013
+        },
+        {
+            "_comment": "Saturates at 143.164 Bar (2076 psi)",
+            "header": "NOS Pressure 4",
+            "unit": "Bar",
+            "canId": "0x3E6",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.0022,
+            "add": -1.013
+        },
+        {
+            "header": "Turbo Speed 2",
+            "unit": "RPM",
+            "canId": "0x3E6",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 10,
+            "dec": 0
+        },
+        {
+            "header": "Lambda Setpoint",
+            "unit": "λ",
+            "canId": "0x3E9",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Nitrous Stage 1 Output",
+            "canId": "0x3E9",
+            "offset": 6,
+            "expr": "(x >> 7) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Nitrous Stage 2 Output",
+            "canId": "0x3E9",
+            "offset": 6,
+            "expr": "(x >> 6) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Nitrous Stage 3 Output",
+            "canId": "0x3E9",
+            "offset": 6,
+            "expr": "(x >> 5) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Nitrous Stage 4 Output",
+            "canId": "0x3E9",
+            "offset": 6,
+            "expr": "(x >> 4) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Nitrous Stage 5 Output",
+            "canId": "0x3E9",
+            "offset": 6,
+            "expr": "(x >> 3) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Nitrous Stage 6 Output",
+            "canId": "0x3E9",
+            "offset": 6,
+            "expr": "(x >> 2) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Water Injection Output",
+            "canId": "0x3E9",
+            "offset": 6,
+            "expr": "(x >> 1) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Torque Management Knob",
+            "canId": "0x3E9",
+            "offset": 7,
+            "expr": "signed(x, 1)",
+            "dec": 0
+        },
+        {
+            "header": "Gearbox Line Pressure",
+            "unit": "Bar",
+            "canId": "0x3EA",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
+        },
+        {
+            "header": "Injection Duty 3",
+            "unit": "%",
+            "canId": "0x3EA",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Injection Duty 4",
+            "unit": "%",
+            "canId": "0x3EA",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Crank Case Pressure",
+            "unit": "Bar",
+            "canId": "0x3EA",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
+        },
+        { "header": "Race Timer Hi", "canId": "0x3EB", "offset": 0, "length": 2, "reverseEndianness": true, "dec": 0, "hidden": true, "noLog": true },
+        { "header": "Race Timer Lo", "canId": "0x3EB", "offset": 2, "length": 2, "reverseEndianness": true, "dec": 0, "hidden": true, "noLog": true },
+        {
+            "header": "Race Timer",
+            "unit": "ms",
+            "expr": "x * 65536 + y",
+            "x": "Race Timer Hi",
+            "y": "Race Timer Lo",
+            "dec": 0
+        },
+        {
+            "header": "Ignition Angle Bank 1",
+            "unit": "°CRK",
+            "canId": "0x3EB",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Ignition Angle Bank 2",
+            "unit": "°CRK",
+            "canId": "0x3EB",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Torque Mgmt RPM Target",
+            "unit": "RPM",
+            "canId": "0x3EC",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2)",
+            "dec": 0
+        },
+        {
+            "header": "Torque Mgmt RPM Error",
+            "unit": "RPM",
+            "canId": "0x3EC",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2)",
+            "dec": 0
+        },
+        {
+            "header": "Torque Mgmt Ign Correction",
+            "unit": "°",
+            "canId": "0x3EC",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Torque Mgmt Timed Ign Correction",
+            "unit": "°",
+            "canId": "0x3EC",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Torque Mgmt Combined Ign Correction",
+            "unit": "°",
+            "canId": "0x3ED",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Lambda 5",
+            "unit": "λ",
+            "canId": "0x3EE",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda 6",
+            "unit": "λ",
+            "canId": "0x3EE",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda 7",
+            "unit": "λ",
+            "canId": "0x3EE",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda 8",
+            "unit": "λ",
+            "canId": "0x3EE",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda 9",
+            "unit": "λ",
+            "canId": "0x3EF",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda 10",
+            "unit": "λ",
+            "canId": "0x3EF",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda 11",
+            "unit": "λ",
+            "canId": "0x3EF",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda 12",
+            "unit": "λ",
+            "canId": "0x3EF",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "_comment": "Uncalibrated",
+            "header": "Shock Travel FL Raw",
+            "unit": "mm",
+            "canId": "0x3F0",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "_comment": "Uncalibrated",
+            "header": "Shock Travel FR Raw",
+            "unit": "mm",
+            "canId": "0x3F0",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "_comment": "Uncalibrated",
+            "header": "Shock Travel RL Raw",
+            "unit": "mm",
+            "canId": "0x3F0",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "_comment": "Uncalibrated",
+            "header": "Shock Travel RR Raw",
+            "unit": "mm",
+            "canId": "0x3F0",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Shock Travel FL",
+            "unit": "mm",
+            "canId": "0x3F1",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Shock Travel FR",
+            "unit": "mm",
+            "canId": "0x3F1",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Shock Travel RL",
+            "unit": "mm",
+            "canId": "0x3F1",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Shock Travel RR",
+            "unit": "mm",
+            "canId": "0x3F1",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "_comment": "0 = sensor error (no signal / calibrating / timeout)",
+            "header": "Ride Height Front",
+            "unit": "mm",
+            "canId": "0x3F2",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Ride Height Front Raw",
+            "unit": "mm",
+            "canId": "0x3F2",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Ride Height Front Rate",
+            "unit": "mm/s",
+            "canId": "0x3F2",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "_comment": "0 = sensor error (no signal / calibrating / timeout)",
+            "header": "Ride Height Rear",
+            "unit": "mm",
+            "canId": "0x3F3",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Ride Height Rear Raw",
+            "unit": "mm",
+            "canId": "0x3F3",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Ride Height Rear Rate",
+            "unit": "mm/s",
+            "canId": "0x3F3",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "ECU Temp",
+            "unit": "°C",
+            "canId": "0x469",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "header": "Oil Level",
+            "unit": "%",
+            "canId": "0x469",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Lambda Overall",
+            "unit": "λ",
+            "canId": "0x470",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda Bank 1",
+            "unit": "λ",
+            "canId": "0x470",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Lambda Bank 2",
+            "unit": "λ",
+            "canId": "0x470",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "dec": 3
+        },
+        {
+            "header": "Gear Selector Position",
+            "canId": "0x470",
+            "offset": 6,
+            "expr": "signed(x, 1)",
+            "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "N" },
+                { "x": -1, "y": "R" },
+                { "x": -2, "y": "P" },
+                { "x": -3, "y": "?" },
+                { "x": -4, "y": "D" },
+                { "x": -5, "y": "S" },
+                { "x": -6, "y": "M" },
+                { "x": -7, "y": "L" },
+                { "x": -8, "y": "OD" }
+            ]
+        },
+        {
+            "header": "Gear",
+            "canId": "0x470",
+            "offset": 7,
+            "expr": "signed(x, 1)",
+            "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "N" },
+                { "x": -1, "y": "R" },
+                { "x": -2, "y": "P" },
+                { "x": -3, "y": "?" },
+                { "x": -4, "y": "D" },
+                { "x": -5, "y": "S" },
+                { "x": -6, "y": "M" },
+                { "x": -7, "y": "L" },
+                { "x": -8, "y": "OD" }
+            ]
+        },
+        {
+            "header": "Injector Pressure Differential",
+            "unit": "Bar",
+            "canId": "0x471",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.001"
+        },
+        {
+            "header": "Accelerator Pedal",
+            "unit": "%",
+            "canId": "0x471",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "_comment": "Absolute pressure",
+            "header": "Exhaust Pressure",
+            "unit": "Bar",
+            "canId": "0x471",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "header": "Cruise Target Speed",
+            "unit": "km/h",
+            "canId": "0x472",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Cruise Last Target Speed",
+            "unit": "km/h",
+            "canId": "0x472",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Cruise Speed Error",
+            "unit": "km/h",
+            "canId": "0x472",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Cruise Controller State",
+            "canId": "0x472",
+            "offset": 6,
+            "expr": "(x >> 4) & 15",
+            "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "Disabled" },
+                { "x": 1, "y": "Inactive" },
+                { "x": 2, "y": "Cruising" },
+                { "x": 3, "y": "Accelerating" },
+                { "x": 4, "y": "Decelerating" },
+                { "x": 5, "y": "Cancelling" },
+                { "x": 6, "y": "Disabling" }
+            ]
+        },
+        { "header": "Total Fuel Used Hi", "canId": "0x473", "offset": 0, "length": 2, "reverseEndianness": true, "dec": 0, "hidden": true, "noLog": true },
+        { "header": "Total Fuel Used Lo", "canId": "0x473", "offset": 2, "length": 2, "reverseEndianness": true, "dec": 0, "hidden": true, "noLog": true },
+        {
+            "header": "Total Fuel Used",
+            "unit": "cc",
+            "expr": "x * 65536 + y",
+            "x": "Total Fuel Used Hi",
+            "y": "Total Fuel Used Lo",
+            "dec": 0
+        },
+        {
+            "header": "Rolling Antilag Switch",
+            "canId": "0x473",
+            "offset": 4,
+            "expr": "(x >> 7) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Antilag Switch",
+            "canId": "0x473",
+            "offset": 4,
+            "expr": "(x >> 6) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Antilag Output",
+            "canId": "0x473",
+            "offset": 4,
+            "expr": "(x >> 5) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Traction Control Switch",
+            "canId": "0x473",
+            "offset": 4,
+            "expr": "(x >> 4) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Fuel Pump Primary",
+            "canId": "0x473",
+            "offset": 4,
+            "expr": "(x >> 3) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Fuel Pump Aux 1",
+            "canId": "0x473",
+            "offset": 4,
+            "expr": "(x >> 2) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Fuel Pump Aux 2",
+            "canId": "0x473",
+            "offset": 4,
+            "expr": "(x >> 1) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Fuel Pump Aux 3",
+            "canId": "0x473",
+            "offset": 4,
+            "expr": "x & 1",
+            "dec": 0
+        },
+        {
+            "header": "Water Injection Enable Switch",
+            "canId": "0x473",
+            "offset": 7,
+            "expr": "(x >> 7) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Water Injection Enable Output",
+            "canId": "0x473",
+            "offset": 7,
+            "expr": "(x >> 6) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Water Injection Override Switch",
+            "canId": "0x473",
+            "offset": 7,
+            "expr": "(x >> 5) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Water Injection Override Output",
+            "canId": "0x473",
+            "offset": 7,
+            "expr": "(x >> 4) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Cut Percentage Method",
+            "canId": "0x473",
+            "offset": 7,
+            "expr": "x & 15",
+            "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "No Cut" },
+                { "x": 1, "y": "Fuel" },
+                { "x": 2, "y": "Ignition" },
+                { "x": 3, "y": "Fuel+Ign" }
+            ]
+        },
+        {
+            "_comment": "1 G = 9.81 m/s2",
+            "header": "Vertical G",
+            "unit": "m/s2",
+            "canId": "0x474",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Pitch Rate",
+            "unit": "deg/s",
+            "canId": "0x474",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Roll Rate",
+            "unit": "deg/s",
+            "canId": "0x474",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Yaw Rate",
+            "unit": "deg/s",
+            "canId": "0x474",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Fuel Pump Duty Primary",
+            "unit": "%",
+            "canId": "0x475",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Fuel Pump Duty Aux 1",
+            "unit": "%",
+            "canId": "0x475",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Fuel Pump Duty Aux 2",
+            "unit": "%",
+            "canId": "0x475",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Fuel Pump Duty Aux 3",
+            "unit": "%",
+            "canId": "0x475",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Brake Pressure Rear",
+            "unit": "Bar",
+            "canId": "0x476",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.01,
+            "add": -1.013
+        },
+        {
+            "header": "Brake Bias Front",
+            "unit": "%",
+            "canId": "0x476",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Brake Bias Rear",
+            "unit": "%",
+            "canId": "0x476",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "_comment": "Front minus rear",
+            "header": "Brake Pressure Difference",
+            "unit": "Bar",
+            "canId": "0x476",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.01"
+        },
+        {
+            "header": "Rev Limit Max",
+            "unit": "RPM",
+            "canId": "0x477",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 0
+        },
+        {
+            "header": "Cut Percentage",
+            "unit": "%",
+            "canId": "0x477",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "_comment": "Enum per Haltech Engine Limiting Functions table (not printed in doc v2.0)",
+            "header": "Engine Limiter Function",
+            "canId": "0x477",
+            "offset": 4,
+            "dec": 0
+        },
+        {
+            "_comment": "Enum per Haltech Engine Limiting Functions table (not printed in doc v2.0)",
+            "header": "RPM Limiter Function",
+            "canId": "0x477",
+            "offset": 5,
+            "dec": 0
+        },
+        {
+            "_comment": "Enum per Haltech Engine Limiting Functions table (not printed in doc v2.0)",
+            "header": "Cut Percentage Function",
+            "canId": "0x477",
+            "offset": 6,
+            "dec": 0
+        },
+        {
+            "header": "Engine Limiter Method",
+            "canId": "0x477",
+            "offset": 7,
+            "expr": "(x >> 4) & 15",
+            "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "No Cut" },
+                { "x": 1, "y": "Fuel" },
+                { "x": 2, "y": "Ignition" },
+                { "x": 3, "y": "Fuel+Ign" }
+            ]
+        },
+        {
+            "header": "RPM Limiter Method",
+            "canId": "0x477",
+            "offset": 7,
+            "expr": "x & 15",
+            "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "No Cut" },
+                { "x": 1, "y": "Fuel" },
+                { "x": 2, "y": "Ignition" },
+                { "x": 3, "y": "Fuel+Ign" }
+            ]
+        },
+        {
+            "_comment": "0 = sensor error (no signal / calibrating / timeout)",
+            "header": "Tyre Pressure FL",
+            "unit": "Bar",
+            "canId": "0x6F0",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
+        },
+        {
+            "_comment": "0 = sensor error",
+            "header": "Tyre Pressure FR",
+            "unit": "Bar",
+            "canId": "0x6F0",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
+        },
+        {
+            "_comment": "0 = sensor error",
+            "header": "Tyre Pressure RL",
+            "unit": "Bar",
+            "canId": "0x6F0",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
+        },
+        {
+            "_comment": "0 = sensor error",
+            "header": "Tyre Pressure RR",
+            "unit": "Bar",
+            "canId": "0x6F0",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
+        },
+        {
+            "_comment": "0 = sensor error",
+            "header": "Tyre Temp FL",
+            "unit": "°C",
+            "canId": "0x6F1",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "_comment": "0 = sensor error",
+            "header": "Tyre Temp FR",
+            "unit": "°C",
+            "canId": "0x6F1",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "_comment": "0 = sensor error",
+            "header": "Tyre Temp RL",
+            "unit": "°C",
+            "canId": "0x6F1",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "_comment": "0 = sensor error",
+            "header": "Tyre Temp RR",
+            "unit": "°C",
+            "canId": "0x6F1",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "_comment": "0 = sensor error",
+            "header": "Tyre Sensor Battery FL",
+            "unit": "V",
+            "canId": "0x6F2",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "_comment": "0 = sensor error",
+            "header": "Tyre Sensor Battery FR",
+            "unit": "V",
+            "canId": "0x6F2",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "_comment": "0 = sensor error",
+            "header": "Tyre Sensor Battery RL",
+            "unit": "V",
+            "canId": "0x6F2",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "_comment": "0 = sensor error",
+            "header": "Tyre Sensor Battery RR",
+            "unit": "V",
+            "canId": "0x6F2",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001
+        },
+        {
+            "header": "Tyre Pressure Recommended Front",
+            "unit": "Bar",
+            "canId": "0x6F3",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
+        },
+        {
+            "header": "Tyre Pressure Recommended Rear",
+            "unit": "Bar",
+            "canId": "0x6F3",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.001,
+            "add": -1.013
+        },
+        {
+            "header": "Tyre Leak FL",
+            "canId": "0x6F3",
+            "offset": 4,
+            "expr": "x & 1",
+            "dec": 0
+        },
+        {
+            "header": "Tyre Leak FR",
+            "canId": "0x6F3",
+            "offset": 4,
+            "expr": "(x >> 1) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Tyre Leak RL",
+            "canId": "0x6F3",
+            "offset": 4,
+            "expr": "(x >> 2) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Tyre Leak RR",
+            "canId": "0x6F3",
+            "offset": 4,
+            "expr": "(x >> 3) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Engine Protection Severity",
+            "canId": "0x6F3",
+            "offset": 5,
+            "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "Idle" },
+                { "x": 1, "y": "Level 1" },
+                { "x": 2, "y": "Level 2" },
+                { "x": 3, "y": "Level 3" }
+            ]
+        },
+        {
+            "_comment": "OBDII DTC: upper 2 bits = letter (0=P, 1=B, 2=C, 3=U), lower 14 bits = code (e.g. 0x2A00 = P2A00)",
+            "header": "Engine Protection Reason",
+            "canId": "0x6F3",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "dec": 0
+        },
+        {
+            "header": "Park Light",
+            "canId": "0x6F4",
+            "offset": 0,
+            "expr": "x & 1",
+            "dec": 0
+        },
+        {
+            "header": "Head Light",
+            "canId": "0x6F4",
+            "offset": 0,
+            "expr": "(x >> 1) & 1",
+            "dec": 0
+        },
+        {
+            "header": "High Beam Light",
+            "canId": "0x6F4",
+            "offset": 0,
+            "expr": "(x >> 2) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Indicator Left",
+            "canId": "0x6F4",
+            "offset": 0,
+            "expr": "(x >> 3) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Indicator Right",
+            "canId": "0x6F4",
+            "offset": 0,
+            "expr": "(x >> 4) & 1",
+            "dec": 0
+        },
+        {
+            "header": "Engine State",
+            "canId": "0x6F4",
+            "offset": 1,
+            "expr": "x & 15",
+            "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "Stopped" },
+                { "x": 1, "y": "Cranking" },
+                { "x": 2, "y": "Idling" },
+                { "x": 3, "y": "Running" },
+                { "x": 4, "y": "Limiting" }
+            ]
+        },
+        { "header": "Trip Fuel Used Hi", "canId": "0x6F6", "offset": 0, "length": 2, "reverseEndianness": true, "dec": 0, "hidden": true, "noLog": true },
+        { "header": "Trip Fuel Used Lo", "canId": "0x6F6", "offset": 2, "length": 2, "reverseEndianness": true, "dec": 0, "hidden": true, "noLog": true },
+        {
+            "header": "Trip Fuel Used",
+            "unit": "cc",
+            "expr": "signed(x, 2) * 65536 + y",
+            "x": "Trip Fuel Used Hi",
+            "y": "Trip Fuel Used Lo",
+            "dec": 0
+        },
+        { "header": "Trip Meter Hi", "canId": "0x6F6", "offset": 4, "length": 2, "reverseEndianness": true, "dec": 0, "hidden": true, "noLog": true },
+        { "header": "Trip Meter Lo", "canId": "0x6F6", "offset": 6, "length": 2, "reverseEndianness": true, "dec": 0, "hidden": true, "noLog": true },
+        {
+            "header": "Trip Meter 1",
+            "unit": "m",
+            "expr": "signed(x, 2) * 65536 + y",
+            "x": "Trip Meter Hi",
+            "y": "Trip Meter Lo",
+            "dec": 0
+        },
+        {
+            "header": "Calculated Air Temp",
+            "unit": "°C",
+            "canId": "0x6F7",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "add": -273.15,
+            "dec": 1
+        },
+        {
+            "header": "Water Injection Solenoid Duty",
+            "unit": "%",
+            "canId": "0x6F7",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Exhaust Cutout State",
+            "canId": "0x6F8",
+            "offset": 0,
+            "expr": "signed(x, 1)",
+            "dec": 0,
+            "stringLut": [
+                { "x": -1, "y": "Input Error" },
+                { "x": 0, "y": "Disabled" },
+                { "x": 1, "y": "Closed" },
+                { "x": 2, "y": "Opening" },
+                { "x": 3, "y": "Open" },
+                { "x": 4, "y": "Closing" },
+                { "x": 5, "y": "Paused" }
+            ]
+        },
+        {
+            "_comment": "Assumed same state enum as Exhaust Cutout State",
+            "header": "Nitrous Bottle Opener State",
+            "canId": "0x6F8",
+            "offset": 1,
+            "expr": "signed(x, 1)",
+            "dec": 0,
+            "stringLut": [
+                { "x": -1, "y": "Input Error" },
+                { "x": 0, "y": "Disabled" },
+                { "x": 1, "y": "Closed" },
+                { "x": 2, "y": "Opening" },
+                { "x": 3, "y": "Open" },
+                { "x": 4, "y": "Closing" },
+                { "x": 5, "y": "Paused" }
+            ]
+        },
+        {
+            "_comment": "Assumed same state enum as Exhaust Cutout State",
+            "header": "Motor Control 1 State",
+            "canId": "0x6F8",
+            "offset": 2,
+            "expr": "signed(x, 1)",
+            "dec": 0,
+            "stringLut": [
+                { "x": -1, "y": "Input Error" },
+                { "x": 0, "y": "Disabled" },
+                { "x": 1, "y": "Closed" },
+                { "x": 2, "y": "Opening" },
+                { "x": 3, "y": "Open" },
+                { "x": 4, "y": "Closing" },
+                { "x": 5, "y": "Paused" }
+            ]
+        },
+        {
+            "_comment": "Assumed same state enum as Exhaust Cutout State",
+            "header": "Motor Control 2 State",
+            "canId": "0x6F8",
+            "offset": 3,
+            "expr": "signed(x, 1)",
+            "dec": 0,
+            "stringLut": [
+                { "x": -1, "y": "Input Error" },
+                { "x": 0, "y": "Disabled" },
+                { "x": 1, "y": "Closed" },
+                { "x": 2, "y": "Opening" },
+                { "x": 3, "y": "Open" },
+                { "x": 4, "y": "Closing" },
+                { "x": 5, "y": "Paused" }
+            ]
+        },
+        {
+            "_comment": "Assumed same state enum as Exhaust Cutout State",
+            "header": "Motor Control 3 State",
+            "canId": "0x6F8",
+            "offset": 4,
+            "expr": "signed(x, 1)",
+            "dec": 0,
+            "stringLut": [
+                { "x": -1, "y": "Input Error" },
+                { "x": 0, "y": "Disabled" },
+                { "x": 1, "y": "Closed" },
+                { "x": 2, "y": "Opening" },
+                { "x": 3, "y": "Open" },
+                { "x": 4, "y": "Closing" },
+                { "x": 5, "y": "Paused" }
+            ]
+        },
+        {
+            "header": "Fuel Level Percent 0",
+            "unit": "%",
+            "canId": "0x6F8",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Fuel Level Percent 1",
+            "unit": "%",
+            "canId": "0x6F9",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "_comment": "0 = sensor error (no signal / calibrating / timeout)",
+            "header": "Torque Converter Pressure",
+            "unit": "Bar",
+            "canId": "0x6FF",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.001 - 1.013"
+        },
+        {
+            "_comment": "0 = sensor error. x/100 as printed in doc (max ~2.2 Bar) - verify on a real ECU, x/10 may be correct",
+            "header": "Transfer Case Pressure",
+            "unit": "Bar",
+            "canId": "0x6FF",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.0001 - 1.013"
+        },
+        {
+            "_comment": "0 = sensor error. x/100 as printed in doc (max ~2.2 Bar) - verify on a real ECU, x/10 may be correct",
+            "header": "AC Pressure",
+            "unit": "Bar",
+            "canId": "0x6FF",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.0001 - 1.013"
+        },
+        {
+            "_comment": "0 = sensor error. x/100 as printed in doc (max ~2.2 Bar) - verify on a real ECU, x/10 may be correct",
+            "header": "Power Steering Pressure",
+            "unit": "Bar",
+            "canId": "0x6FF",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.0001 - 1.013"
+        },
+        {
+            "header": "Fuel Economy Average",
+            "unit": "l/100km",
+            "canId": "0x701",
+            "offset": 0,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "Fuel Economy Instant",
+            "unit": "l/100km",
+            "canId": "0x701",
+            "offset": 2,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        {
+            "header": "AC Temp",
+            "unit": "°C",
+            "canId": "0x701",
+            "offset": 4,
+            "length": 2,
+            "reverseEndianness": true,
+            "expr": "signed(x, 2) * 0.1 - 273.15",
+            "dec": 1
+        },
+        {
+            "_comment": "Bytes 6-7 assumed (PDF shows 5-6 overlapping AC Temp)",
+            "header": "Fuel Mileage Instant",
+            "unit": "km/L",
+            "canId": "0x701",
+            "offset": 6,
+            "length": 2,
+            "reverseEndianness": true,
+            "mul": 0.1,
+            "dec": 1
+        },
+        { "header": "Boost", "unit": "Bar", "x": "MAP", "y": "Ambient Pressure", "expr": "x - y" }
+    ]
+}

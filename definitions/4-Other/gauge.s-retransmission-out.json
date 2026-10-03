@@ -1,0 +1,102 @@
+{
+    "_description": "CAN retransmission OUT — republishes the MS41 E36 K-line parameters (based on 2-Kline-2007/MS41_E36.json; MS41.1/MS41.2 share the same set) plus Oil Temp for the E36 M3 (M3EVO_E36.json) on three 8-byte CAN frames. Load together with an MS/M3EVO K-line ECU definition; parameters are referenced by header name, little-endian on the wire (LSB first, CDS default — same word order as the MS K-line), 500 kbps, 10 Hz per frame, 0xAA fill. If a referenced parameter is absent from the loaded ECU definition (e.g. Oil Temp on non-M3, Engine Load/IACV on M3EVO) its bytes stay 0xAA. Pairs with /gauge.s-retransmission-in.json (same frame layout, decoded back to canonical names). Layout — 0x400: [0-1] Engine Speed u16 x1, [2-3] Engine Load u16 x1, [4] Throttle Position u8 x1, [5] IACV u8 x1, [6-7] Mass Airflow u16 x1; 0x401: [0-1] Ignition Angle i16 x10 (0.1 degCRK), [2-3] Fuel Inj u16 x100 (0.01 ms), [4-5] Lambda Int 1 i16 x10 (0.1%), [6-7] Lambda Int 2 i16 x10 (0.1%); 0x402: [0] Coolant Temp u8 +48, [1] Intake Air Temp u8 +48, [2] Vehicle Speed u8 x1, [3] Battery Voltage u8 x10 (0.1 V), [4] Oil Temp u8 +48, [5-7] filler. CAN IDs 0x400-0x402 are unused by any definition in the project (checked against bn2000, can11h, BN2020 and all chassis/ECU files).",
+    "canSpeed": 500,
+    "canPoints": [
+        {
+            "canId": "0x400",
+            "eventsPerSecond": 10,
+            "canPoints": [
+                {
+                    "x": "Engine Speed",
+                    "offset": 0,
+                    "length": 2
+                },
+                {
+                    "x": "Engine Load",
+                    "offset": 2,
+                    "length": 2
+                },
+                {
+                    "x": "Throttle Position",
+                    "offset": 4,
+                    "length": 1
+                },
+                {
+                    "x": "IACV",
+                    "offset": 5,
+                    "length": 1
+                },
+                {
+                    "x": "Mass Airflow",
+                    "offset": 6,
+                    "length": 2
+                }
+            ]
+        },
+        {
+            "canId": "0x401",
+            "eventsPerSecond": 10,
+            "canPoints": [
+                {
+                    "x": "Ignition Angle",
+                    "offset": 0,
+                    "length": 2,
+                    "mul": 10
+                },
+                {
+                    "x": "Fuel Inj",
+                    "offset": 2,
+                    "length": 2,
+                    "mul": 100
+                },
+                {
+                    "x": "Lambda Int 1",
+                    "offset": 4,
+                    "length": 2,
+                    "mul": 10
+                },
+                {
+                    "x": "Lambda Int 2",
+                    "offset": 6,
+                    "length": 2,
+                    "mul": 10
+                }
+            ]
+        },
+        {
+            "canId": "0x402",
+            "eventsPerSecond": 10,
+            "canPoints": [
+                {
+                    "x": "Coolant Temp",
+                    "offset": 0,
+                    "length": 1,
+                    "add": 48
+                },
+                {
+                    "x": "Intake Air Temp",
+                    "offset": 1,
+                    "length": 1,
+                    "add": 48
+                },
+                {
+                    "x": "Vehicle Speed",
+                    "offset": 2,
+                    "length": 1
+                },
+                {
+                    "x": "Battery Voltage",
+                    "offset": 3,
+                    "length": 1,
+                    "mul": 10
+                },
+                {
+                    "x": "Oil Temp",
+                    "offset": 4,
+                    "length": 1,
+                    "add": 48
+                }
+            ]
+        }
+    ]
+}

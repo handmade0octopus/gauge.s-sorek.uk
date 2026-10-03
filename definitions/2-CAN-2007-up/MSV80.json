@@ -23,7 +23,7 @@
             "mul": 2
         },
         {
-            "header": "Mass airflow",
+            "header": "Mass Airflow",
             "unit": "kg/h",
             "kwpCan": "0x4203",
             "length": 2,
@@ -31,7 +31,7 @@
             "mul": 0.03125
         },
         {
-            "header": "TPS",
+            "header": "Throttle Position",
             "unit": "%",
             "kwpCan": "0x4600",
             "length": 2,
@@ -39,14 +39,14 @@
             "mul": 0.00729414634406567
         },
         {
-            "header": "PVS",
+            "header": "Accelerator Pedal",
             "unit": "%",
             "kwpCan": "0x480B",
             "length": 1,
             "mul": 0.390625
         },
         {
-            "header": "Ignition cylinder 1",
+            "header": "Ignition Cyl 1",
             "unit": "°CRK",
             "kwpCan": "0x580E",
             "length": 1,
@@ -68,7 +68,7 @@
             "mul": 0.11484375 //"mul": 0.0078125 for Lambda
         },
         {
-            "header": "STFT1",
+            "header": "STFT 1",
             "unit": "%",
             "kwpCan": "0x5806",
             "length": 1,
@@ -76,7 +76,7 @@
             "add": -100
         },
         {
-            "header": "STFT2",
+            "header": "STFT 2",
             "unit": "%",
             "kwpCan": "0x5808",
             "length": 1,
@@ -84,7 +84,7 @@
             "add": -100
         },
         {
-            "header": "LTFT1",
+            "header": "LTFT 1",
             "unit": "%",
             "kwpCan": "0x5A85",
             "length": 2,
@@ -92,7 +92,7 @@
             "expr": "signed(x, 2)*0.00152587890625"
         },
         {
-            "header": "LTFT2",
+            "header": "LTFT 2",
             "unit": "%",
             "kwpCan": "0x5A86",
             "length": 2,
@@ -100,7 +100,7 @@
             "expr": "signed(x, 2)*0.00152587890625"
         },
         {
-            "header": "Intake Temp",
+            "header": "Intake Air Temp",
             "unit": "°C",
             "kwpCan": "0x581E",
             "length": 1,
@@ -175,7 +175,7 @@
             "mul": 1
         },
         {
-            "header": "Vehicle speed",
+            "header": "Vehicle Speed",
             "unit": "km/h",
             "kwpCan": "0x580D",
             "length": 1,

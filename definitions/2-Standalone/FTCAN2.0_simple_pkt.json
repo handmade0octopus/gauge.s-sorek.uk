@@ -1,0 +1,312 @@
+{
+  "canSpeed": 1000,
+  "ecuparam": [
+    {
+      "header": "Throttle Position",
+      "unit": "%",
+      "canId": "0x14080600",
+      "offset": 0,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "max": 100,
+      "reverseEndianness": true
+    },
+    {
+      "header": "MAP",
+      "unit": "Bar",
+      "canId": "0x14080600",
+      "offset": 2,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.001",
+      "dec": 3,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Boost",
+      "unit": "Bar",
+      "expr": "x-1",
+      "x": "MAP",
+      "dec": 3
+    },
+    {
+      "header": "Intake Air Temp",
+      "unit": "°C",
+      "canId": "0x14080600",
+      "offset": 4,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Coolant Temp",
+      "unit": "°C",
+      "canId": "0x14080600",
+      "offset": 6,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Oil Pressure",
+      "unit": "Bar",
+      "canId": "0x14080601",
+      "offset": 0,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.001",
+      "dec": 3,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Fuel Pressure",
+      "unit": "Bar",
+      "canId": "0x14080601",
+      "offset": 2,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.001",
+      "dec": 3,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Water Pressure",
+      "unit": "Bar",
+      "canId": "0x14080601",
+      "offset": 4,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.001",
+      "dec": 3,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Gear",
+      "unit": "",
+      "canId": "0x14080601",
+      "offset": 6,
+      "length": 2,
+      "expr": "signed(x, 2)",
+      "dec": 0,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Lambda 1",
+      "unit": "λ",
+      "canId": "0x14080602",
+      "offset": 0,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.001",
+      "dec": 3,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Engine Speed",
+      "unit": "RPM",
+      "canId": "0x14080602",
+      "offset": 2,
+      "length": 2,
+      "expr": "signed(x, 2)",
+      "dec": 0,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Oil Temp",
+      "unit": "°C",
+      "canId": "0x14080602",
+      "offset": 4,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Pit Limit",
+      "unit": "",
+      "canId": "0x14080602",
+      "offset": 7,
+      "length": 1,
+      "expr": "x & 1",
+      "dec": 0
+    },
+    {
+      "header": "Wheel Speed FR",
+      "unit": "km/h",
+      "canId": "0x14080603",
+      "offset": 0,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Wheel Speed FL",
+      "unit": "km/h",
+      "canId": "0x14080603",
+      "offset": 2,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Wheel Speed RR",
+      "unit": "km/h",
+      "canId": "0x14080603",
+      "offset": 4,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Wheel Speed RL",
+      "unit": "km/h",
+      "canId": "0x14080603",
+      "offset": 6,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Traction Slip",
+      "unit": "",
+      "canId": "0x14080604",
+      "offset": 0,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Traction Ctrl Retard",
+      "unit": "",
+      "canId": "0x14080604",
+      "offset": 2,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Traction Ctrl Cut",
+      "unit": "",
+      "canId": "0x14080604",
+      "offset": 4,
+      "length": 2,
+      "expr": "signed(x, 2)",
+      "dec": 0,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Heading",
+      "unit": "",
+      "canId": "0x14080604",
+      "offset": 6,
+      "length": 2,
+      "expr": "signed(x, 2)",
+      "dec": 0,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Shock Sensor FR",
+      "unit": "mm",
+      "canId": "0x14080605",
+      "offset": 0,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.01",
+      "dec": 2,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Shock Sensor FL",
+      "unit": "mm",
+      "canId": "0x14080605",
+      "offset": 2,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.01",
+      "dec": 2,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Shock Sensor RR",
+      "unit": "mm",
+      "canId": "0x14080605",
+      "offset": 4,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.01",
+      "dec": 2,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Shock Sensor RL",
+      "unit": "mm",
+      "canId": "0x14080605",
+      "offset": 6,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.01",
+      "dec": 2,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Accel G",
+      "unit": "G",
+      "canId": "0x14080606",
+      "offset": 0,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.001",
+      "dec": 3,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Lateral G",
+      "unit": "G",
+      "canId": "0x14080606",
+      "offset": 2,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.001",
+      "dec": 3,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Pitch",
+      "unit": "°",
+      "canId": "0x14080606",
+      "offset": 4,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Roll",
+      "unit": "°",
+      "canId": "0x14080606",
+      "offset": 6,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Lambda Correction",
+      "unit": "λ",
+      "canId": "0x14080607",
+      "offset": 0,
+      "length": 2,
+      "expr": "signed(x, 2) * 0.1",
+      "dec": 1,
+      "reverseEndianness": true
+    },
+    {
+      "header": "Fuel usage",
+      "unit": "l/h",
+      "canId": "0x14080607",
+      "offset": 2,
+      "length": 2,
+      "expr": "signed(x, 2)",
+      "dec": 1,
+      "reverseEndianness": true
+    }
+  ]
+}

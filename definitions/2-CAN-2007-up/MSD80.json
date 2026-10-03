@@ -29,7 +29,7 @@
 			"mul": 2
 		},
 		{
-			"header": "Mass airflow",
+			"header": "Mass Airflow",
 			"unit": "kg/h",
 			"kwpCan": "0x4203",
 			"length": 2,
@@ -37,7 +37,7 @@
 			"mul": 0.03125
 		},
 		{
-			"header": "TPS",
+			"header": "Throttle Position",
 			"unit": "%",
 			"kwpCan": "0x4600",
 			"length": 2,
@@ -45,7 +45,7 @@
 			"mul": 0.00729414634406567
 		},
 		{
-			"header": "PVS",
+			"header": "Accelerator Pedal",
 			"unit": "%",
 			"kwpCan": "0x480B",
 			"length": 1,
@@ -76,7 +76,7 @@
 			"mul": 0.0000829175263643265
 		},
 		{
-			"header": "Real boost",
+			"header": "Boost",
 			"unit": "Bar",
 			"kwpCan": "0x4205",
       		"x": "Boost before",
@@ -84,7 +84,7 @@
       		"expr": "x-y"
 		},
 		{
-			"header": "Target boost",
+			"header": "Target MAP",
 			"unit": "Bar",
 			"kwpCan": "0x5AB0",
 			"length": 2,
@@ -92,7 +92,7 @@
 			"mul": 0.0000390625
 		},
 		{
-			"header": "Low Pressure pump",
+			"header": "Fuel Low Pressure",
 			"unit": "Bar",
 			"kwpCan": "0x5A2E",
 			"length": 2,
@@ -100,7 +100,7 @@
 			"mul": 0.00265336084365845
 		},
 		{
-			"header": "Rail Pressure",
+			"header": "Fuel Pressure",
 			"unit": "Bar",
 			"kwpCan": "0x5A2F",
 			"length": 2,
@@ -108,7 +108,7 @@
 			"mul": 0.00530672168731689
 		},
 		{
-			"header": "Ignition cylinder 1",
+			"header": "Ignition Cyl 1",
 			"unit": "°CRK",
 			"kwpCan": "0x580E",
 			"length": 1,
@@ -136,7 +136,7 @@
 			"mul": 16
 		},
 		{
-			"header": "STFT1",
+			"header": "STFT 1",
 			"unit": "%",
 			"kwpCan": "0x5806",
 			"length": 1,
@@ -144,7 +144,7 @@
 			"add": -100
 		},
 		{
-			"header": "STFT2",
+			"header": "STFT 2",
 			"unit": "%",
 			"kwpCan": "0x5808",
 			"length": 1,
@@ -152,7 +152,7 @@
 			"add": -100
 		},
 		{
-			"header": "LTFT1",
+			"header": "LTFT 1",
 			"unit": "%",
 			"kwpCan": "0x5A85",
 			"length": 2,
@@ -160,7 +160,7 @@
 			"expr": "signed(x, 2)*0.00152587890625"
 		},
 		{
-			"header": "LTFT2",
+			"header": "LTFT 2",
 			"unit": "%",
 			"kwpCan": "0x5A86",
 			"length": 2,
@@ -168,7 +168,7 @@
 			"expr": "signed(x, 2)*0.00152587890625"
 		},
 		{
-			"header": "Intake Temp",
+			"header": "Intake Air Temp",
 			"unit": "°C",
 			"kwpCan": "0x581E",
 			"length": 1,
@@ -204,7 +204,7 @@
 			"mul": 1
 		},
 		{
-			"header": "WG PWM",
+			"header": "Wastegate Duty",
 			"unit": "%",
 			"kwpCan": "0x5AAB",
 			"length": 2,

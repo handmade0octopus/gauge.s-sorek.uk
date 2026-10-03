@@ -1,0 +1,251 @@
+{
+	// BMW R nine T 2015 (BMS-KP, chassis K40) — powertrain CAN, 500 kbps.
+	// Same air/oil-cooled 1170cc boxer + BMS-KP ECU family as the 2010 R1200GS (K25):
+	// message set cross-referenced from the community "Motorrad CANbus" spreadsheet
+	// (K25 rows) and 4G-Gregg/BMW-GS-CAN-Sniffer (K25 CAN_Bus_Defines.h).
+	// Entries marked [RL] were confirmed on a real R nine T 2015 by the Racelogic
+	// CAN file (BMW-K40.REF): 0x10C RPM/TPS and 0x2A8 wheel speed (Intel byte order).
+	//
+	// Passive broadcast only — no polling, safe to combine with trip.json / 4-Other extras.
+	// No "sleep" block: bikes run off switched 12V (ignition off = power cut), and an
+	// unvalidated CAN wake filter risks never waking. Do not add one without bench logs.
+	"canSpeed": 500,
+	"ecuparam": [
+		{
+			// 0x10C BMSK, 10 ms. (D3*256+D2)/4 [RL: start bit 16, 16 bit, x0.25, Intel]
+			"header": "Engine Speed",
+			"unit": "RPM",
+			"canId": "0x10C",
+			"offset": 2,
+			"length": 2,
+			"mul": 0.25,
+			"dec": 0,
+			"max": 9000,
+			"min": 0,
+			"flashPoint": 8500
+		},
+		{
+			// 0x10C D1: throttle valve position, D1/255*100 [RL: x0.4 rounded]
+			"header": "Throttle Position",
+			"alias": "TPS",
+			"unit": "%",
+			"canId": "0x10C",
+			"offset": 1,
+			"length": 1,
+			"mul": 0.392157,
+			"dec": 1,
+			"max": 100,
+			"min": 0
+		},
+		{
+			// 0x10C D4 high nibble: A=clutch lever pulled, 6=released (K25)
+			"header": "Clutch",
+			"unit": "",
+			"canId": "0x10C",
+			"offset": 4,
+			"length": 1,
+			"expr": "(x >> 4) == 10",
+			"dec": 0
+		},
+		{
+			// 0x10C D5 high nibble: 9=side stand down, 5=up (K25)
+			"header": "Side Stand",
+			"unit": "",
+			"canId": "0x10C",
+			"offset": 5,
+			"length": 1,
+			"expr": "(x >> 4) == 9",
+			"dec": 0
+		},
+		{
+			// 0x2BC BMSK, 100 ms. D2: engine/oil temp displayed on cluster (K25: D2*0.75-24)
+			"header": "Oil Temp",
+			"unit": "°C",
+			"canId": "0x2BC",
+			"offset": 2,
+			"length": 1,
+			"mul": 0.75,
+			"add": -24,
+			"dec": 1,
+			"max": 160,
+			"min": 20,
+			"flashPoint": 130,
+			"warningPoint": 120,
+			"warningString": "OIL TEMP"
+		},
+		{
+			// 0x2BC D7: ECU air temp (K25: D7*0.75-48)
+			"header": "Intake Air Temp",
+			"unit": "°C",
+			"canId": "0x2BC",
+			"offset": 7,
+			"length": 1,
+			"mul": 0.75,
+			"add": -48,
+			"dec": 1,
+			"max": 60,
+			"min": -10
+		},
+		{
+			// 0x2BC D5 high nibble: 1=1st, 2=N, 4=2nd, 7=3rd, 8=4th, B=5th, D=6th, F=between (K25)
+			"header": "Gear",
+			"unit": "",
+			"canId": "0x2BC",
+			"offset": 5,
+			"length": 1,
+			"expr": "x >> 4",
+			"dec": 0,
+			"stringLut": [
+				{ "x": 1, "y": "1" },
+				{ "x": 2, "y": "N" },
+				{ "x": 4, "y": "2" },
+				{ "x": 7, "y": "3" },
+				{ "x": 8, "y": "4" },
+				{ "x": 11, "y": "5" },
+				{ "x": 13, "y": "6" },
+				{ "x": 15, "y": "--" }
+			]
+		},
+		{
+			// 0x2A8 ABS, 100 ms. D2,D3 rear wheel speed [RL: 16 bit, x0.0625, Intel]
+			"header": "Vehicle Speed",
+			"unit": "km/h",
+			"canId": "0x2A8",
+			"offset": 2,
+			"length": 2,
+			"mul": 0.0625,
+			"dec": 1,
+			"max": 250,
+			"min": 0
+		},
+		{
+			// 0x294 ABS. D2,D3 front wheel speed (K25 ~0.06, standard scale 0.0625)
+			"header": "W Spd Front",
+			"unit": "km/h",
+			"canId": "0x294",
+			"offset": 2,
+			"length": 2,
+			"mul": 0.0625,
+			"dec": 1,
+			"max": 250,
+			"min": 0
+		},
+		{
+			// 0x294 D6 brake levers, static: 3=off, 7=front, B(rear)=11, F(both)=15
+			"header": "Brake",
+			"unit": "",
+			"canId": "0x294",
+			"offset": 6,
+			"length": 1,
+			"dec": 0,
+			"stringLut": [
+				{ "x": 3, "y": "OFF" },
+				{ "x": 7, "y": "FRONT" },
+				{ "x": 11, "y": "REAR" },
+				{ "x": 15, "y": "BOTH" },
+				{ "x": 0, "y": "OFF" },
+				{ "x": 4, "y": "FRONT" },
+				{ "x": 8, "y": "REAR" },
+				{ "x": 12, "y": "BOTH" }
+			]
+		},
+		{
+			// 0x2D0 ZFE. D1 ambient air temp for cluster display (K25: D1*0.5-40)
+			"header": "Ambient Temp",
+			"unit": "°C",
+			"canId": "0x2D0",
+			"offset": 1,
+			"length": 1,
+			"mul": 0.5,
+			"add": -40,
+			"dec": 1,
+			"max": 50,
+			"min": -20
+		},
+		{
+			// 0x2D0 D3: fuel level until reserve, D3/255*100 (K25)
+			"header": "Fuel to Reserve",
+			"unit": "%",
+			"canId": "0x2D0",
+			"offset": 3,
+			"length": 1,
+			"mul": 0.392157,
+			"dec": 0,
+			"max": 100,
+			"min": 0,
+			"warningPoint": 10,
+			"warningString": "FUEL LOW"
+		},
+		{
+			// 0x2D0 D7 high nibble: DF=ignition on, FF=off (K25)
+			"header": "Ignition",
+			"unit": "",
+			"canId": "0x2D0",
+			"offset": 7,
+			"length": 1,
+			"expr": "(x >> 4) == 13",
+			"dec": 0
+		},
+		{
+			// 0x3F8 KOMBI, 1000 ms. D1-D3 little-endian odometer in km (K25)
+			"header": "Odometer",
+			"unit": "km",
+			"canId": "0x3F8",
+			"offset": 1,
+			"length": 3,
+			"dec": 0
+		},
+		{
+			// 0x130 ZFE lighting, ~100 ms. D7: CF=off, D7=left, E7=right, EF=hazard (K25)
+			"header": "Turn Signal",
+			"unit": "",
+			"canId": "0x130",
+			"offset": 7,
+			"length": 1,
+			"dec": 0,
+			"stringLut": [
+				{ "x": 207, "y": "OFF" },
+				{ "x": 215, "y": "LEFT" },
+				{ "x": 231, "y": "RIGHT" },
+				{ "x": 239, "y": "HAZARD" }
+			]
+		},
+		{
+			// 0x130 D6 low nibble: 9=high beam on, A=off (K25)
+			"header": "High Beam",
+			"unit": "",
+			"canId": "0x130",
+			"offset": 6,
+			"length": 1,
+			"expr": "(x & 15) == 9",
+			"dec": 0
+		},
+		{
+			// 0x32F RDC (TPMS, only with factory RDC option). D6 front / D7 rear, raw/50 bar (K25)
+			"header": "RDC Front",
+			"unit": "Bar",
+			"canId": "0x32F",
+			"offset": 6,
+			"length": 1,
+			"mul": 0.02,
+			"dec": 2,
+			"max": 4,
+			"min": 0,
+			"warningPoint": 2,
+			"warningString": "FRONT TIRE"
+		},
+		{
+			"header": "RDC Rear",
+			"unit": "Bar",
+			"canId": "0x32F",
+			"offset": 7,
+			"length": 1,
+			"mul": 0.02,
+			"dec": 2,
+			"max": 4,
+			"min": 0,
+			"warningPoint": 2,
+			"warningString": "REAR TIRE"
+		}
+	]
+}
