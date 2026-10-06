@@ -1,5 +1,5 @@
 {
-    "_description": "CAN retransmission IN — listens to the three frames published by /gauge.s-retransmission-out.json (0x400-0x402, 500 kbps, little-endian) and decodes them back into the MS41 E36 K-line parameters (plus Oil Temp for the E36 M3) under their exact canonical header names. Load on a device whose car has no K-line (or where K-line data should be relayed over CAN): any gauge design or data logger built for the MS/M3EVO files works unchanged on the CAN bus. Fields the transmitting car does not fill stay 0xAA and decode to 170 on 1-byte fields, 43690 (0xAAAA) on 2-byte x1 fields, 122 degC on the +48 temps - mask with min/max or an expr if needed. Frame layout — 0x400: [0-1] Engine Speed u16 x1, [2-3] Engine Load u16 x1, [4] Throttle Position u8, [5] IACV u8, [6-7] Mass Airflow u16 x1; 0x401: [0-1] Ignition Angle i16 x10, [2-3] Fuel Inj u16 x100, [4-5] Lambda Int 1 i16 x10, [6-7] Lambda Int 2 i16 x10; 0x402: [0] Coolant Temp u8 +48, [1] Intake Air Temp u8 +48, [2] Vehicle Speed u8, [3] Battery Voltage u8 x10, [4] Oil Temp u8 +48, [5-7] filler.",
+    "_description": "CAN retransmission IN — listens to gauge.s-retransmission-out.json (0x400-0x402, 500 kbps, little-endian) and restores the canonical MS41/M3EVO parameter names. Compatible with old Gauge.S2 and current firmware: signed i16 words are converted arithmetically in expr BEFORE dividing by 10; no newer signed flag is required. Expressions must be enabled. Missing sender fields remain 0xAA: u8=170, u16 x1=43690, offset temperatures=122 degC, signed x0.1=-2184.6; filter these sentinel values if required. Frame layout — 0x400: [0-1] Engine Speed u16 x1, [2-3] Engine Load u16 x1, [4] Throttle Position u8, [5] IACV u8, [6-7] Mass Airflow u16 x1; 0x401: [0-1] Ignition Angle i16 x10, [2-3] Fuel Inj u16 x100, [4-5] Lambda Int 1 i16 x10, [6-7] Lambda Int 2 i16 x10; 0x402: [0] Coolant Temp u8 +48, [1] Intake Air Temp u8 +48, [2] Vehicle Speed u8, [3] Battery Voltage u8 x10, [4] Oil Temp u8 +48, [5-7] filler.",
     "canSpeed": 500,
     "ecuparam": [
         {
@@ -48,8 +48,7 @@
             "canId": "0x401",
             "offset": 0,
             "length": 2,
-            "signed": true,
-            "mul": 0.1,
+            "expr": "(x >= 32768 ? x - 65536 : x) / 10",
             "dec": 1
         },
         {
@@ -67,8 +66,7 @@
             "canId": "0x401",
             "offset": 4,
             "length": 2,
-            "signed": true,
-            "mul": 0.1,
+            "expr": "(x >= 32768 ? x - 65536 : x) / 10",
             "dec": 1
         },
         {
@@ -77,8 +75,7 @@
             "canId": "0x401",
             "offset": 6,
             "length": 2,
-            "signed": true,
-            "mul": 0.1,
+            "expr": "(x >= 32768 ? x - 65536 : x) / 10",
             "dec": 1
         },
         {

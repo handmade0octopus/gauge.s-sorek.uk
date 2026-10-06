@@ -321,7 +321,7 @@ Calculate values from other parameters.
 | `signed(x, bytes)` | Convert to signed (1 or 2 bytes) | `signed(x, 2)` |
 | `setBrightness(x)` | Set screen brightness (0-100%) | `setBrightness(x)` |
 | `setPwm(x)` | Set PWM on EA pin | `setPwm(x)` |
-| `buttonPress(all, confirm, next, prev)` | Virtual button inputs | `buttonPress(0, x>0, y>0, z>0)` |
+| `buttonPress(all, prev, next, confirm)` | Virtual button inputs | `buttonPress(0, x>0, y>0, z>0)` |
 | `sleep(bool)` | Put device to sleep | `sleep(x > 10)` |
 
 ---
@@ -372,6 +372,25 @@ The device interpolates between points linearly.
 ---
 
 ## CAN Retransmission
+
+### Cross-version IN/OUT pair
+
+`4-Other/gauge.s-retransmission-out.json` and
+`4-Other/gauge.s-retransmission-in.json` retain the same little-endian 0x400–0x402
+wire layout on Gauge.S2 and current firmware. Enable expressions on both ends.
+Old firmware loads only `ecuparam[].canFrame`, so OUT uses three hidden/noLog
+numeric carrier entries. It does not replace the source ECU parameters.
+
+Old RX has no `signed` JSON flag and scales before evaluating expressions. The
+three signed i16 fields therefore leave mul/add at defaults and use
+`(x >= 32768 ? x - 65536 : x) / 10`. OUT constructs nonnegative two's-complement
+words explicitly, using the old parser's `rint` to retain truncation toward zero;
+it never relies on a negative float-to-unsigned cast. Omitted byte-order flags
+mean little-endian on both sides; RX/TX flag meanings are otherwise asymmetric.
+
+The host `retransmission` regression reads the actual pair and checks literal CAN
+vectors, signed boundaries and fractional values. Configure `sim/test` with
+`-DGAUGE_S2_ROOT=<legacy-checkout>` to also compile and run the old muParser path.
 
 Send data back out on CAN bus:
 
@@ -670,6 +689,17 @@ Check your `mul` and `add`. Some ECUs use different scaling:
 - Use `"` around parameter names with spaces in `x`/`y`/`z`
 - From v2.20+, use `{Parameter Name}` syntax for direct references
 - Division by zero: add small value like `(y + 0.1)`
+
+### Params reading 0 or garbage on a real Bosch MG1 (B58)
+
+Real MG1 (B58) has only ONE dynDID slot (F300): defining F301 gets `7F 2C 31`.
+With `didsPerBlock: 29`, MG1-B58.json's last 3 DIDs (Coolant Temp, Oil Temp,
+MAP Sensor) land in block 1 (F301) and are EXPECTED to stay 0 on the real DME —
+the manager dead-masks the block and keeps polling F300. Params reading garbage
+from the working block (Torque 0x4617, Lambda Setpoint 0x5816, LTFT 0x4A85 ≡
+STFT 0x5807 identical) are definition/DID mismatches vs the real DME — verify
+against a real trace, don't chase firmware bugs (the `sim/test` logic harness
+passes all KWP scenarios with these files).
 
 ---
 

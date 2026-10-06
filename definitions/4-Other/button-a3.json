@@ -1,0 +1,12 @@
+{
+	"ecuparam": [
+		{
+			"header": "Button press",
+			"unit": "b",
+			"expr": "buttonPress(x < 1, 0, 0, 0)", // Analog 3 active-low all-in-one (< 1V)
+			"x": "Analog 3",
+			"hidden": true,
+			"noLog": true
+		}
+	]
+}
