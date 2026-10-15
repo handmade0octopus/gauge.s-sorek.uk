@@ -3,12 +3,17 @@
     // Shared F-series baseline (also commonly labelled BN2010).
     // Message availability depends on the bus/ECU: ../BMW-CHASSIS-NOTES.md
     "sleep": {
-        // Deep sleep after 60s of no CAN traffic; wake on the 0x130 alive frame.
-        // wakeupCode/wakeupMask = TWAI acceptance filter for ID 0x130 with
-        // data0 = 0xFE/0xFF (alive frame) — proven on E9X/F-series, do not change.
+        // Standby sleep, with the 60s traffic timeout as a fallback.
+        // Preserve the proven legacy 0x130 filter. Current firmware also
+        // qualifies PT-CAN 0x12F ST_VEH_CON (byte 1 high nibble): 2..13 awake.
+        // 1 = standby; 0/14/15 do not wake. See ../BMW-CHASSIS-NOTES.md.
         "sleepTime": 60,
         "wakeupCode": "0x2600FFFF",
-        "wakeupMask": "0x2600FEFF"
+        "wakeupMask": "0x2600FEFF",
+        "wakeupFrame": {
+            "canId": "0x12F", "offset": 1, "mask": "0xF0",
+            "min": "0x20", "max": "0xD0", "sleepValue": "0x10"
+        }
     },
     "ecuparam": [
         {

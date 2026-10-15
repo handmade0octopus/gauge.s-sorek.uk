@@ -1,4 +1,4 @@
-# BMW chassis definitions — 2026-10-02
+# BMW chassis definitions — 2026-10-15
 
 These definitions target **Gauge.S/new-screen's CarDataS decoder**. The same
 files are mirrored in `gauge.s-sorek.uk/definitions`. They are receive/gauge
@@ -145,6 +145,77 @@ not established for every F-series module. Maximum RPM's byte is variant-depende
 the existing intended calibration, now applied correctly, not an independent
 voltmeter calibration. Existing unsourced brake/body/yaw mappings, CAN11h clutch
 polarity and BN2000 steering scaling were not generalized from another variant.
+
+## BN2020 PT-CAN standby / wake (2026-10-15)
+
+The common `1-Chassis/F-series-BN2020.json` retains the legacy **0x130**
+sleep/wake path and adds **0x12F KLEMMEN** for PT-CAN taps without 0x130.
+This addition requires current Gauge.S firmware with `sleep.wakeupFrame` support;
+older firmware ignores the new object and retains only its existing 0x130 path.
+
+MEVD physical pp. **4965-4966**, tables 2944/2945, distinguish two signals:
+
+- **Vehicle state `ST_VEH_CON`**: zero-based byte **1**, bits **4-7** (CSV **B2**).
+  Decode `(data[1] >> 4)`. **1 = standby**, **2 = basic operation**,
+  5 = ignition, 7 = engine idle, 9/B = starting phases. States 2-D are awake;
+  initialization 0 and error/unavailable E/F do not qualify a wake.
+- **Terminal state `ST_KL`**: zero-based byte **2**, bits **0-3** (CSV **B3**).
+  Existing `Terminal State` remains unchanged. KL30B-on (6) and KLR-on (8)
+  are not standby. Engine-off is not a sleep request either.
+
+The selected policy is **standby sleep**, retaining basic/accessory operation.
+The extra object checks `data[offset] & mask`, inclusive wake range `min..max`,
+and exact `sleepValue`. It is cached with the original filter in RTC/SPIFFS.
+The runtime receiver pauses polling and requests sleep on standby even if
+expressions are disabled. The existing five-second startup and touch/API grace
+still apply, as does the 60-second traffic timeout fallback.
+
+If 0x130 is seen during a full boot, it takes priority for that sleep/wake cycle:
+0x12F cannot cancel its sleep request or qualify a full wake during shutdown.
+Source detection is reset on the next full boot, not on screen-off listen retries.
+This selection uses reception state, not a persisted parameter value.
+
+**Why masking alone is insufficient:** 0x12F and 0x130 differ in all five low ID
+bits, so even an exact-ID union admits 0x120-0x13F. Their payload layouts also
+differ: 0x12F starts with a changing CRC, whereas 0x130 uses byte 0 bit 0.
+The legacy filter is deliberately preserved, including its sibling-ID matches.
+When the PT alternative is enabled, a coarse hardware union is followed by
+software qualification of either original filter or exact 0x12F/state range.
+Standby, short, RTR and extended frames cannot qualify the PT wake.
+
+### Supplied capture
+
+`canlog-0000 (2).csv`, supplied 2026-10-15: **51,617 records**, ending at
+**35.243 s**, **437** received 0x12F frames, **zero** 0x130 frames.
+
+| Time from capture start | 0x12F bytes (CRC/counter included) | Decoded transition |
+|---:|---|---|
+| 0.060 s | `5F 24 86 19 F1 05 30 42` | Basic operation, KL30B on |
+| 10.875 s | `96 52 8A DD F4 05 33 02` | Ignition, KL15 on |
+| 11.185 s | `C7 B5 8D DD F4 05 33 02` | Engine starting, KL50 on |
+| 11.765 s | `90 76 8A DD F4 05 33 02` | Engine idle, KL15 on |
+| 19.040 s | `A2 46 89 CD F4 85 33 02` | Ignition-off transition |
+| 20.135 s | `1C 27 88 CD F4 05 30 02` | Basic operation, KLR on |
+| 30.455 s | `88 22 86 1A F2 05 30 42` | Basic operation, KL30B on |
+
+Actual RPM first becomes nonzero at 11.273 s and returns to zero at 20.093 s.
+The capture starts with the bus already awake and ends while traffic is still
+running. **It contains no standby state 1, no final bus silence and no subsequent
+unlock/wake. Physical vehicle standby/wake remains unverified.** The implemented
+standby state comes from the datasheet and is covered with synthetic frames.
+
+0x510 and 0x512 are AUTOSAR network-management messages. MEVD pp. **4895-4896**
+explain that a node stops sending them when it is ready to sleep; bytes 4-5
+identify the function holding the network awake, not an FE/FF sleep bit.
+All 55 captured 0x510 messages are `00 00 00 00 FF FF 00 10`; therefore that
+payload does not distinguish this capture's start/stop/close phases.
+
+Verification: `testing/test_can_io.py --pt-capture <capture.csv>` executes the
+production receiver policy and boot listener, with the actual definition and
+extracted config parser. All **23 host cases**, **51,617 replay records** and
+**512 CRC/counter/state wake combinations** pass. Existing chassis/economy
+regression: **258 assertions pass**. These are host tests, not electrical-CAN
+or measured standby-current verification.
 
 ## Sources (physical PDF page numbers)
 
