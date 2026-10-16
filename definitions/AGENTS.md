@@ -88,6 +88,7 @@ Imperial conversion belongs in `4-Other/imperial.json`, using `Vehicle Speed`.
 | `Fuel Pressure` | Bar | Fuel high pressure, Rail Pressure, Fuel_Press |
 | `Fuel Pressure Target` | Bar | Target Rail Pressure, Rail press set |
 | `Ambient Pressure` | Bar | Atmospheric Pressure, Barometric Pressure, Air Pressure |
+| `Night Lights` | bool (0/1) | Interior Night Lighting (CAN11h), Main Lights (BN2020) |
 
 ### MAP / Boost availability rule
 
@@ -1095,7 +1096,7 @@ Base definition for 3-series and 5-series (1998-2007). Uses CAN bus at 500 kbps.
     },
     {
       "_comment": "Interior lighting for auto-dimming",
-      "header": "Interior Night Lighting",
+      "header": "Night Lights",
       "unit": "bool",
       "canId": "0x615",
       "offset": 1,
@@ -1107,7 +1108,7 @@ Base definition for 3-series and 5-series (1998-2007). Uses CAN bus at 500 kbps.
     {
       "header": "Brightness",
       "expr": "setBrightness(lutTable('Brightness', x))",
-      "x": "Interior Night Lighting",
+      "x": "Night Lights",
       "lutTable": [
         { "x": 0, "y": 100 },
         { "x": 1, "y": 50 }

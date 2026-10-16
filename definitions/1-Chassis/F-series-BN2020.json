@@ -142,8 +142,9 @@
             "offset": 0, "length": 1, "expr": "(x & 0x02) >> 1", "dec": 0
         },
         {
-            "header": "Main Lights", "unit": "", "canId": "0x21A",
-            "offset": 0, "length": 1, "expr": "(x & 0x04) >> 2", "dec": 0
+            "header": "Night Lights", "unit": "bool", "canId": "0x21A",
+            "offset": 0, "length": 1, "expr": "(x & 0x04) >> 2", "dec": 0,
+            "min": 0, "max": 1, "hidden": true, "noLog": true
         },
         {
             "header": "Front Fog", "unit": "", "canId": "0x21A",

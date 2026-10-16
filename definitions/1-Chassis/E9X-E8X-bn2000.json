@@ -156,6 +156,13 @@
             ]
         },
         {
+            // FRM STAT_LIGHTING: PARK=4, dipped=5; 0x21A repeats about every 5s.
+            // Source: BMW-CHASSIS-NOTES.md, canonical night-mode trigger.
+            "header": "Night Lights", "unit": "bool", "canId": "0x21A",
+            "offset": 0, "length": 1, "expr": "(x & 0x04) >> 2", "dec": 0,
+            "min": 0, "max": 1, "hidden": true, "noLog": true
+        },
+        {
             "header": "W Spd FL", "unit": "km/h", "canId": "0x0CE",
             "offset": 0, "length": 2, "signed": true, "mul": 0.0625
         },

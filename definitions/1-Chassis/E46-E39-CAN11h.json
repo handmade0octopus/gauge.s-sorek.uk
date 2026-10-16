@@ -99,19 +99,20 @@
         },
         {
             // https://www.ms4x.net/index.php?title=CAN_Bus_ID_0x615_ICL3
-            "header": "Interior Night Lighting",
+            "header": "Night Lights",
             "unit": "bool",
             "canId": "0x615",
             "offset": 1,
             "length": 1,
             "expr": "(x & 4) >> 2",
+            "min": 0, "max": 1, "dec": 0,
             "hidden": true,
             "noLog": true
         },
         {
             "header": "Brightness",
             "expr": "setBrightness(lutTable(\"Brightness\", x))",
-            "x": "Interior Night Lighting",
+            "x": "Night Lights",
             "lutTable": [
                 { "x": 0, "y": 100 },
                 { "x": 1, "y": 50 }

@@ -1,4 +1,4 @@
-# BMW chassis definitions — 2026-10-15
+# BMW chassis definitions — 2026-10-16
 
 These definitions target **Gauge.S/new-screen's CarDataS decoder**. The same
 files are mirrored in `gauge.s-sorek.uk/definitions`. They are receive/gauge
@@ -8,6 +8,31 @@ Load the chassis/ECU/OBD source first, then `4-Other/economy.json`. Gauge.S's
 file loader keeps the first holder with a given name. `economy.json` also marks
 its injector estimate `unique:true`, so it cannot overwrite an existing
 `Fuel usage` source. It no longer installs dummy RPM/speed expressions.
+
+## Automatic Night mode lighting contract
+
+All three BMW chassis now expose **Night Lights**, unit **bool**, normalized to
+**0 = off / 1 = on** with range 0–1. The stock Night mode module binds this name
+without per-car configuration. Generic OBD has no standard lighting PID; it does
+not invent a source. The optional module input then leaves automatic night mode off.
+
+| Chassis | Receive mapping | Previous name |
+|---|---|---|
+| CAN11h | 0x615 byte 1 bit 2, `(x & 4) >> 2` | Interior Night Lighting |
+| BN2000 | FRM 0x21A byte 0 bit 2, `(x & 4) >> 2` | Newly provided |
+| BN2020 | 0x21A byte 0 bit 2, `(x & 4) >> 2` | Main Lights |
+
+This user-requested normalization supersedes the earlier name-preservation rule
+for these lighting inputs only. CAN11h's existing Brightness expression references
+the new name and retains its 100%/50% LUT; BN2020 retains Backlight Brightness and
+its existing brightness control. Night-mode dimming is an additional **relative**
+reduction of that base, e.g. 50% × 0.70 = 35%, and never writes the base back.
+
+BN2000's pinned [EXX-BN2000 DBC](https://github.com/superwofy/E9X-M-CAN-Integration-Module/blob/e222aa2efbd5333cb4fb35411f0aa87bcf883f48/CAN%20messages/dbc%20files/EXX-BN2000.dbc)
+defines STAT_LIGHTING (538/0x21A), ST_HEADLIGHTS bits 0–2, PARK=4 and DIP BEAM=5.
+Its stated 5-second period is why Night mode defaults to a 15-second publication
+age limit. Body-frame availability depends on the actual bus tap; a bench/synthetic
+test is not a physical vehicle light-switch qualification.
 
 ## Fuel usage and economy
 
