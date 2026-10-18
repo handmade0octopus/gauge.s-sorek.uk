@@ -3,16 +3,20 @@
     // Shared F-series baseline (also commonly labelled BN2010).
     // Message availability depends on the bus/ECU: ../BMW-CHASSIS-NOTES.md
     "sleep": {
-        // Standby sleep, with the 60s traffic timeout as a fallback.
-        // Preserve the proven legacy 0x130 filter. Current firmware also
-        // qualifies PT-CAN 0x12F ST_VEH_CON (byte 1 high nibble): 2..13 awake.
-        // 1 = standby; 0/14/15 do not wake. See ../BMW-CHASSIS-NOTES.md.
+        // Accessory sleep/wake: terminal state below 8 sleeps, 8..15 stays awake.
+        // PT-CAN 0x12F byte 2 bit 3 is shared by runtime, wake and polling.
+        // Preserve legacy 0x130 priority and the separate 60s inactivity fallback.
+        // Investigation logging stays off. See ../BMW-CHASSIS-NOTES.md.
         "sleepTime": 60,
         "wakeupCode": "0x2600FFFF",
         "wakeupMask": "0x2600FEFF",
         "wakeupFrame": {
-            "canId": "0x12F", "offset": 1, "mask": "0xF0",
-            "min": "0x20", "max": "0xD0", "sleepValue": "0x10"
+            "canId": "0x12F", "offset": 2, "mask": "0x08",
+            "min": 8, "max": 8, "sleepValue": 0
+        },
+        "pollingFrame": {
+            "canId": "0x12F", "offset": 2, "mask": "0x08",
+            "min": 8, "max": 8, "sleepValue": 0
         }
     },
     "ecuparam": [

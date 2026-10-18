@@ -1,4 +1,4 @@
-# BMW chassis definitions — 2026-10-16
+# BMW chassis definitions — 2026-10-18
 
 These definitions target **Gauge.S/new-screen's CarDataS decoder**. The same
 files are mirrored in `gauge.s-sorek.uk/definitions`. They are receive/gauge
@@ -171,29 +171,38 @@ the existing intended calibration, now applied correctly, not an independent
 voltmeter calibration. Existing unsourced brake/body/yaw mappings, CAN11h clutch
 polarity and BN2000 steering scaling were not generalized from another variant.
 
-## BN2020 PT-CAN standby / wake (2026-10-15)
+## BN2020 PT-CAN accessory sleep / wake (2026-10-18)
 
 The common `1-Chassis/F-series-BN2020.json` retains the legacy **0x130**
 sleep/wake path and adds **0x12F KLEMMEN** for PT-CAN taps without 0x130.
-This addition requires current Gauge.S firmware with `sleep.wakeupFrame` support;
+This policy requires current Gauge.S firmware with `sleep.wakeupFrame` and
+`sleep.pollingFrame` support;
 older firmware ignores the new object and retains only its existing 0x130 path.
 
 MEVD physical pp. **4965-4966**, tables 2944/2945, distinguish two signals:
 
 - **Vehicle state `ST_VEH_CON`**: zero-based byte **1**, bits **4-7** (CSV **B2**).
   Decode `(data[1] >> 4)`. **1 = standby**, **2 = basic operation**,
-  5 = ignition, 7 = engine idle, 9/B = starting phases. States 2-D are awake;
-  initialization 0 and error/unavailable E/F do not qualify a wake.
+   5 = ignition, 7 = engine idle, 9/B = starting phases. This separate vehicle-state
+   signal was used by the earlier standby policy; it is not the accessory boundary.
 - **Terminal state `ST_KL`**: zero-based byte **2**, bits **0-3** (CSV **B3**).
-  Existing `Terminal State` remains unchanged. KL30B-on (6) and KLR-on (8)
-  are not standby. Engine-off is not a sleep request either.
+   Existing `Terminal State` remains unchanged. KL30B-on is 6; KLR-on is 8.
 
-The selected policy is **standby sleep**, retaining basic/accessory operation.
-The extra object checks `data[offset] & mask`, inclusive wake range `min..max`,
-and exact `sleepValue`. It is cached with the original filter in RTC/SPIFFS.
-The runtime receiver pauses polling and requests sleep on standby even if
-expressions are disabled. The existing five-second startup and touch/API grace
-still apply, as does the 60-second traffic timeout fallback.
+The user-approved production policy is **terminal 0–7 requests sleep; 8–15 stays
+awake / qualifies full wake**. Both objects use byte 2, mask `0x08`, active
+`min=max=8`, `sleepValue=0`. This intentionally includes error/unavailable 14–15
+on the awake side. Repeated 0x12F observations recover missed transitions; a
+door opening below 8 leaves the screen off. The runtime receiver requests sleep
+even with expressions disabled. The same decoder is cached in RTC/SPIFFS for wake.
+Polling requires an active observation less than 2,000 ms old. Missing reception
+does not fabricate a sleep state. The existing five-second startup, touch/API/USB
+protections and separate 60-second inactivity fallback remain.
+
+The 18 October release promotes the working accessory8 experiment after user
+confirmation. Extra investigation logging is **off**: `sleep.log`, revision/candidate
+holders and the added Vehicle State logger are omitted; existing hidden `noLog`
+choices are retained. The quiet-time and secondary-ACK experiment fields are also
+absent. Diagnostic tracing remains an explicit firmware option.
 
 If 0x130 is seen during a full boot, it takes priority for that sleep/wake cycle:
 0x12F cannot cancel its sleep request or qualify a full wake during shutdown.
@@ -206,7 +215,7 @@ differ: 0x12F starts with a changing CRC, whereas 0x130 uses byte 0 bit 0.
 The legacy filter is deliberately preserved, including its sibling-ID matches.
 When the PT alternative is enabled, a coarse hardware union is followed by
 software qualification of either original filter or exact 0x12F/state range.
-Standby, short, RTR and extended frames cannot qualify the PT wake.
+Below-8, short, RTR and extended frames cannot qualify the PT wake.
 
 ### Supplied capture
 
@@ -226,8 +235,9 @@ Standby, short, RTR and extended frames cannot qualify the PT wake.
 Actual RPM first becomes nonzero at 11.273 s and returns to zero at 20.093 s.
 The capture starts with the bus already awake and ends while traffic is still
 running. **It contains no standby state 1, no final bus silence and no subsequent
-unlock/wake. Physical vehicle standby/wake remains unverified.** The implemented
-standby state comes from the datasheet and is covered with synthetic frames.
+unlock/wake.** This original capture does not measure sleep current or electrical
+wake. The subsequent accessory8 candidate was reported working as intended by the
+user; host replay and that feedback are distinct from calibrated current measurement.
 
 0x510 and 0x512 are AUTOSAR network-management messages. MEVD pp. **4895-4896**
 explain that a node stops sending them when it is ready to sleep; bytes 4-5
@@ -237,10 +247,10 @@ payload does not distinguish this capture's start/stop/close phases.
 
 Verification: `testing/test_can_io.py --pt-capture <capture.csv>` executes the
 production receiver policy and boot listener, with the actual definition and
-extracted config parser. All **23 host cases**, **51,617 replay records** and
-**512 CRC/counter/state wake combinations** pass. Existing chassis/economy
-regression: **258 assertions pass**. These are host tests, not electrical-CAN
-or measured standby-current verification.
+extracted config parser. The permanent stock-policy case checks all **1,024**
+runtime/wake vectors with tracing disabled, repeated-state sleep and legacy
+priority. Historical vehicle-state/terminal-6 fixtures retain compatibility coverage.
+These are host tests, not electrical-CAN or measured standby-current verification.
 
 ## Sources (physical PDF page numbers)
 
