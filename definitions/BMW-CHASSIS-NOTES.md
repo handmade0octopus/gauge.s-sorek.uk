@@ -305,3 +305,34 @@ comparison; existing independent changes in both repositories were preserved.
 The Suggested Gear LUT needs only one empty-label threshold at 1: the existing
 formatter displays numbers 1–8, while 0 stays Off and 15 stays Unavailable.
 Seven JSON files (including imperial) and this note are synchronized.
+
+## E36 M3 Evo (S50B32, Siemens MSS50) — single-telegram K-line
+
+`2-Kline-2007/M3EVO_E36.json` polls exactly one DS2 telegram,
+`12 05 0B 03 1F` (job `0x0B03`). Per the BMSS501 PRG (`MSS50 fuer S50B32`,
+2026-10-18 full job parse), Gauge.S `offset` = PRG response position − 3 and
+`raw * FAKT_A + FAKT_B` applies. Keep everything on this single request: extra
+K-line jobs (e.g. `0x0B02` ADC voltages, `0x0B06` adaptions) would need their
+own poll slots, slow the shared telegram down, and multi-slot K-line is not
+something Gauge.S2 implemented properly.
+
+Corrections applied 2026-10-18 (verified against a user's 54-minute drive log):
+
+- `Vehicle Speed` is the **word** at offset 2-3. Without `"length": 2` the
+  1-byte read only saw the high byte and speed stayed 0 below 256 km/h, which
+  also pinned `Economy` to its 99 clip and zeroed trips/averages.
+- `Ignition Angle` is a **signed word** at offset 9-10 (×0.1). The old
+  1-byte read at offset 10 wrapped at +25.5 and corrupted retard values.
+- `Vanos Intake/Exhaust` are **signed words** at offsets 15-16 / 17-18 (×0.1).
+  The old low-byte + `add 51.2` decode was wrong.
+- `Knock 1-6` are sensor **volts** (×0.0196), not °C.
+- Added from the same telegram: `Engine Load` (STATUS_TL — this ECU reports it
+  in **ms**, not mg/str), `Lambda Reg 1/2` (whole-loop factor ≈1.00, sharing
+  bytes with `Lambda Int 1/2` by PRG design), `Vanos Intake/Exhaust Target`
+  (signed bytes), `Tank Venting Valve`, `Shut-off Cylinders`.
+
+**Never load MS42/MS43/BMS43 K-line files on this ECU** — they share the
+`0x0B03` telegram but with different layouts: on an MSS50 the MS42 file's
+Engine Load decodes knock sensors 3+4, its Radiator Temp decodes the ignition
+low byte, and its IACV decodes injection/VANOS bytes (all proven garbage in the
+same log). It also adds a duplicate poll slot that halves the data rate.

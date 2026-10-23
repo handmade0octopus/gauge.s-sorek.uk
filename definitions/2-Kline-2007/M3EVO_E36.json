@@ -20,58 +20,86 @@
 		},
 		{
 			"header": "Knock 1",
-			"unit": "°C",
+			"unit": "V",
 			"offset": 27,
-			"mul": 0.01960
+			"mul": 0.01960,
+			"max": 5
 		},
 		{
 			"header": "Knock 2",
-			"unit": "°C",
+			"unit": "V",
 			"offset": 28,
 			"mul": 0.01960,
+			"max": 5,
 			"hidden": true
 		},
 		{
 			"header": "Knock 3",
-			"unit": "°C",
+			"unit": "V",
 			"offset": 29,
 			"mul": 0.01960,
+			"max": 5,
 			"hidden": true
 		},
 		{
 			"header": "Knock 4",
-			"unit": "°C",
+			"unit": "V",
 			"offset": 30,
 			"mul": 0.01960,
+			"max": 5,
 			"hidden": true
 		},
 		{
 			"header": "Knock 5",
-			"unit": "°C",
+			"unit": "V",
 			"offset": 31,
 			"mul": 0.01960,
+			"max": 5,
 			"hidden": true
 		},
 		{
 			"header": "Knock 6",
-			"unit": "°C",
+			"unit": "V",
 			"offset": 32,
 			"mul": 0.01960,
+			"max": 5,
 			"hidden": true
 		},
 		{
 			"header": "Vanos Intake",
 			"unit": "°CRK",
-			"offset": 16,
+			"offset": 15,
+			"length": 2,
 			"mul": 0.1,
-			"add": 51.2
+			"signed": true,
+			"dec": 1
 		},
 		{
 			"header": "Vanos Exhaust",
 			"unit": "°CRK",
-			"offset": 18,
+			"offset": 17,
+			"length": 2,
 			"mul": 0.1,
-			"add": 51.2
+			"signed": true,
+			"dec": 1
+		},
+		{
+			"header": "Vanos Intake Target",
+			"unit": "°CRK",
+			"offset": 33,
+			"mul": 1,
+			"signed": true,
+			"dec": 0,
+			"hidden": true
+		},
+		{
+			"header": "Vanos Exhaust Target",
+			"unit": "°CRK",
+			"offset": 34,
+			"mul": 1,
+			"signed": true,
+			"dec": 0,
+			"hidden": true
 		},
 		{
 			"header": "Throttle Position",
@@ -86,8 +114,11 @@
 		{
 			"header": "Ignition Angle",
 			"unit": "°CRK",
-			"offset": 10,
-			"mul": 0.1
+			"offset": 9,
+			"length": 2,
+			"mul": 0.1,
+			"signed": true,
+			"dec": 1
 		},
 		{
 			"header": "Fuel Inj",
@@ -103,6 +134,15 @@
 			"length": 2,
 			"mul": 0.001,
 			"hidden": true
+		},
+		{
+			// STATUS_TL - engine load base signal in ms on this ECU (not mg/str)
+			"header": "Engine Load",
+			"unit": "ms",
+			"offset": 36,
+			"length": 2,
+			"mul": 0.001,
+			"dec": 2
 		},
 		{
 			"header": "Intake Air Temp",
@@ -129,6 +169,7 @@
 			"header": "Vehicle Speed",
 			"unit": "km/h",
 			"offset": 2,
+			"length": 2,
 			"dec": 0
 		},
 		{
@@ -140,12 +181,49 @@
 			"resetTime": 60
 		},
 		{
+			// STATUS_LA_REGLER1 - whole lambda regulation factor bank 1 (~1.00)
+			"header": "Lambda Reg 1",
+			"unit": "[1]",
+			"offset": 20,
+			"length": 2,
+			"mul": 0.0000305,
+			"dec": 3
+		},
+		{
 			"header": "Lambda Int 2",
 			"unit": "%",
 			"offset": 22,
 			"mul": 1,
 			"add": -128,
 			"resetTime": 60
+		},
+		{
+			// STATUS_LA_REGLER2 - whole lambda regulation factor bank 2 (~1.00)
+			"header": "Lambda Reg 2",
+			"unit": "[1]",
+			"offset": 22,
+			"length": 2,
+			"mul": 0.0000305,
+			"dec": 3
+		},
+		{
+			// STATUS_TVTE - tank venting valve high time
+			"header": "Tank Venting Valve",
+			"unit": "ms",
+			"offset": 24,
+			"length": 2,
+			"mul": 0.016,
+			"dec": 1,
+			"hidden": true
+		},
+		{
+			// STATUS_AUSBLEND - cylinder shut-off count
+			"header": "Shut-off Cylinders",
+			"unit": "[1]",
+			"offset": 26,
+			"mul": 1,
+			"dec": 0,
+			"hidden": true
 		},
 		{
 			"header": "Battery Voltage",
