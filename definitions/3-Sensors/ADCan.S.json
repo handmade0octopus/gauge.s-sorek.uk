@@ -1,0 +1,239 @@
+{
+  // ADCan.S - 4-channel analog voltage + 4-channel PWM frequency/duty sensor node
+  // (STM32F042, https://github.com/handmade0octopus/ADCan.S).
+  //
+  // Default configuration (all DIP switches off, chassis ID 0):
+  //   CAN 500 kbit/s, 100 Hz TX, big-endian, TX IDs 0x100 / 0x101 / 0x102.
+  //   TX ID = 0x100 + (ID << 3), so a different chassis ID shifts the whole
+  //   block (0x108, 0x110, ...). RX ID is TX ID + 4. Update canId values below
+  //   if the DIP switches are changed.
+  //
+  // 0x100 - analog inputs, four 16-bit big-endian words:
+  //   byte 0-1  ADC channel 0 (ADC_IN0 / PA0)
+  //   byte 2-3  ADC channel 1 (ADC_IN1 / PA1)
+  //   byte 4-5  ADC channel 2 (ADC_IN3 / PA3)
+  //   byte 6-7  ADC channel 3 (ADC_IN4 / PA4)
+  //   Each word is the sum of 16 x 12-bit samples; full scale 65536 = 5000 mV
+  //   (the board divides the 0-5 V input down to the 3.3 V ADC range).
+  //
+  // 0x101 - PWM channels 1 and 2, 0x102 - PWM channels 3 and 4:
+  //   byte 0-2  24-bit big-endian frequency in Hz
+  //   byte 3    8-bit duty cycle (0-255)
+  //   byte 4-6  second channel frequency in Hz
+  //   byte 7    second channel duty cycle (0-255)
+  //   The frequency frames exist only when FREQUENCY_OUTPUT is enabled in the
+  //   ADCan.S firmware. No edges for > 1.2 s give frequency 0 and duty 0
+  //   (line low) or 255 (line high).
+  //
+  // ADC channels follow the DMA order (hardware mapping):
+  //   1 = ADC_IN0 / PA0, 2 = ADC_IN1 / PA1, 3 = ADC_IN3 / PA3, 4 = ADC_IN4 / PA4.
+  //
+  // All input fields assume the default big-endian configuration. If DIP switch 6
+  // selects little-endian, set reverseEndianness to false on every input entry.
+  //
+  // ---- PWM control output, disabled by default -------------------------------
+  // 0x104 (RX ID = TX ID + 4) controls both PWM outputs: 8 bytes, big-endian.
+  //   byte 0-3  32-bit frequency in Hz, shared by both channels. The firmware
+  //             ignores 0 (keeps the previous frequency) and clamps to 1..100000.
+  //   byte 4-5  16-bit duty for PWM_CHAN2 (TIM1_CH3N / PB1): 0 = 0 %, 65535 = 100 %
+  //   byte 6-7  16-bit duty for PWM_CHAN1 (TIM1_CH1N / PA7): 0 = 0 %, 65535 = 100 %
+  // The holders below scale duty % to raw with mul 655.35 and add 0.5 (rounding),
+  // so 100 % reaches the full-scale 65535 instead of truncating to 65534.
+  // The firmware cross-maps the duty fields: bytes 4-5 drive PWM_CHAN2 and
+  // bytes 6-7 drive PWM_CHAN1. The holders below already follow that mapping.
+  //
+  // The premade canPoints entry and the "ADCan PWM ..." holders are ready to
+  // use, but the output is disabled with "output": false below. Set it to true
+  // to start transmitting, then replace each holder's fixed "value" with an
+  // expression (for example "expr": "map({Coolant Temp}, 80, 100, 0, 100)") or
+  // update the value to control the outputs. Defaults are 500 Hz and 0 % / 0 %.
+  // Make sure 0x104 is free on the bus before enabling.
+  // CAN TX uses the inverted CanField endianness convention: reverseEndianness
+  // false selects big-endian on the wire.
+  "canSpeed": 500,
+  "output": false,
+  "ecuparam": [
+    // ---- 0x100: analog voltage inputs, 0-5 V --------------------------------
+    {
+      "header": "ADCan Voltage 1",
+      "unit": "V",
+      "canId": "0x100",
+      "offset": 0,
+      "length": 2,
+      "reverseEndianness": true,
+      "mul": 0.0000762939453125, // 5000 mV / 65536
+      "dec": 3,
+      "max": 5,
+      "min": 0
+    },
+    {
+      "header": "ADCan Voltage 2",
+      "unit": "V",
+      "canId": "0x100",
+      "offset": 2,
+      "length": 2,
+      "reverseEndianness": true,
+      "mul": 0.0000762939453125,
+      "dec": 3,
+      "max": 5,
+      "min": 0
+    },
+    {
+      "header": "ADCan Voltage 3",
+      "unit": "V",
+      "canId": "0x100",
+      "offset": 4,
+      "length": 2,
+      "reverseEndianness": true,
+      "mul": 0.0000762939453125,
+      "dec": 3,
+      "max": 5,
+      "min": 0
+    },
+    {
+      "header": "ADCan Voltage 4",
+      "unit": "V",
+      "canId": "0x100",
+      "offset": 6,
+      "length": 2,
+      "reverseEndianness": true,
+      "mul": 0.0000762939453125,
+      "dec": 3,
+      "max": 5,
+      "min": 0
+    },
+    // ---- 0x101: PWM channels 1 and 2 ---------------------------------------
+    {
+      "header": "ADCan Frequency 1",
+      "unit": "Hz",
+      "canId": "0x101",
+      "offset": 0,
+      "length": 3,
+      "reverseEndianness": true,
+      "dec": 0,
+      "max": 1000,
+      "min": 0
+    },
+    {
+      "header": "ADCan Duty 1",
+      "unit": "%",
+      "canId": "0x101",
+      "offset": 3,
+      "length": 1,
+      "mul": 0.3921569, // 100 / 255
+      "dec": 1,
+      "max": 100,
+      "min": 0
+    },
+    {
+      "header": "ADCan Frequency 2",
+      "unit": "Hz",
+      "canId": "0x101",
+      "offset": 4,
+      "length": 3,
+      "reverseEndianness": true,
+      "dec": 0,
+      "max": 1000,
+      "min": 0
+    },
+    {
+      "header": "ADCan Duty 2",
+      "unit": "%",
+      "canId": "0x101",
+      "offset": 7,
+      "length": 1,
+      "mul": 0.3921569,
+      "dec": 1,
+      "max": 100,
+      "min": 0
+    },
+    // ---- 0x102: PWM channels 3 and 4 ---------------------------------------
+    {
+      "header": "ADCan Frequency 3",
+      "unit": "Hz",
+      "canId": "0x102",
+      "offset": 0,
+      "length": 3,
+      "reverseEndianness": true,
+      "dec": 0,
+      "max": 1000,
+      "min": 0
+    },
+    {
+      "header": "ADCan Duty 3",
+      "unit": "%",
+      "canId": "0x102",
+      "offset": 3,
+      "length": 1,
+      "mul": 0.3921569,
+      "dec": 1,
+      "max": 100,
+      "min": 0
+    },
+    {
+      "header": "ADCan Frequency 4",
+      "unit": "Hz",
+      "canId": "0x102",
+      "offset": 4,
+      "length": 3,
+      "reverseEndianness": true,
+      "dec": 0,
+      "max": 1000,
+      "min": 0
+    },
+    {
+      "header": "ADCan Duty 4",
+      "unit": "%",
+      "canId": "0x102",
+      "offset": 7,
+      "length": 1,
+      "mul": 0.3921569,
+      "dec": 1,
+      "max": 100,
+      "min": 0
+    },
+    // ---- Premade PWM control values for the 0x104 output --------------------
+    // Static values are safe defaults. Replace "value" with "expr" to drive
+    // them from other parameters, then set "output": true at the top.
+    {
+      "header": "ADCan PWM Frequency",
+      "unit": "Hz",
+      "value": 500,
+      "dec": 0,
+      "max": 100000,
+      "min": 1
+    },
+    {
+      "header": "ADCan PWM 1 Duty",
+      "unit": "%",
+      "value": 0,
+      "dec": 1,
+      "max": 100,
+      "min": 0
+    },
+    {
+      "header": "ADCan PWM 2 Duty",
+      "unit": "%",
+      "value": 0,
+      "dec": 1,
+      "max": 100,
+      "min": 0
+    }
+  ],
+  "canPoints": [
+    {
+      // Disabled by top-level "output": false; set it to true to transmit.
+      // big-endian wire fields: CanField uses the inverted convention, so
+      // reverseEndianness false = big-endian.
+      "canId": "0x104",
+      "length": 8,
+      "eventsPerSecond": 10,
+      "canPoints": [
+        { "x": "ADCan PWM Frequency", "offset": 0, "length": 4, "reverseEndianness": false },
+        // bytes 4-5 drive PWM_CHAN2, bytes 6-7 drive PWM_CHAN1 (firmware swap)
+        { "x": "ADCan PWM 2 Duty", "offset": 4, "length": 2, "reverseEndianness": false, "mul": 655.35, "add": 0.5 },
+        { "x": "ADCan PWM 1 Duty", "offset": 6, "length": 2, "reverseEndianness": false, "mul": 655.35, "add": 0.5 }
+      ]
+    }
+  ]
+}
