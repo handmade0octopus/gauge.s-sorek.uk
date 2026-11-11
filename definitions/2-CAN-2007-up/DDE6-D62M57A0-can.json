@@ -80,7 +80,7 @@
 			"add": -50.138440
 		},
 		{
-			"header": "Lambda", // STAT_LAMBDA_WERT
+			"header": "Lambda 1", // STAT_LAMBDA_WERT
 			"unit": "L",
 			"kwpCan": "0x181A",
 			"length": 2,

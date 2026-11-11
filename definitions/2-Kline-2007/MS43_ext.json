@@ -212,7 +212,7 @@
 			"mul": 0.0015258793
 		},
 		{
-			"header": "Lambda Int 1",
+			"header": "STFT 1",
 			"unit": "%",
 			"offset": 40,
 			"length": 2,
@@ -223,7 +223,7 @@
 			"resetTime": 0
 		},
 		{
-			"header": "Lambda Int 2",
+			"header": "STFT 2",
 			"unit": "%",
 			"offset": 44,
 			"length": 2,

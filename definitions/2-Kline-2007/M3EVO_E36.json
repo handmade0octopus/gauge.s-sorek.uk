@@ -173,7 +173,7 @@
 			"dec": 0
 		},
 		{
-			"header": "Lambda Int 1",
+			"header": "STFT 1",
 			"unit": "%",
 			"offset": 20,
 			"mul": 1,
@@ -190,7 +190,7 @@
 			"dec": 3
 		},
 		{
-			"header": "Lambda Int 2",
+			"header": "STFT 2",
 			"unit": "%",
 			"offset": 22,
 			"mul": 1,

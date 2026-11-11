@@ -328,7 +328,7 @@ Corrections applied 2026-10-18 (verified against a user's 54-minute drive log):
 - `Knock 1-6` are sensor **volts** (×0.0196), not °C.
 - Added from the same telegram: `Engine Load` (STATUS_TL — this ECU reports it
   in **ms**, not mg/str), `Lambda Reg 1/2` (whole-loop factor ≈1.00, sharing
-  bytes with `Lambda Int 1/2` by PRG design), `Vanos Intake/Exhaust Target`
+  bytes with `STFT 1/2` (were `Lambda Int 1/2`) by PRG design), `Vanos Intake/Exhaust Target`
   (signed bytes), `Tank Venting Valve`, `Shut-off Cylinders`.
 
 **Never load MS42/MS43/BMS43 K-line files on this ECU** — they share the

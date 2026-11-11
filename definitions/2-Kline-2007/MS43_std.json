@@ -135,7 +135,7 @@
 			"dec": 2
 		},
 		{
-			"header": "Lambda Int 1", // STFT: short-term fuel trim cyl 1-3
+			"header": "STFT 1", // STFT: short-term fuel trim cyl 1-3
 			"unit": "%",
 			"offset": 23,
 			"length": 2,
@@ -147,7 +147,7 @@
 			"dec": 0
 		},
 		{
-			"header": "Lambda Int 2", // STFT: short-term fuel trim cyl 4-6
+			"header": "STFT 2", // STFT: short-term fuel trim cyl 4-6
 			"unit": "%",
 			"offset": 25,
 			"length": 2,

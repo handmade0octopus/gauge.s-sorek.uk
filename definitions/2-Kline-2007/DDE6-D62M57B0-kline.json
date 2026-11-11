@@ -76,7 +76,7 @@
 			"add": -50.13844
 		},
 		{
-			"header": "Lambda", // STAT_LAMBDA_WERT
+			"header": "Lambda 1", // STAT_LAMBDA_WERT
 			"unit": "L",
 			"offset": 18,
 			"length": 2,

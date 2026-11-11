@@ -89,7 +89,7 @@
 			"dec": 1
 		},
 		{
-			"header": "Lambda Int 1",
+			"header": "STFT 1",
 			"unit": "",
 			"offset": 10,
 			"add": -128,

@@ -128,7 +128,7 @@
 			"mul": 0.153
 		},
 		{
-			"header": "Lambda Int 1",
+			"header": "STFT 1",
 			"unit": "%",
 			"address": "0x010000ED5C", // for MS41.0
 //			"address": "0x010000F036", // for MS41.1
@@ -141,7 +141,7 @@
 			"resetTime": 0
 		},
 		{
-			"header": "Lambda Int 2",
+			"header": "STFT 2",
 			"unit": "%",
 			"address": "0x010000ED96", // for MS41.0
 //			"address": "0x010000F0F2", // for MS41.1

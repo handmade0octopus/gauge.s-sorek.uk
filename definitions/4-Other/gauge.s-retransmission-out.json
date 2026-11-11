@@ -1,5 +1,5 @@
 {
-    "_description": "CAN retransmission OUT — load with MS41_E36/MS41.1/MS41.2 or M3EVO_E36. Republishes their canonical parameters on 0x400-0x402 at 500 kbps, 10 Hz/frame, little-endian, with 0xAA fill for missing sources. Compatible with old Gauge.S2 and current firmware: hidden numeric carrier entries use the legacy ecuparam[].canFrame loader. Signed TX expressions emit nonnegative two's-complement words instead of relying on the old negative-float-to-uint32 cast. rint(abs(x)*10-0.5) truncates magnitude toward zero; expressions must be enabled. Pairs with gauge.s-retransmission-in.json. Layout — 0x400: [0-1] Engine Speed u16 x1, [2-3] Engine Load u16 x1, [4] Throttle Position u8 x1, [5] IACV u8 x1, [6-7] Mass Airflow u16 x1; 0x401: [0-1] Ignition Angle i16 x10, [2-3] Fuel Inj u16 x100, [4-5] Lambda Int 1 i16 x10, [6-7] Lambda Int 2 i16 x10; 0x402: [0] Coolant Temp u8 +48, [1] Intake Air Temp u8 +48, [2] Vehicle Speed u8 x1, [3] Battery Voltage u8 x10, [4] Oil Temp u8 +48, [5-7] filler. CAN IDs 0x400-0x402 are reserved for this pair; check other bus participants before use.",
+    "_description": "CAN retransmission OUT — load with MS41_E36/MS41.1/MS41.2 or M3EVO_E36. Republishes their canonical parameters on 0x400-0x402 at 500 kbps, 10 Hz/frame, little-endian, with 0xAA fill for missing sources. Compatible with old Gauge.S2 and current firmware: hidden numeric carrier entries use the legacy ecuparam[].canFrame loader. Signed TX expressions emit nonnegative two's-complement words instead of relying on the old negative-float-to-uint32 cast. rint(abs(x)*10-0.5) truncates magnitude toward zero; expressions must be enabled. Pairs with gauge.s-retransmission-in.json. Layout — 0x400: [0-1] Engine Speed u16 x1, [2-3] Engine Load u16 x1, [4] Throttle Position u8 x1, [5] IACV u8 x1, [6-7] Mass Airflow u16 x1; 0x401: [0-1] Ignition Angle i16 x10, [2-3] Fuel Inj u16 x100, [4-5] STFT 1 i16 x10, [6-7] STFT 2 i16 x10; 0x402: [0] Coolant Temp u8 +48, [1] Intake Air Temp u8 +48, [2] Vehicle Speed u8 x1, [3] Battery Voltage u8 x10, [4] Oil Temp u8 +48, [5-7] filler. CAN IDs 0x400-0x402 are reserved for this pair; check other bus participants before use.",
     "canSpeed": 500,
     "ecuparam": [
         {
@@ -61,13 +61,13 @@
                         "mul": 100
                     },
                     {
-                        "x": "Lambda Int 1",
+                        "x": "STFT 1",
                         "offset": 4,
                         "length": 2,
                         "expr": "x < 0 ? 65536 - rint(-x*10 - 0.5) : rint(x*10 - 0.5)"
                     },
                     {
-                        "x": "Lambda Int 2",
+                        "x": "STFT 2",
                         "offset": 6,
                         "length": 2,
                         "expr": "x < 0 ? 65536 - rint(-x*10 - 0.5) : rint(x*10 - 0.5)"

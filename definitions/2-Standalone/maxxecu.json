@@ -27,7 +27,7 @@
             "mul": 0.001
         },
         {
-            "header": "Lambda",
+            "header": "Lambda 1",
             "unit": "L",
             "canId": "0x520",
             "offset": 6,
@@ -92,7 +92,7 @@
             "dec": 1
         },
         {
-            "header": "Lambda corr 1",
+            "header": "STFT 1",
             "unit": "%",
             "canId": "0x524",
             "offset": 2,
@@ -100,7 +100,7 @@
             "mul": 0.1
         },
         {
-            "header": "Lambda corr 2",
+            "header": "STFT 2",
             "unit": "%",
             "canId": "0x524",
             "offset": 4,

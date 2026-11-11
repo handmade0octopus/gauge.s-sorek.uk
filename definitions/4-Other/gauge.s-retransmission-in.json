@@ -1,5 +1,5 @@
 {
-    "_description": "CAN retransmission IN — listens to gauge.s-retransmission-out.json (0x400-0x402, 500 kbps, little-endian) and restores the canonical MS41/M3EVO parameter names. Compatible with old Gauge.S2 and current firmware: signed i16 words are converted arithmetically in expr BEFORE dividing by 10; no newer signed flag is required. Expressions must be enabled. Missing sender fields remain 0xAA: u8=170, u16 x1=43690, offset temperatures=122 degC, signed x0.1=-2184.6; filter these sentinel values if required. Frame layout — 0x400: [0-1] Engine Speed u16 x1, [2-3] Engine Load u16 x1, [4] Throttle Position u8, [5] IACV u8, [6-7] Mass Airflow u16 x1; 0x401: [0-1] Ignition Angle i16 x10, [2-3] Fuel Inj u16 x100, [4-5] Lambda Int 1 i16 x10, [6-7] Lambda Int 2 i16 x10; 0x402: [0] Coolant Temp u8 +48, [1] Intake Air Temp u8 +48, [2] Vehicle Speed u8, [3] Battery Voltage u8 x10, [4] Oil Temp u8 +48, [5-7] filler.",
+    "_description": "CAN retransmission IN — listens to gauge.s-retransmission-out.json (0x400-0x402, 500 kbps, little-endian) and restores the canonical MS41/M3EVO parameter names. Compatible with old Gauge.S2 and current firmware: signed i16 words are converted arithmetically in expr BEFORE dividing by 10; no newer signed flag is required. Expressions must be enabled. Missing sender fields remain 0xAA: u8=170, u16 x1=43690, offset temperatures=122 degC, signed x0.1=-2184.6; filter these sentinel values if required. Frame layout — 0x400: [0-1] Engine Speed u16 x1, [2-3] Engine Load u16 x1, [4] Throttle Position u8, [5] IACV u8, [6-7] Mass Airflow u16 x1; 0x401: [0-1] Ignition Angle i16 x10, [2-3] Fuel Inj u16 x100, [4-5] STFT 1 i16 x10, [6-7] STFT 2 i16 x10; 0x402: [0] Coolant Temp u8 +48, [1] Intake Air Temp u8 +48, [2] Vehicle Speed u8, [3] Battery Voltage u8 x10, [4] Oil Temp u8 +48, [5-7] filler.",
     "canSpeed": 500,
     "ecuparam": [
         {
@@ -61,7 +61,7 @@
             "dec": 2
         },
         {
-            "header": "Lambda Int 1",
+            "header": "STFT 1",
             "unit": "%",
             "canId": "0x401",
             "offset": 4,
@@ -70,7 +70,7 @@
             "dec": 1
         },
         {
-            "header": "Lambda Int 2",
+            "header": "STFT 2",
             "unit": "%",
             "canId": "0x401",
             "offset": 6,

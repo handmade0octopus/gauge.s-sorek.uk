@@ -34,7 +34,7 @@
     //  |    |7 (msb)|128    |Reserved             |               |                   |      |                   |
     //  '----+-------+-------+---------------------+---------------+-------------------+------+-------------------'
     {
-			"header": "Wideband",
+			"header": "AFR 1",
       "unit": "AFR",
 			"canId": "0x180",
 			"offset": 0,
@@ -47,7 +47,7 @@
       "replace": true
 		},
     {
-			"header": "Lambda",
+			"header": "Lambda 1",
       "unit": "L",
 			"canId": "0x180",
 			"offset": 0,

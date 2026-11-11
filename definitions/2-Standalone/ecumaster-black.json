@@ -103,7 +103,7 @@
 			"mul": 0.0625
 		},
 		{
-			"header": "Lambda",
+			"header": "Lambda 1",
 			"unit": "L",
 			"canId": 1539,
 			"offset": 2,
@@ -119,7 +119,7 @@
 			"mul": 0.5
 		},
 		{
-			"header": "WBO",
+			"header": "AFR 1",
 			"unit": "AFR",
 			"expr": "14.7*x",
 			"x": "Lambda"

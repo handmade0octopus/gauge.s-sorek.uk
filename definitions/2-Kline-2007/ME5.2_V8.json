@@ -84,7 +84,7 @@
 			"add": -128
 		},
 		{
-			"header": "Lambda Int 1",
+			"header": "STFT 1",
 			"unit": "%",
 			"offset": 6,
 			"length": 2,
@@ -92,7 +92,7 @@
 			"resetTime": 0
 		},
 		{
-			"header": "Lambda Int 2",
+			"header": "STFT 2",
 			"unit": "%",
 			"offset": 8,
 			"length": 2,

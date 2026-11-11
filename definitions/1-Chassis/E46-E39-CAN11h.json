@@ -121,6 +121,16 @@
             "noLog": true
         },
         {
+            // ICL3 0x615 byte 3: outside temperature, sign-magnitude (bit 7 = minus), 1 °C/bit.
+            "header": "Outside Temp",
+            "unit": "°C",
+            "canId": "0x615",
+            "offset": 3,
+            "length": 1,
+            "expr": "(x & 128) ? 0 - (x & 127) : x",
+            "dec": 0
+        },
+        {
             // https://www.ms4x.net/index.php?title=CAN_Bus_ID_0x613_ICL2
             "header": "Fuel Level",
             "unit": "L",
