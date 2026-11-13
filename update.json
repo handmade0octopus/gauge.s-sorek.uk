@@ -5,7 +5,7 @@
         "file": "SD/wifi/index.htm"
     },
     {
-        "version": 23200,
+        "version": 23300,
         "pcb": 50,
         "beta": false,
         "device": "gauge_e36",
