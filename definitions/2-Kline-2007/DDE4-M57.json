@@ -1,11 +1,11 @@
 {
     "canSpeed": 500,
-	"address": ["0xB8", "0x12", "0xF1", "0x0A", "0x2C", "0x10",
-		"0x0F", "0x60",
-		"0x0F", "0xFC",
-		"0x0F", "0x62",
-		"0x0F", "0x65",
-		"0xF6"],
+    "address": ["0xB8", "0x12", "0xF1", "0x0A", "0x2C", "0x10",
+        "0x0F", "0x60",
+        "0x0F", "0xFC",
+        "0x0F", "0x62",
+        "0x0F", "0x65",
+        "0xF6"],
     "forceKwp": true,
     "slowSend": 3,
     "ecuparam": [
@@ -39,6 +39,6 @@
             "mul": 0.0236197458,
             "add": 0
         },
-		{ "header": "Boost", "unit": "Bar", "x": "MAP", "expr": "x-1" }
-	]
+        { "header": "Boost", "unit": "Bar", "x": "MAP", "expr": "x-1" }
+    ]
 }

@@ -55,17 +55,17 @@
         },
         {
             "header": "Lambda 1",
-            "unit": "AFR",
+            "unit": "λ",
             "kwpCan": "0x5889",
             "length": 1,
-            "mul": 0.11484375 //"mul": 0.0078125 for Lambda
+            "mul": 0.0078125
         },
         {
             "header": "Lambda 2",
-            "unit": "AFR",
+            "unit": "λ",
             "kwpCan": "0x588A",
             "length": 1,
-            "mul": 0.11484375 //"mul": 0.0078125 for Lambda
+            "mul": 0.0078125
         },
         {
             "header": "STFT 1",
@@ -180,6 +180,8 @@
             "kwpCan": "0x580D",
             "length": 1,
             "mul": 1
-        }
+        },
+        { "header": "AFR 1", "unit": "AFR", "x": "Lambda 1", "expr": "x*14.7" },
+        { "header": "AFR 2", "unit": "AFR", "x": "Lambda 2", "expr": "x*14.7" }
     ]
 }

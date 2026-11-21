@@ -28,7 +28,7 @@
         },
         {
             "header": "Lambda 1",
-            "unit": "L",
+            "unit": "λ",
             "canId": "0x520",
             "offset": 6,
             "length": 2,
@@ -36,7 +36,7 @@
         },
         {
             "header": "Lambda 1",
-            "unit": "L",
+            "unit": "λ",
             "canId": "0x521",
             "offset": 0,
             "length": 2,
@@ -44,7 +44,7 @@
         },
         {
             "header": "Lambda 2",
-            "unit": "L",
+            "unit": "λ",
             "canId": "0x521",
             "offset": 2,
             "length": 2,
@@ -163,6 +163,6 @@
             "length": 2,
             "mul": 0.001
         },
-		{ "header": "Boost", "unit": "Bar", "x": "MAP", "expr": "x-1" }
-	]
+        { "header": "Boost", "unit": "Bar", "x": "MAP", "expr": "x-1" }
+    ]
 }

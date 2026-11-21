@@ -1,0 +1,349 @@
+{
+    "_description": "Motorsport Electronics ME221 / ME360 / ME442 Gen2 (wire-in and plug-in) - standard ME_CAN dash stream",
+    "_notes": [
+        "Source: official ME_CAN DBC ME1_4.dbc (motorsport-electronics.co.uk support page, min. firmware 3.7.3)",
+        "MEITE: CAN settings -> enable the ME datastream. Bus 1 Mbit/s, 11-bit IDs 0x300-0x307, little-endian data",
+        "Gen2 wire-in: CAN-H pin 21, CAN-L pin 51. Check the ECU's internal 120 ohm terminator before adding one",
+        "Pressures broadcast in kPa, converted to Bar. MAP and Target Boost are absolute; Boost assumes 1 Bar ambient",
+        "AFR channels are gasoline-scale AFR; Lambda channels divide by 14.7",
+        "Not decoded: 0x340 ME1_In_1 (vehicle speed INTO the ECU)"
+    ],
+    "canSpeed": 1000,
+    "ecuparam": [
+        {
+            "header": "Engine Speed",
+            "unit": "RPM",
+            "canId": "0x300",
+            "offset": 0,
+            "length": 2,
+            "dec": 0
+        },
+        {
+            "header": "Throttle Position",
+            "unit": "%",
+            "canId": "0x300",
+            "offset": 2,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "_comment": "Absolute pressure",
+            "header": "MAP",
+            "unit": "Bar",
+            "canId": "0x300",
+            "offset": 4,
+            "length": 2,
+            "mul": 0.0001,
+            "dec": 2
+        },
+        {
+            "header": "Intake Air Temp",
+            "unit": "°C",
+            "canId": "0x300",
+            "offset": 6,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "RPM Limit",
+            "unit": "RPM",
+            "canId": "0x301",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.4,
+            "dec": 0
+        },
+        {
+            "header": "AFR 1",
+            "unit": "AFR",
+            "canId": "0x301",
+            "offset": 2,
+            "length": 1,
+            "mul": 0.05,
+            "add": 7.5,
+            "dec": 2
+        },
+        {
+            "header": "AFR 2",
+            "unit": "AFR",
+            "canId": "0x301",
+            "offset": 3,
+            "length": 1,
+            "mul": 0.05,
+            "add": 7.5,
+            "dec": 2
+        },
+        {
+            "header": "Lambda Trim",
+            "canId": "0x301",
+            "offset": 4,
+            "length": 2,
+            "mul": 0.01,
+            "dec": 2
+        },
+        {
+            "header": "AFR Target",
+            "unit": "AFR",
+            "canId": "0x301",
+            "offset": 6,
+            "length": 1,
+            "mul": 0.05,
+            "add": 7.5,
+            "dec": 2
+        },
+        {
+            "_comment": "Ethanol content",
+            "header": "Fuel Composition",
+            "unit": "%",
+            "canId": "0x301",
+            "offset": 7,
+            "length": 1,
+            "mul": 0.5,
+            "dec": 0
+        },
+        {
+            "header": "Ignition Angle",
+            "unit": "°CRK",
+            "canId": "0x302",
+            "offset": 0,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Ignition Dwell",
+            "unit": "ms",
+            "canId": "0x302",
+            "offset": 2,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Injection Angle 1",
+            "unit": "°CRK",
+            "canId": "0x302",
+            "offset": 4,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 0
+        },
+        {
+            "_comment": "Primary injectors",
+            "header": "Fuel Inj",
+            "unit": "ms",
+            "canId": "0x302",
+            "offset": 6,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Injection Duty 1",
+            "unit": "%",
+            "canId": "0x303",
+            "offset": 0,
+            "length": 1,
+            "mul": 0.5,
+            "dec": 0
+        },
+        {
+            "_comment": "Secondary injectors",
+            "header": "Injection Duty 2",
+            "unit": "%",
+            "canId": "0x303",
+            "offset": 1,
+            "length": 1,
+            "mul": 0.5,
+            "dec": 0
+        },
+        {
+            "header": "Injection Angle 2",
+            "unit": "°CRK",
+            "canId": "0x303",
+            "offset": 2,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 0
+        },
+        {
+            "_comment": "Secondary injectors",
+            "header": "Fuel Inj 2",
+            "unit": "ms",
+            "canId": "0x303",
+            "offset": 4,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Wastegate Duty",
+            "unit": "%",
+            "canId": "0x303",
+            "offset": 6,
+            "length": 1,
+            "mul": 0.5,
+            "dec": 0
+        },
+        {
+            "header": "Oil Temp",
+            "unit": "°C",
+            "canId": "0x304",
+            "offset": 0,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Oil Pressure",
+            "unit": "Bar",
+            "canId": "0x304",
+            "offset": 2,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.001",
+            "dec": 2
+        },
+        {
+            "header": "Coolant Temp",
+            "unit": "°C",
+            "canId": "0x304",
+            "offset": 4,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Battery Voltage",
+            "unit": "V",
+            "canId": "0x304",
+            "offset": 6,
+            "length": 2,
+            "expr": "signed(x, 2) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Gear",
+            "canId": "0x305",
+            "offset": 0,
+            "length": 1,
+            "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "N" },
+                { "x": 1, "y": "" }
+            ]
+        },
+        {
+            "_comment": "Absolute pressure",
+            "header": "Target Boost",
+            "unit": "Bar",
+            "canId": "0x305",
+            "offset": 1,
+            "length": 2,
+            "mul": 0.0001,
+            "dec": 2
+        },
+        {
+            "header": "Vehicle Speed",
+            "unit": "km/h",
+            "canId": "0x305",
+            "offset": 3,
+            "length": 2,
+            "mul": 0.008,
+            "dec": 0
+        },
+        {
+            "_comment": "Bitmask of triggered protections: 1 Oil Temp, 2 Oil Pressure, 4 Fuel Pressure, 8 Lambda, 16 EGT, 32 Knock, 64 Overboost",
+            "header": "Engine Protection",
+            "canId": "0x305",
+            "offset": 5,
+            "length": 2,
+            "dec": 0,
+            "stringLut": [
+                { "x": 0, "y": "OK" },
+                { "x": 1, "y": "" }
+            ]
+        },
+        {
+            "header": "Knock Level 1",
+            "canId": "0x306",
+            "offset": 0,
+            "length": 2,
+            "dec": 0
+        },
+        {
+            "header": "Knock Retard",
+            "unit": "°CRK",
+            "canId": "0x306",
+            "offset": 2,
+            "length": 1,
+            "expr": "signed(x, 1) * 0.1",
+            "dec": 1
+        },
+        {
+            "header": "Fuel Pressure",
+            "unit": "Bar",
+            "canId": "0x306",
+            "offset": 3,
+            "length": 1,
+            "mul": 0.05,
+            "dec": 2
+        },
+        {
+            "header": "Fuel Temp",
+            "unit": "°C",
+            "canId": "0x306",
+            "offset": 4,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Knock Count",
+            "canId": "0x306",
+            "offset": 5,
+            "length": 2,
+            "dec": 0
+        },
+        {
+            "header": "EGT",
+            "unit": "°C",
+            "canId": "0x307",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.1,
+            "dec": 0
+        },
+        {
+            "header": "EGT 2",
+            "unit": "°C",
+            "canId": "0x307",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.1,
+            "dec": 0
+        },
+        {
+            "_comment": "MEITE general purpose table 1",
+            "header": "GP Table 1",
+            "canId": "0x307",
+            "offset": 4,
+            "length": 2,
+            "expr": "signed(x, 2)",
+            "dec": 0
+        },
+        {
+            "_comment": "MEITE general purpose table 2",
+            "header": "GP Table 2",
+            "canId": "0x307",
+            "offset": 6,
+            "length": 2,
+            "expr": "signed(x, 2)",
+            "dec": 0
+        },
+        { "header": "Boost", "unit": "Bar", "x": "MAP", "expr": "x-1", "dec": 2 },
+        { "header": "Lambda 1", "unit": "λ", "x": "AFR 1", "expr": "x / 14.7", "dec": 3 },
+        { "header": "Lambda 2", "unit": "λ", "x": "AFR 2", "expr": "x / 14.7", "dec": 3 },
+        { "header": "Lambda Setpoint", "unit": "λ", "x": "AFR Target", "expr": "x / 14.7", "dec": 3 }
+    ]
+}

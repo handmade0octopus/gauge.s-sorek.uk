@@ -1,6 +1,6 @@
 {
-	"canSpeed": 500,
-	"ecuparam": [
+    "canSpeed": 500,
+    "ecuparam": [
         {
             "header": "Gear",
             "unit": "Byte",
@@ -8,7 +8,7 @@
             "offset": 2,
             "length": 1,
             "dec": 0,
-			"x": "Gear byte",
+            "x": "Gear byte",
             "expr": "signed(x)",
             "stringLut": [
                 { "x":   -1.0 , "y": "R" },
@@ -16,48 +16,48 @@
                 { "x":    1.0 , "y": ""  }
             ]
         },
-		{
-			"header": "Gear byte",
-			"unit": "B",
+        {
+            "header": "Gear byte",
+            "unit": "B",
             "canId": 1602,
             "offset": 0,
             "length": 1,
-			"max": 8,
-			"dec": 0,
-			"hidden": true
-		},
-		{
-			"header": "Oil Temp",
-			"unit": "°C",
+            "max": 8,
+            "dec": 0,
+            "hidden": true
+        },
+        {
+            "header": "Oil Temp",
+            "unit": "°C",
             "canId": 1602,
             "offset": 1,
             "length": 1,
-			"dec": 0,
-			"add": -40
-		},
-		{
-			"header": "Program",
-			"unit": "SW",
+            "dec": 0,
+            "add": -40
+        },
+        {
+            "header": "Program",
+            "unit": "SW",
             "canId": 1602,
             "offset": 2,
             "length": 1,
-			"dec": 0
-		},
-		{
-			"header": "Flags 1",
-			"unit": "SW",
+            "dec": 0
+        },
+        {
+            "header": "Flags 1",
+            "unit": "SW",
             "canId": 1602,
             "offset": 4,
             "length": 1,
-			"dec": 0
-		},
-		{
-			"header": "Flags 2",
-			"unit": "SW",
+            "dec": 0
+        },
+        {
+            "header": "Flags 2",
+            "unit": "SW",
             "canId": 1602,
             "offset": 5,
             "length": 1,
-			"dec": 0
-		}
-	]
+            "dec": 0
+        }
+    ]
 }

@@ -394,7 +394,7 @@
             "mul": 0.0053333333
         },
         {
-            "header": "Lambda Int 1",
+            "header": "STFT 1",
             "unit": "%",
             "offset": 40,
             "length": 2,
@@ -413,7 +413,7 @@
         },
 
         {
-            "header": "Lambda Int 2",
+            "header": "STFT 2",
             "unit": "%",
             "offset": 44,
             "length": 2,
@@ -513,12 +513,12 @@
         },
         {
             "header": "Ambient Pressure",
-            "unit": "hPa",
+            "unit": "Bar",
             "offset": 61,
             "length": 2,
-            "mul": 0.082921489,
-            "dec": 1,
-            "max": 5434.259766
+            "mul": 0.000082921489,
+            "dec": 3,
+            "max": 5.434259766
         },
         {
             "header": "RON Adaption",
@@ -529,7 +529,7 @@
             "min": 0
         },
         {
-            "header": "Calculated Torque",
+            "header": "Torque",
             "unit": "Nm",
             "offset": 64,
             "length": 2,
@@ -552,6 +552,7 @@
             "mul": 0.00488,
             "max": 5.1,
             "hidden": true
-        }
+        },
+        { "header": "Boost", "unit": "Bar", "x": "MAP", "y": "Ambient Pressure", "expr": "x - y" }
     ]
 }

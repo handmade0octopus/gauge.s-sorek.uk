@@ -1,30 +1,30 @@
 {
-  "ecuparam": [
-    // For use with the 14Point7 Spartan lambda controller analog output.
-    // Default factory output is linear: 0V @ 0.68 Lambda to 5V @ 1.36 Lambda,
-    // equivalent to 10-20 AFR for gasoline (stoichiometric ratio 14.7).
-    // Wire the Lambda output to Analog 1 (0-5V tolerant input with the voltage
-    // divider); AFR is derived from the lambda reading below, so the analog
-    // input is only defined in one place.
-    // Manual: https://cdn.shopify.com/s/files/1/0189/1312/files/Spartan_3_v2_User_Manual_2ef4d870-1ba7-4777-a1d0-4780428d0fb6.pdf
-    {
-      "header": "Lambda 1",
-      "unit": "L",
-      "expr": "0.68 + 0.136*filter('Analog 1', 10)", // 0.68 Lambda @ 0V, linear to 1.36 Lambda @ 5V
-      "dec": 2,
-      "max": 1.36,
-      "min": 0.68,
-      "replace": true
-    },
-    {
-      "header": "AFR 1",
-      "unit": "AFR",
-      "expr": "x * 14.7", // gasoline stoichiometric ratio
-      "x": "Lambda 1",
-      "dec": 1,
-      "max": 20,
-      "min": 10,
-      "replace": true
-    }
-  ]
+    "ecuparam": [
+        // For use with the 14Point7 Spartan lambda controller analog output.
+        // Default factory output is linear: 0V @ 0.68 Lambda to 5V @ 1.36 Lambda,
+        // equivalent to 10-20 AFR for gasoline (stoichiometric ratio 14.7).
+        // Wire the Lambda output to Analog 1 (0-5V tolerant input with the voltage
+        // divider); AFR is derived from the lambda reading below, so the analog
+        // input is only defined in one place.
+        // Manual: https://cdn.shopify.com/s/files/1/0189/1312/files/Spartan_3_v2_User_Manual_2ef4d870-1ba7-4777-a1d0-4780428d0fb6.pdf
+        {
+            "header": "Lambda 1",
+            "unit": "λ",
+            "expr": "0.68 + 0.136*filter('Analog 1', 10)", // 0.68 Lambda @ 0V, linear to 1.36 Lambda @ 5V
+            "dec": 2,
+            "max": 1.36,
+            "min": 0.68,
+            "replace": true
+        },
+        {
+            "header": "AFR 1",
+            "unit": "AFR",
+            "expr": "x * 14.7", // gasoline stoichiometric ratio
+            "x": "Lambda 1",
+            "dec": 1,
+            "max": 20,
+            "min": 10,
+            "replace": true
+        }
+    ]
 }

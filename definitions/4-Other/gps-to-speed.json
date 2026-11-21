@@ -1,5 +1,5 @@
 {
-	"ecuparam": [
+    "ecuparam": [
         {
             "header": "Vehicle Speed", // Dummy, used for trip calculation
             "expr": "x",

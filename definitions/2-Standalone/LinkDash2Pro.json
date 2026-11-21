@@ -1,177 +1,178 @@
 {
-  "canSpeed": 500,
-  "ecuparam": [
-    {
-      "header": "Engine Speed",
-      "unit": "",
-      "canId": "0x3E8",
-      "offset": 0,
-      "length": 2,
-      "dec": 0,
-      "reverseEndianess": false
-    },
-    {
-      "header": "MGP",
-      "unit": "Kpa",
-      "canId": "0x3E8",
-      "offset": 2,
-      "length": 2,
-      "add": -100,
-      "dec": 0,
-      "reverseEndianess": false
-    },
-    {
-      "header": "Coolant Temp",
-      "unit": "°C",
-      "canId": "0x3E8",
-      "offset": 4,
-      "length": 1,
-      "add": -50,
-      "dec": 0
-    },
-    {
-      "header": "Intake Air Temp",
-      "unit": "°C",
-      "canId": "0x3E8",
-      "offset": 5,
-      "length": 1,
-      "add": -50,
-      "dec": 0
-    },
-    {
-      "header": "Battery Voltage",
-      "unit": "V",
-      "canId": "0x3E8",
-      "offset": 6,
-      "length": 1,
-      "dec": 0
-    },
-    {
-      "header": "Oil Temp",
-      "unit": "°C",
-      "canId": "0x3E8",
-      "offset": 7,
-      "length": 1,
-      "add": -50,
-      "dec": 0
-    },
-    {
-      "header": "Throttle Position",
-      "unit": "%",
-      "canId": "0x3E9",
-      "offset": 0,
-      "length": 2,
-      "mul": 0.1,
-      "dec": 1,
-      "reverseEndianess": false
-    },
-    {
-      "header": "Non_Driven_Wheel_Speed",
-      "unit": "km/h",
-      "canId": "0x3E9",
-      "offset": 4,
-      "length": 1,
-      "dec": 0
-    },
-    {
-      "header": "Oil_Press",
-      "unit": "Bar",
-      "canId": "0x3E9",
-      "offset": 5,
-      "length": 1,
-      "mul": 0.1,
-      "dec": 0
-    },
-    {
-      "header": "Fuel Pressure",
-      "unit": "Bar",
-      "canId": "0x3E9",
-      "offset": 6,
-      "length": 1,
-      "mul": 0.1,
-      "dec": 0
-    },
-    {
-      "header": "Lambda 1",
-      "unit": "λ",
-      "canId": "0x3EA",
-      "offset": 0,
-      "length": 2,
-      "mul": 0.001,
-      "dec": 3,
-      "reverseEndianess": false
-    },
-    {
-      "header": "Lambda 2",
-      "unit": "λ",
-      "canId": "0x3EA",
-      "offset": 2,
-      "length": 2,
-      "mul": 0.001,
-      "dec": 3,
-      "reverseEndianess": false
-    },
-    {
-      "header": "BAP",
-      "unit": "Bar",
-      "canId": "0x3EA",
-      "offset": 6,
-      "length": 2,
-      "mul": 0.001,
-      "dec": 1,
-      "reverseEndianess": false
-    },
-    {
-      "header": "Gear",
-      "unit": "",
-      "canId": "0x3EB",
-      "offset": 0,
-      "length": 1,
-      "dec": 0
-    },
-    {
-      "header": "Fuel_Cut",
-      "unit": "%",
-      "canId": "0x3EB",
-      "offset": 1,
-      "length": 1,
-      "dec": 0
-    },
-    {
-      "header": "Ignition_Cut",
-      "unit": "%",
-      "canId": "0x3EB",
-      "offset": 2,
-      "length": 1,
-      "dec": 0
-    },
-    {
-      "header": "Injector_PW",
-      "unit": "mS",
-      "canId": "0x3EB",
-      "offset": 3,
-      "length": 2,
-      "mul": 0.001,
-      "dec": 3,
-      "reverseEndianess": false
-    },
-    {
-      "header": "Fault_Code_Count",
-      "unit": "",
-      "canId": "0x3EB",
-      "offset": 5,
-      "length": 1,
-      "dec": 0
-    },
-    {
-      "header": "Knock_Level_Global",
-      "unit": "",
-      "canId": "0x3EB",
-      "offset": 6,
-      "length": 2,
-      "mul": 5,
-      "dec": 0,
-      "reverseEndianess": false
-    }
-  ]
+    "canSpeed": 500,
+    "ecuparam": [
+        {
+            "header": "Engine Speed",
+            "unit": "RPM",
+            "canId": "0x3E8",
+            "offset": 0,
+            "length": 2,
+            "dec": 0,
+            "reverseEndianess": false
+        },
+        {
+            "header": "MAP",
+            "unit": "Bar",
+            "canId": "0x3E8",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.01,
+            "dec": 2,
+            "reverseEndianess": false
+        },
+        {
+            "header": "Coolant Temp",
+            "unit": "°C",
+            "canId": "0x3E8",
+            "offset": 4,
+            "length": 1,
+            "add": -50,
+            "dec": 0
+        },
+        {
+            "header": "Intake Air Temp",
+            "unit": "°C",
+            "canId": "0x3E8",
+            "offset": 5,
+            "length": 1,
+            "add": -50,
+            "dec": 0
+        },
+        {
+            "header": "Battery Voltage",
+            "unit": "V",
+            "canId": "0x3E8",
+            "offset": 6,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Oil Temp",
+            "unit": "°C",
+            "canId": "0x3E8",
+            "offset": 7,
+            "length": 1,
+            "add": -50,
+            "dec": 0
+        },
+        {
+            "header": "Throttle Position",
+            "unit": "%",
+            "canId": "0x3E9",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.1,
+            "dec": 1,
+            "reverseEndianess": false
+        },
+        {
+            "header": "Non_Driven_Wheel_Speed",
+            "unit": "km/h",
+            "canId": "0x3E9",
+            "offset": 4,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Oil_Press",
+            "unit": "Bar",
+            "canId": "0x3E9",
+            "offset": 5,
+            "length": 1,
+            "mul": 0.1,
+            "dec": 0
+        },
+        {
+            "header": "Fuel Pressure",
+            "unit": "Bar",
+            "canId": "0x3E9",
+            "offset": 6,
+            "length": 1,
+            "mul": 0.1,
+            "dec": 0
+        },
+        {
+            "header": "Lambda 1",
+            "unit": "λ",
+            "canId": "0x3EA",
+            "offset": 0,
+            "length": 2,
+            "mul": 0.001,
+            "dec": 3,
+            "reverseEndianess": false
+        },
+        {
+            "header": "Lambda 2",
+            "unit": "λ",
+            "canId": "0x3EA",
+            "offset": 2,
+            "length": 2,
+            "mul": 0.001,
+            "dec": 3,
+            "reverseEndianess": false
+        },
+        {
+            "header": "BAP",
+            "unit": "Bar",
+            "canId": "0x3EA",
+            "offset": 6,
+            "length": 2,
+            "mul": 0.001,
+            "dec": 1,
+            "reverseEndianess": false
+        },
+        {
+            "header": "Gear",
+            "unit": "",
+            "canId": "0x3EB",
+            "offset": 0,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Fuel_Cut",
+            "unit": "%",
+            "canId": "0x3EB",
+            "offset": 1,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Ignition_Cut",
+            "unit": "%",
+            "canId": "0x3EB",
+            "offset": 2,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Injector_PW",
+            "unit": "mS",
+            "canId": "0x3EB",
+            "offset": 3,
+            "length": 2,
+            "mul": 0.001,
+            "dec": 3,
+            "reverseEndianess": false
+        },
+        {
+            "header": "Fault_Code_Count",
+            "unit": "",
+            "canId": "0x3EB",
+            "offset": 5,
+            "length": 1,
+            "dec": 0
+        },
+        {
+            "header": "Knock_Level_Global",
+            "unit": "",
+            "canId": "0x3EB",
+            "offset": 6,
+            "length": 2,
+            "mul": 5,
+            "dec": 0,
+            "reverseEndianess": false
+        },
+        { "header": "Boost", "unit": "Bar", "x": "MAP", "expr": "x-1" }
+    ]
 }

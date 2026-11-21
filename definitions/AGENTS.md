@@ -80,9 +80,10 @@ Imperial conversion belongs in `4-Other/imperial.json`, using `Vehicle Speed`.
 | `Fuel usage` | l/h | Actual consumption rate; consumed by `4-Other/economy.json` |
 | `Battery Voltage` | V | Battery voltage, Batt_Volts |
 | `EGT` | °C | Exhaust Gas Temp, EGT 1 |
-| `Lambda 1` / `Lambda 2` | λ | Lambda_1, Lambda Bank 1 |
+| `Lambda 1` / `Lambda 2` | λ | Lambda_1, Lambda Bank 1, Lambda (unit `L`) |
+| `AFR 1` / `AFR 2` | AFR | WBO, Wideband, AFR1, `Lambda 1` in AFR (add `AFR 1` as `x*14.7` of `Lambda 1`) |
 | `Lambda Setpoint` | λ | Lambda setpoint |
-| `STFT 1/2`, `LTFT 1/2` | % | STFT, LTFT, STFT1, STFT - Bank 1 |
+| `STFT 1/2`, `LTFT 1/2` | % | STFT, LTFT, STFT1, STFT - Bank 1, Lambda Int 1/2, lambda controller output (FR_W) |
 | `Wastegate Duty` | % | WG PWM, Wastegate duty, VNT duty |
 | `Oil Pressure` | Bar | — |
 | `Fuel Pressure` | Bar | Fuel high pressure, Rail Pressure, Fuel_Press |
@@ -107,6 +108,16 @@ If no `Ambient Pressure` param exists on the definition, `Boost` falls back to a
 - **Temperature**: always `°C`.
 - **Speed**: always `km/h`.
 - Exception: `4-Other/imperial.json` deliberately converts to imperial (°F/psi/mph) — that's its purpose.
+
+### Source rules
+
+- **Headers are the canonical names**, never ECU symbols (`NMOT_W`, `TMOT`): put the
+  symbol in `_comment`. Each header appears once per file; a repeated header merges into
+  the same parameter and the later source overwrites the earlier one.
+- **K-line ECU definitions carry no CAN frames.** Broadcast CAN (buttons, gear, lights,
+  fuel level, oil temp) belongs to the chassis definition in `1-Chassis/`. Overriding a
+  chassis channel from an ECU file is allowed only as a rare, deliberate exception.
+- **Aftermarket vendor files start with the vendor name** (`Fueltech-FTCAN2.0_simple_pkt.json`).
 
 ---
 

@@ -5,7 +5,7 @@
         {
             "header": "Boost",
             "unit": "Bar",
-            "expr": "x*0.01-1",
+            "expr": "x-1",
             "x": "MAP",
             "dec": 1
         },
@@ -146,15 +146,16 @@
             "reverseEndianness": true
         },
         {
-            "header": "AFR1",
+            "header": "AFR 1",
             "alias": "AFR",
-            "unit": "",
+            "unit": "AFR",
             "canId": 1523,
             "offset": 4,
             "length": 2,
             "reverseEndianness": true,
             "dec": 1,
             "mul": 0.1
-        }
+        },
+        { "header": "MAP", "unit": "Bar", "canId": 1522, "offset": 2, "length": 2, "mul": 0.001, "dec": 2, "reverseEndianness": true }
     ]
 }
